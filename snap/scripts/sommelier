@@ -1,0 +1,497 @@
+#!/bin/bash
+
+# wine-platform dir
+WP=$SNAP/wine-platform
+# wine release
+REL=staging
+# wine base
+WINE_BASE=wine-$REL
+
+if [ ! -d $WP/usr ] ; then
+  echo "You need to connect this snap to the wine-platform-i386 snap."
+  echo ""
+  echo "snap connect $SNAP_NAME:wine-platform-plug wine-platform-i386:wine-base-$REL"
+  exit 1
+fi
+
+TITLE="League Of Legends"
+NOTICE="The ${TITLE} snap is experimental, built
+with development releases of upstream WINE and may not function as expected.\n\nIf you encounter issues please report them on the
+${TITLE} snap issue tracker:
+\n\nhttps://github.com/mmtrt/leagueoflegends/issues"
+
+function install_app() {
+  # Install additional requirements via winetricks here
+  if [ -n "${TRICKS}" ]; then
+    for TRICK in ${TRICKS}; do
+      env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINETRICKS}" --unattended ${TRICK}
+    done
+  fi
+
+function find_game() {
+  # assign game exe path & name via find
+  WINE_EXE="$(find $WINEPREFIX/ -type f -name 'LeagueClient.exe' | head -1)"
+  WINE_DIR=$(dirname "${WINE_EXE}")
+}
+
+function game_changes() {
+  # Create Game dir without space & move files to it so that find command finds game exe properly
+  mkdir -p "$WINEPREFIX/drive_c/RiotGames/LeagueofLegends"
+  cp -R -p "$WINEPREFIX/drive_c/Riot Games/League of Legends/"* "$WINEPREFIX/drive_c/RiotGames/LeagueofLegends"
+  # Remove the game folder
+  rm -rf "$WINEPREFIX/drive_c/Riot Games"
+}
+
+function rm_wine_cache() {
+  rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
+}
+
+function install_na() {
+    # Modify or remove this as required by your application.
+  if [ -n "${INSTALL_URL_NA}" ]; then
+    # Downloads a file with progress using wget and yad
+    wget "${INSTALL_URL_NA}" -O "${TMPDIR}/${INSTALL_EXE_NA}" 2>&1 | \
+    perl -p -e '$| = 1; s/^.* +([0-9]+%) +([0-9,.]+[GMKB]) +([0-9hms,.]+).*$/\1\n# Downloading... \2 (\3)/' | \
+    yad --progress --title="${INSTALL_EXE_NA}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
+    # Installs the wine application
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_NA}" --mode unattended
+    # Apply game changes
+    game_changes
+    # Remove the cached installers & files
+    rm -v "${TMPDIR}/${INSTALL_EXE_NA}"
+    rm_wine_cache
+    # Launch after install.
+    find_game
+    launch_app
+  fi
+}
+
+function install_euw() {
+    # Modify or remove this as required by your application.
+  if [ -n "${INSTALL_URL_EUW}" ]; then
+    # Downloads a file with progress using wget and yad
+    wget "${INSTALL_URL_EUW}" -O "${TMPDIR}/${INSTALL_EXE_EUW}" 2>&1 | \
+    perl -p -e '$| = 1; s/^.* +([0-9]+%) +([0-9,.]+[GMKB]) +([0-9hms,.]+).*$/\1\n# Downloading... \2 (\3)/' | \
+    yad --progress --title="${INSTALL_EXE_EUW}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
+    # Installs the wine application
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_EUW}" --mode unattended
+    # Apply game changes
+    game_changes
+    # Remove the cached installers & files
+    rm -v "${TMPDIR}/${INSTALL_EXE_EUW}"
+    rm_wine_cache
+    # Launch after install.
+    find_game
+    launch_app
+  fi
+}
+
+function install_eune() {
+    # Modify or remove this as required by your application.
+  if [ -n "${INSTALL_URL_EUNE}" ]; then
+    # Downloads a file with progress using wget and yad
+    wget "${INSTALL_URL_EUNE}" -O "${TMPDIR}/${INSTALL_EXE_EUNE}" 2>&1 | \
+    perl -p -e '$| = 1; s/^.* +([0-9]+%) +([0-9,.]+[GMKB]) +([0-9hms,.]+).*$/\1\n# Downloading... \2 (\3)/' | \
+    yad --progress --title="${INSTALL_EXE_EUNE}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
+    # Installs the wine application
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_EUNE}" --mode unattended
+    # Apply game changes
+    game_changes
+    # Remove the cached installers & files
+    rm -v "${TMPDIR}/${INSTALL_EXE_EUNE}"
+    rm_wine_cache
+    # Launch after install.
+    find_game
+    launch_app
+  fi
+}
+
+function install_br() {
+    # Modify or remove this as required by your application.
+  if [ -n "${INSTALL_URL_BR}" ]; then
+    # Downloads a file with progress using wget and yad
+    wget "${INSTALL_URL_BR}" -O "${TMPDIR}/${INSTALL_EXE_BR}" 2>&1 | \
+    perl -p -e '$| = 1; s/^.* +([0-9]+%) +([0-9,.]+[GMKB]) +([0-9hms,.]+).*$/\1\n# Downloading... \2 (\3)/' | \
+    yad --progress --title="${INSTALL_EXE_BR}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
+    # Installs the wine application
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_BR}" --mode unattended
+    # Apply game changes
+    game_changes
+    # Remove the cached installers & files
+    rm -v "${TMPDIR}/${INSTALL_EXE_BR}"
+    rm_wine_cache
+    # Launch after install.
+    find_game
+    launch_app
+  fi
+}
+
+function install_jp() {
+    # Modify or remove this as required by your application.
+  if [ -n "${INSTALL_URL_JP}" ]; then
+    # Downloads a file with progress using wget and yad
+    wget "${INSTALL_URL_JP}" -O "${TMPDIR}/${INSTALL_EXE_JP}" 2>&1 | \
+    perl -p -e '$| = 1; s/^.* +([0-9]+%) +([0-9,.]+[GMKB]) +([0-9hms,.]+).*$/\1\n# Downloading... \2 (\3)/' | \
+    yad --progress --title="${INSTALL_EXE_JP}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
+    # Installs the wine application
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_JP}" --mode unattended
+    # Apply game changes
+    game_changes
+    # Remove the cached installers & files
+    rm -v "${TMPDIR}/${INSTALL_EXE_JP}"
+    rm_wine_cache
+    # Launch after install.
+    find_game
+    launch_app
+  fi
+}
+
+function install_ru() {
+    # Modify or remove this as required by your application.
+  if [ -n "${INSTALL_URL_RU}" ]; then
+    # Downloads a file with progress using wget and yad
+    wget "${INSTALL_URL_RU}" -O "${TMPDIR}/${INSTALL_EXE_RU}" 2>&1 | \
+    perl -p -e '$| = 1; s/^.* +([0-9]+%) +([0-9,.]+[GMKB]) +([0-9hms,.]+).*$/\1\n# Downloading... \2 (\3)/' | \
+    yad --progress --title="${INSTALL_EXE_RU}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
+    # Installs the wine application
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_RU}" --mode unattended
+    # Apply game changes
+    game_changes
+    # Remove the cached installers & files
+    rm -v "${TMPDIR}/${INSTALL_EXE_RU}"
+    rm_wine_cache
+    # Launch after install.
+    find_game
+    launch_app
+  fi
+}
+
+function install_tr() {
+    # Modify or remove this as required by your application.
+  if [ -n "${INSTALL_URL_TR}" ]; then
+    # Downloads a file with progress using wget and yad
+    wget "${INSTALL_URL_TR}" -O "${TMPDIR}/${INSTALL_EXE_TR}" 2>&1 | \
+    perl -p -e '$| = 1; s/^.* +([0-9]+%) +([0-9,.]+[GMKB]) +([0-9hms,.]+).*$/\1\n# Downloading... \2 (\3)/' | \
+    yad --progress --title="${INSTALL_EXE_TR}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
+    # Installs the wine application
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_TR}" --mode unattended
+    # Apply game changes
+    game_changes
+    # Remove the cached installers & files
+    rm -v "${TMPDIR}/${INSTALL_EXE_TR}"
+    rm_wine_cache
+    # Launch after install.
+    find_game
+    launch_app
+  fi
+}
+
+  action=$(yad --width 400 --entry --title "League Of Legends" \
+      --center \
+      --width=400 \
+      --button="Install:0" --button="Exit:1" \
+      --text "Select Game Installer Region:" \
+      --entry-text \
+      "NA" "EUW" "EUNE" "BR" "JP" "RU" "TR")
+  ret=$?
+
+  [[ $ret -eq 1 ]] && exit 0
+
+  case $action in
+      NA*) cmd=$(install_na) ;;
+      EUW*) cmd=$(install_euw) ;;
+      EUNE*) cmd=$(install_eune) ;;
+      BR*) cmd=$(install_br) ;;
+      JP*) cmd=$(install_jp) ;;
+      RU*) cmd=$(install_ru) ;;
+      TR*) cmd=$(install_tr) ;;
+      *) exit 1 ;;
+  esac
+
+  eval $cmd 2>/dev/null
+}
+
+function launch_app() {
+  # If we don't change into the program directory some assets may not be found
+  cd "${WINE_DIR}"
+
+  # Only use virtual desktop if it has been requested and we're running Xorg
+  if [ "${XDG_SESSION_TYPE}" == "x11" ] && [ "${VIRTDESKTOP}" == "1" ]; then
+    # Get the native resolution of the primary display.
+    # Creating a virtual desktop the same size will eliminate bugs when
+    # switching from fullscreen to windowed mode.
+    NATIVE_RES=$(xrandr -q | grep primary | cut -d' ' -f4 | cut -d'+' -f1)
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" explorer /desktop="virtual","${NATIVE_RES}" "${WINE_EXE}"
+  else
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${WINE_EXE}"
+  fi
+}
+
+function prepend_dir() {
+  local var="$1"
+  local dir="$2"
+  if [ -d "$dir" ]; then
+    eval "export $var=\"\$dir\${$var:+:\$$var}\""
+  fi
+}
+
+function append_dir() {
+  local var="$1"
+  local dir="$2"
+  if [ -d "$dir" ]; then
+    eval "export $var=\"\${$var:+\$$var:}\$dir\""
+  fi
+}
+
+# Get the executable we're being asked to launch
+if [ -n "${1}" ]; then
+  WINE_EXE="${1}"
+  WINE_DIR=$(dirname "${WINE_EXE}")
+fi
+
+# If we've been given and installer URL derive the filename
+if [ -n "${INSTALL_URL_NA}" ]; then
+  INSTALL_EXE_NA=$(basename "${INSTALL_URL_NA}")
+fi
+
+if [ -n "${INSTALL_URL_EUW}" ]; then
+  INSTALL_EXE_EUW=$(basename "${INSTALL_URL_EUW}")
+fi
+
+if [ -n "${INSTALL_URL_EUNE}" ]; then
+  INSTALL_EXE_EUNE=$(basename "${INSTALL_URL_EUNE}")
+fi
+
+if [ -n "${INSTALL_URL_BR}" ]; then
+  INSTALL_EXE_BR=$(basename "${INSTALL_URL_BR}")
+fi
+
+if [ -n "${INSTALL_URL_JP}" ]; then
+  INSTALL_EXE_JP=$(basename "${INSTALL_URL_JP}")
+fi
+
+if [ -n "${INSTALL_URL_RU}" ]; then
+  INSTALL_EXE_RU=$(basename "${INSTALL_URL_RU}")
+fi
+
+if [ -n "${INSTALL_URL_TR}" ]; then
+  INSTALL_EXE_TR=$(basename "${INSTALL_URL_TR}")
+fi
+
+# On Fedora $SNAP is under /var and there is some magic to map it to /snap.
+# # We need to handle that case and reset $SNAP
+SNAP=`echo $SNAP | sed -e "s|/var/lib/snapd||g"`
+
+export GTK_MODULES=""
+export WINEARCH="win32"
+
+if [ "${WINEARCH}" == "win32" ]; then
+  ARCH="i386-linux-gnu"
+else
+  ARCH="x86_64-linux-gnu"
+fi
+
+if [ -n "${DLLOVERRIDES}" ]; then
+  export WINEDLLOVERRIDES="${DLLOVERRIDES}"
+fi
+
+export WINEVERPATH=$WP/$WINE_BASE
+export WINESERVER=$WP/$WINE_BASE/bin/wineserver
+export WINELOADER=$WP/$WINE_BASE/bin/wine
+export WINEDLLPATH=$WP/$WINE_BASE/lib/wine/fakedlls
+export WINETRICKS=$WP/bin/winetricks
+export WINEPREFIX="$SNAP_USER_COMMON/.wine"
+export WINEDEBUG=-all
+export LD_LIBRARY_PATH="$WP/lib:$WP/lib/$ARCH:$WP/usr/lib:$WP/usr/lib/$ARCH:$LD_LIBRARY_PATH"
+export PATH=$PATH:$WP/bin:$WP/usr/bin:$WP/$WINE_BASE/bin
+
+# XKB config
+export XKB_CONFIG_ROOT=$WP/usr/share/X11/xkb
+
+# Give XOpenIM a chance to locate locale data.
+# This is required for text input to work in SDL2 games.
+export XLOCALEDIR=$WP/usr/share/X11/locale
+
+# Set XCursors path
+export XCURSOR_PATH=$WP/usr/share/icons
+
+# SAMBA Libs for ntlm_auth to function
+append_dir LD_LIBRARY_PATH $WP/usr/lib/$ARCH/samba
+
+# Mesa Libs for OpenGL support
+append_dir LD_LIBRARY_PATH $WP/usr/lib/$ARCH/mesa
+append_dir LD_LIBRARY_PATH $WP/usr/lib/$ARCH/mesa-egl
+
+# Tell libGL where to find the drivers
+export LIBGL_DRIVERS_PATH=$WP/usr/lib/$ARCH/dri
+append_dir LD_LIBRARY_PATH $LIBGL_DRIVERS_PATH
+
+# Workaround in snapd for proprietary nVidia drivers mounts the drivers in
+# /var/lib/snapd/lib/gl that needs to be in LD_LIBRARY_PATH
+# Without that OpenGL using apps do not work with the nVidia drivers.
+# Ref.: https://bugs.launchpad.net/snappy/+bug/1588192
+append_dir LD_LIBRARY_PATH /var/lib/snapd/lib/gl
+
+# Pulseaudio export
+append_dir LD_LIBRARY_PATH $WP/usr/lib/$ARCH/pulseaudio
+
+# Alsa export
+export ALSA_CONFIG_PATH="$WP/usr/share/alsa/alsa.conf"
+
+# EGL vendor files on glvnd enabled systems
+[ -d /var/lib/snapd/lib/glvnd/egl_vendor.d ] && \
+append_dir __EGL_VENDOR_LIBRARY_DIRS /var/lib/snapd/lib/glvnd/egl_vendor.d
+
+# Tell GStreamer where to find its plugins
+export GST_PLUGIN_PATH=$WP/usr/lib/$ARCH/gstreamer-1.0
+export GST_PLUGIN_SYSTEM_PATH=$WP/usr/lib/$ARCH/gstreamer-1.0
+# gst plugin scanner doesn't install in the correct path: https://github.com/ubuntu/snapcraft-desktop-helpers/issues/43
+export GST_PLUGIN_SCANNER=$WP/usr/lib/$ARCH/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner
+
+# XDG Config
+prepend_dir XDG_CONFIG_DIRS $WP/etc/xdg
+
+# Define snaps' own data dir
+prepend_dir XDG_DATA_DIRS $WP/usr/share
+prepend_dir XDG_DATA_DIRS $SNAP_USER_COMMON
+
+export HOME=$SNAP_USER_COMMON
+
+# Set XDG_DATA_HOME to local path
+export XDG_DATA_HOME=$SNAP_USER_COMMON/.local/share
+mkdir -p $XDG_DATA_HOME
+
+# Workaround for GLib < 2.53.2 not searching for schemas in $XDG_DATA_HOME:
+#   https://bugzilla.gnome.org/show_bug.cgi?id=741335
+prepend_dir XDG_DATA_DIRS $XDG_DATA_HOME
+
+# Set cache folder to local path
+export XDG_CACHE_HOME=$SNAP_USER_COMMON/.cache
+mkdir -p $XDG_CACHE_HOME
+
+# Set config folder to local path
+export XDG_CONFIG_HOME=$SNAP_USER_COMMON/.config
+mkdir -p $XDG_CONFIG_HOME
+
+# Create $XDG_RUNTIME_DIR if not exists (to be removed when LP: #1656340 is fixed)
+[ -n "$XDG_RUNTIME_DIR" ] && mkdir -p $XDG_RUNTIME_DIR -m 700
+
+# Make PulseAudio socket available inside the snap-specific $XDG_RUNTIME_DIR
+if [ -n "$XDG_RUNTIME_DIR" ]; then
+    pulsenative="pulse/native"
+    pulseaudio_sockpath="$XDG_RUNTIME_DIR/../$pulsenative"
+    if [ -S "$pulseaudio_sockpath" ]; then
+        export PULSE_SERVER="unix:${pulseaudio_sockpath}"
+    fi
+fi
+
+# Font Config and themes
+export FONTCONFIG_PATH=$WP/etc/fonts/conf.d
+export FONTCONFIG_FILE=$XDG_CONFIG_HOME/fontconfig/fonts.conf
+if [ -f $WP/etc/fonts/fonts.conf ] && [ ! -f "${FONTCONFIG_FILE}" ]; then
+  mkdir -p $XDG_CONFIG_HOME/fontconfig/
+  cp $WP/etc/fonts/fonts.conf $FONTCONFIG_FILE
+fi
+
+# Gdk-pixbuf loaders
+export GDK_PIXBUF_MODULE_FILE=$XDG_CACHE_HOME/gdk-pixbuf-loaders.cache
+export GDK_PIXBUF_MODULEDIR=$WP/usr/lib/$ARCH/gdk-pixbuf-2.0/2.10.0/loaders
+if [ -f $WP/usr/lib/$ARCH/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders ] && [ ! -f "${GDK_PIXBUF_MODULE_FILE}" ]; then
+  $WP/usr/lib/$ARCH/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders > $GDK_PIXBUF_MODULE_FILE
+fi
+
+# Stop wine from updating $WINEPREFIX automatically
+if [ -f "${WINEPREFIX}/.update-timestamp" ]; then
+  chkstmp=$(grep disable "${WINEPREFIX}/.update-timestamp" | wc -l)
+  if [ $chkstmp -eq 0 ]; then
+    echo "disable" > "${WINEPREFIX}/.update-timestamp"
+  fi
+fi
+
+# Initialise wine
+if [ ! -f "${WINEPREFIX}/drive_c/windows/win.ini" ]; then
+  # create dlloverride reg
+  progReg=${TMPDIR}/dlloverrides.reg
+cat > $progReg <<'EOF'
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion]
+"CSDVersion"="Service Pack 3"
+"CurrentBuildNumber"="2600"
+"CurrentVersion"="5.1"
+"ProductName"="Microsoft Windows XP"
+
+[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Windows]
+"CSDVersion"=dword:00000300
+
+[HKEY_CURRENT_USER\Software\Wine\DllOverrides]
+"api-ms-win-core-console-l1-1-0.dll"="native,builtin"
+"api-ms-win-core-datetime-l1-1-0.dll"="native,builtin"
+"api-ms-win-core-debug-l1-1-0.dll"="native,builtin"
+"api-ms-win-core-errorhandling-l1-1-0.dll"="native,builtin"
+"api-ms-win-core-file-l1-1-0.dll"="native,builtin"
+"api-ms-win-core-file-l1-2-0.dll"="native,builtin"
+"api-ms-win-core-file-l2-1-0.dll"="native,builtin"
+"api-ms-win-core-handle-l1-1-0.dll"="native,builtin"
+"api-ms-win-core-heap-l1-1-0.dll"="native,builtin"
+"api-ms-win-core-interlocked-l1-1-0.dll"="native,builtin"
+"api-ms-win-core-libraryloader-l1-1-0.dll"="native,builtin"
+"api-ms-win-core-localization-l1-2-0.dll"="native,builtin"
+"api-ms-win-core-memory-l1-1-0.dll"="native,builtin"
+"api-ms-win-core-namedpipe-l1-1-0.dll"="native,builtin"
+"api-ms-win-core-processenvironment-l1-1-0.dll"="native,builtin"
+"api-ms-win-core-processthreads-l1-1-0.dll"="native,builtin"
+"api-ms-win-core-processthreads-l1-1-1.dll"="native,builtin"
+"api-ms-win-core-profile-l1-1-0.dll"="native,builtin"
+"api-ms-win-core-rtlsupport-l1-1-0.dll"="native,builtin"
+"api-ms-win-core-string-l1-1-0.dll"="native,builtin"
+"api-ms-win-core-synch-l1-1-0.dll"="native,builtin"
+"api-ms-win-core-synch-l1-2-0.dll"="native,builtin"
+"api-ms-win-core-sysinfo-l1-1-0.dll"="native,builtin"
+"api-ms-win-core-timezone-l1-1-0.dll"="native,builtin"
+"api-ms-win-core-util-l1-1-0.dll"="native,builtin"
+"api-ms-win-crt-conio-l1-1-0.dll"="native,builtin"
+"api-ms-win-crt-convert-l1-1-0.dll"="native,builtin"
+"api-ms-win-crt-environment-l1-1-0.dll"="native,builtin"
+"api-ms-win-crt-filesystem-l1-1-0.dll"="native,builtin"
+"api-ms-win-crt-heap-l1-1-0.dll"="native,builtin"
+"api-ms-win-crt-locale-l1-1-0.dll"="native,builtin"
+"api-ms-win-crt-math-l1-1-0.dll"="native,builtin"
+"api-ms-win-crt-multibyte-l1-1-0.dll"="native,builtin"
+"api-ms-win-crt-private-l1-1-0.dll"="native,builtin"
+"api-ms-win-crt-process-l1-1-0.dll"="native,builtin"
+"api-ms-win-crt-runtime-l1-1-0.dll"="native,builtin"
+"api-ms-win-crt-stdio-l1-1-0.dll"="native,builtin"
+"api-ms-win-crt-string-l1-1-0.dll"="native,builtin"
+"api-ms-win-crt-time-l1-1-0.dll"="native,builtin"
+"api-ms-win-crt-utility-l1-1-0.dll"="native,builtin"
+"concrt140.dll"="native,builtin"
+"d3dcompiler_47.dll"="native,builtin"
+"msvcp140.dll"="native,builtin"
+"ucrtbase.dll"="native,builtin"
+"vcruntime140.dll"="native,builtin"
+EOF
+  # Create the WINE environment
+  env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" wineboot --init 2>&1 | \
+  yad --progress --title="Preparing Windows environment" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --pulsate
+  # Apply dlloverride reg
+  env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" start regedit ${progReg}
+  # Opt out of winetricks metrics - we ninja this to avoid dialogs
+  if [ ! -f "${XDG_CACHE_HOME}/winetricks/track_usage" ]; then
+    mkdir -p "${XDG_CACHE_HOME}/winetricks"
+    echo 0 > "${XDG_CACHE_HOME}/winetricks/track_usage"
+  fi
+else
+  # Notification
+  notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "${TITLE}" "${NOTICE}"
+fi
+
+# Launch wineboot/winecfg/winetricks if requested.
+# If the executable exists then launch it otherwise install it then lauch it.
+if [[ ${WINE_EXE} = *"winecfg"* ]] || [[ ${WINE_EXE} = *"wineboot"* ]] || [[ ${WINE_EXE} = *"winetricks"* ]]; then
+  env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "$@"
+elif [ -e "${WINE_EXE}" ]; then
+  launch_app
+else
+  install_app
+fi

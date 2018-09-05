@@ -1,0 +1,101 @@
+name: leagueoflegends
+version: '1.0'
+summary: leagueoflegends is MOBA game developed and published by Riot Games.
+description: |
+  League of Legends is a 3D, third-person multiplayer online battle arena (MOBA) game. The game consists of 3 current running game modes: Summoner's Rift, Twisted Treeline, and Howling Abyss.[14] Another game mode, The Crystal Scar, has since been removed. Players compete in matches, lasting anywhere from 20 to 60 minutes on average. In each game mode teams work together to achieve a victory condition, typically destroying the core building (called the Nexus) in the enemy team's base after bypassing a line of defensive structures called turrets, or towers.
+
+  In League of Legends, players assume the role of an unseen "summoner" that controls a "champion" with unique abilities and battle against a team of other players or computer-controlled champions. The goal is usually to destroy the opposing team's "nexus", a structure which lies at the heart of a base protected by defensive structures, although other distinct game modes exist as well. Each League of Legends match is discrete, with all champions starting off fairly weak but increasing in strength by accumulating items and experience over the course of the game. The champions and setting blend a variety of elements, including high fantasy, steampunk, and Lovecraftian horror.
+
+  League of Legends was generally well received upon its release in 2009, and has since grown in popularity, with an active and expansive fanbase. By July 2012, League of Legends was the most played PC game in North America and Europe in terms of the number of hours played. As of January 2014, over 67 million people played League of Legends per month, 27 million per day, and over 7.5 million concurrently during peak hours. League has among the largest footprints of any game in streaming media communities on platforms such as YouTube and Twitch.tv; it routinely ranks first in the most-watched hours. In September 2016 the company estimated that there are over 100 million active players each month. The game's popularity has led it to expand into merchandise, with toys, accessories, apparel, as well as tie-ins to other media through music videos, web series, documentaries, and books.
+
+grade: stable
+confinement: devmode
+architectures:
+  - build-on: amd64
+    run-on: [amd64, i386]
+icon: snap/gui/leagueoflegends.png
+
+plugs:
+  wine-platform-plug:
+    content: wine-base-staging
+    interface: content
+    target: $SNAP/wine-platform
+    default-provider: wine-platform-i386
+
+apps:
+  leagueoflegends:
+    command: |
+      bin/sommelier "$(find $WINEPREFIX/ -type f -name 'LeagueClient.exe' 2>/dev/null | head -1)"
+    environment:
+      WINEPREFIX: "$SNAP_USER_COMMON/.wine"
+      DLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono & Gecko
+      INSTALL_URL_NA: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20NA.exe"
+      INSTALL_URL_EUW: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20EUW.exe"
+      INSTALL_URL_EUNE: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20EUNE.exe"
+      INSTALL_URL_BR: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20BR.exe"
+      INSTALL_URL_JP: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20JP.exe"
+      INSTALL_URL_RU: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20RU.exe"
+      INSTALL_URL_TR: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20TR.exe"
+      TRICKS: "d3dx9"
+      VIRTDESKTOP: 0
+      LC_ALL: "C.UTF-8"
+    plugs:
+      - wine-platform-plug
+      - desktop
+      - desktop-legacy
+      - hardware-observe
+      - home
+      - joystick
+      - network
+      - network-bind
+      - opengl
+      - process-control
+      - pulseaudio
+      - wayland
+      - x11
+  wineboot:
+    command: bin/sommelier $SNAP/wine-platform/wine-staging/bin/wineboot
+    environment:
+      WINEPREFIX: "$SNAP_USER_COMMON/.wine"
+      DLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono & Gecko
+    plugs:
+      - desktop
+      - desktop-legacy
+      - pulseaudio
+      - wayland
+      - x11
+  winecfg:
+    command: bin/sommelier $SNAP/wine-platform/wine-staging/bin/winecfg
+    environment:
+      WINEPREFIX: "$SNAP_USER_COMMON/.wine"
+      DLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono & Gecko
+    plugs:
+      - desktop
+      - desktop-legacy
+      - pulseaudio
+      - wayland
+      - x11
+  winetricks:
+    command: bin/sommelier $SNAP/wine-platform/bin/winetricks prefix="$WINEPREFIX"
+    environment:
+      WINEPREFIX: "$SNAP_USER_COMMON/.wine"
+      DLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono & Gecko
+      LC_ALL: "C.UTF-8"
+    plugs:
+      - desktop
+      - desktop-legacy
+      - network
+      - pulseaudio
+      - wayland
+      - x11
+
+parts:
+  leagueoflegends:
+    plugin: dump
+    source: snap/scripts
+    override-build: |
+      snapcraftctl build
+      set -ex
+      mkdir -p $SNAPCRAFT_PART_INSTALL/wine-platform
+    organize:
+      'sommelier': bin/
