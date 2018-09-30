@@ -485,72 +485,9 @@ fi
 
 # Initialise wine
 if [ ! -f "${WINEPREFIX}/drive_c/windows/win.ini" ]; then
-  # create dlloverride reg
-  progReg=${TMPDIR}/dlloverrides.reg
-cat > $progReg <<'EOF'
-Windows Registry Editor Version 5.00
-
-[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion]
-"CSDVersion"="Service Pack 3"
-"CurrentBuildNumber"="2600"
-"CurrentVersion"="5.1"
-"ProductName"="Microsoft Windows XP"
-
-[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Windows]
-"CSDVersion"=dword:00000300
-
-[HKEY_CURRENT_USER\Software\Wine\DllOverrides]
-"api-ms-win-core-console-l1-1-0.dll"="native,builtin"
-"api-ms-win-core-datetime-l1-1-0.dll"="native,builtin"
-"api-ms-win-core-debug-l1-1-0.dll"="native,builtin"
-"api-ms-win-core-errorhandling-l1-1-0.dll"="native,builtin"
-"api-ms-win-core-file-l1-1-0.dll"="native,builtin"
-"api-ms-win-core-file-l1-2-0.dll"="native,builtin"
-"api-ms-win-core-file-l2-1-0.dll"="native,builtin"
-"api-ms-win-core-handle-l1-1-0.dll"="native,builtin"
-"api-ms-win-core-heap-l1-1-0.dll"="native,builtin"
-"api-ms-win-core-interlocked-l1-1-0.dll"="native,builtin"
-"api-ms-win-core-libraryloader-l1-1-0.dll"="native,builtin"
-"api-ms-win-core-localization-l1-2-0.dll"="native,builtin"
-"api-ms-win-core-memory-l1-1-0.dll"="native,builtin"
-"api-ms-win-core-namedpipe-l1-1-0.dll"="native,builtin"
-"api-ms-win-core-processenvironment-l1-1-0.dll"="native,builtin"
-"api-ms-win-core-processthreads-l1-1-0.dll"="native,builtin"
-"api-ms-win-core-processthreads-l1-1-1.dll"="native,builtin"
-"api-ms-win-core-profile-l1-1-0.dll"="native,builtin"
-"api-ms-win-core-rtlsupport-l1-1-0.dll"="native,builtin"
-"api-ms-win-core-string-l1-1-0.dll"="native,builtin"
-"api-ms-win-core-synch-l1-1-0.dll"="native,builtin"
-"api-ms-win-core-synch-l1-2-0.dll"="native,builtin"
-"api-ms-win-core-sysinfo-l1-1-0.dll"="native,builtin"
-"api-ms-win-core-timezone-l1-1-0.dll"="native,builtin"
-"api-ms-win-core-util-l1-1-0.dll"="native,builtin"
-"api-ms-win-crt-conio-l1-1-0.dll"="native,builtin"
-"api-ms-win-crt-convert-l1-1-0.dll"="native,builtin"
-"api-ms-win-crt-environment-l1-1-0.dll"="native,builtin"
-"api-ms-win-crt-filesystem-l1-1-0.dll"="native,builtin"
-"api-ms-win-crt-heap-l1-1-0.dll"="native,builtin"
-"api-ms-win-crt-locale-l1-1-0.dll"="native,builtin"
-"api-ms-win-crt-math-l1-1-0.dll"="native,builtin"
-"api-ms-win-crt-multibyte-l1-1-0.dll"="native,builtin"
-"api-ms-win-crt-private-l1-1-0.dll"="native,builtin"
-"api-ms-win-crt-process-l1-1-0.dll"="native,builtin"
-"api-ms-win-crt-runtime-l1-1-0.dll"="native,builtin"
-"api-ms-win-crt-stdio-l1-1-0.dll"="native,builtin"
-"api-ms-win-crt-string-l1-1-0.dll"="native,builtin"
-"api-ms-win-crt-time-l1-1-0.dll"="native,builtin"
-"api-ms-win-crt-utility-l1-1-0.dll"="native,builtin"
-"concrt140.dll"="native,builtin"
-"d3dcompiler_47.dll"="native,builtin"
-"msvcp140.dll"="native,builtin"
-"ucrtbase.dll"="native,builtin"
-"vcruntime140.dll"="native,builtin"
-EOF
   # Create the WINE environment
   env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" wineboot --init 2>&1 | \
   yad --progress --title="Preparing Windows environment" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --pulsate
-  # Apply dlloverride reg
-  env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" start regedit ${progReg}
   # Opt out of winetricks metrics - we ninja this to avoid dialogs
   if [ ! -f "${XDG_CACHE_HOME}/winetricks/track_usage" ]; then
     mkdir -p "${XDG_CACHE_HOME}/winetricks"
