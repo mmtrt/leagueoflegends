@@ -25,7 +25,7 @@ plugs:
 apps:
   leagueoflegends:
     command: |
-      bin/sommelier "$(find $WINEPREFIX/ -type f -name 'LeagueClient.exe' 2>/dev/null | head -1)"
+      bin/sommelier "$WINEPREFIX/drive_c/Riot Games/League of Legends/LeagueClient.exe"
     environment:
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
       DLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono & Gecko
