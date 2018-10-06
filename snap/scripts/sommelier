@@ -28,24 +28,6 @@ function install_app() {
     done
   fi
 
-function find_game() {
-  # assign game exe path & name via find
-  WINE_EXE="$(find $WINEPREFIX/ -type f -name 'LeagueClient.exe' | head -1)"
-  WINE_DIR=$(dirname "${WINE_EXE}")
-}
-
-function game_changes() {
-  # Create Game dir without space & move files to it so that find command finds game exe properly
-  mkdir -p "$WINEPREFIX/drive_c/RiotGames/LeagueofLegends"
-  cp -R -p "$WINEPREFIX/drive_c/Riot Games/League of Legends/"* "$WINEPREFIX/drive_c/RiotGames/LeagueofLegends"
-  # Remove the game folder
-  rm -rf "$WINEPREFIX/drive_c/Riot Games"
-}
-
-function rm_wine_cache() {
-  rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
-}
-
 function install_na() {
     # Modify or remove this as required by your application.
   if [ -n "${INSTALL_URL_NA}" ]; then
@@ -55,13 +37,10 @@ function install_na() {
     yad --progress --title="${INSTALL_EXE_NA}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
     # Installs the wine application
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_NA}" --mode unattended
-    # Apply game changes
-    game_changes
     # Remove the cached installers & files
     rm -v "${TMPDIR}/${INSTALL_EXE_NA}"
-    rm_wine_cache
+    rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     # Launch after install.
-    find_game
     launch_app
   fi
 }
@@ -75,13 +54,10 @@ function install_euw() {
     yad --progress --title="${INSTALL_EXE_EUW}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
     # Installs the wine application
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_EUW}" --mode unattended
-    # Apply game changes
-    game_changes
     # Remove the cached installers & files
     rm -v "${TMPDIR}/${INSTALL_EXE_EUW}"
-    rm_wine_cache
+    rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     # Launch after install.
-    find_game
     launch_app
   fi
 }
@@ -95,13 +71,10 @@ function install_eune() {
     yad --progress --title="${INSTALL_EXE_EUNE}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
     # Installs the wine application
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_EUNE}" --mode unattended
-    # Apply game changes
-    game_changes
     # Remove the cached installers & files
     rm -v "${TMPDIR}/${INSTALL_EXE_EUNE}"
-    rm_wine_cache
+    rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     # Launch after install.
-    find_game
     launch_app
   fi
 }
@@ -115,13 +88,10 @@ function install_br() {
     yad --progress --title="${INSTALL_EXE_BR}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
     # Installs the wine application
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_BR}" --mode unattended
-    # Apply game changes
-    game_changes
     # Remove the cached installers & files
     rm -v "${TMPDIR}/${INSTALL_EXE_BR}"
-    rm_wine_cache
+    rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     # Launch after install.
-    find_game
     launch_app
   fi
 }
@@ -135,13 +105,10 @@ function install_jp() {
     yad --progress --title="${INSTALL_EXE_JP}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
     # Installs the wine application
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_JP}" --mode unattended
-    # Apply game changes
-    game_changes
     # Remove the cached installers & files
     rm -v "${TMPDIR}/${INSTALL_EXE_JP}"
-    rm_wine_cache
+    rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     # Launch after install.
-    find_game
     launch_app
   fi
 }
@@ -155,13 +122,10 @@ function install_lan() {
     yad --progress --title="${INSTALL_EXE_LAN}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
     # Installs the wine application
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_LAN}" --mode unattended
-    # Apply game changes
-    game_changes
     # Remove the cached installers & files
     rm -v "${TMPDIR}/${INSTALL_EXE_LAN}"
-    rm_wine_cache
+    rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     # Launch after install.
-    find_game
     launch_app
   fi
 }
@@ -175,13 +139,10 @@ function install_las() {
     yad --progress --title="${INSTALL_EXE_LAS}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
     # Installs the wine application
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_LAS}" --mode unattended
-    # Apply game changes
-    game_changes
     # Remove the cached installers & files
     rm -v "${TMPDIR}/${INSTALL_EXE_LAS}"
-    rm_wine_cache
+    rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     # Launch after install.
-    find_game
     launch_app
   fi
 }
@@ -195,13 +156,10 @@ function install_oce() {
     yad --progress --title="${INSTALL_EXE_OCE}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
     # Installs the wine application
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_OCE}" --mode unattended
-    # Apply game changes
-    game_changes
     # Remove the cached installers & files
     rm -v "${TMPDIR}/${INSTALL_EXE_OCE}"
-    rm_wine_cache
+    rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     # Launch after install.
-    find_game
     launch_app
   fi
 }
@@ -215,13 +173,10 @@ function install_ru() {
     yad --progress --title="${INSTALL_EXE_RU}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
     # Installs the wine application
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_RU}" --mode unattended
-    # Apply game changes
-    game_changes
     # Remove the cached installers & files
     rm -v "${TMPDIR}/${INSTALL_EXE_RU}"
-    rm_wine_cache
+    rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     # Launch after install.
-    find_game
     launch_app
   fi
 }
@@ -235,13 +190,10 @@ function install_tr() {
     yad --progress --title="${INSTALL_EXE_TR}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
     # Installs the wine application
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_TR}" --mode unattended
-    # Apply game changes
-    game_changes
     # Remove the cached installers & files
     rm -v "${TMPDIR}/${INSTALL_EXE_TR}"
-    rm_wine_cache
+    rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     # Launch after install.
-    find_game
     launch_app
   fi
 }
