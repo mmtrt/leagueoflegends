@@ -20,6 +20,16 @@ with development releases of upstream WINE and may not function as expected.\n\n
 ${TITLE} snap issue tracker:
 \n\nhttps://github.com/mmtrt/leagueoflegends/issues"
 
+needs_update=true
+
+. $SNAP_USER_DATA/.last_revision 2>/dev/null || true
+if [ "$SNAP_DESKTOP_LAST_REVISION" = "$SNAP_REVISION" ]; then
+  needs_update=false
+fi
+
+# Set $REALHOME to the users real home directory
+REALHOME=`getent passwd $UID | cut -d ':' -f 6`
+
 function install_app() {
   # Install additional requirements via winetricks here
   if [ -n "${TRICKS}" ]; then
@@ -415,9 +425,39 @@ fi
 # Font Config and themes
 export FONTCONFIG_PATH=$WP/etc/fonts/conf.d
 export FONTCONFIG_FILE=$XDG_CONFIG_HOME/fontconfig/fonts.conf
-if [ -f $WP/etc/fonts/fonts.conf ] && [ ! -f "${FONTCONFIG_FILE}" ]; then
-  mkdir -p $XDG_CONFIG_HOME/fontconfig/
-  cp $WP/etc/fonts/fonts.conf $FONTCONFIG_FILE
+
+function make_user_fontconfig {
+  echo "<fontconfig>"
+  if [ -d $REALHOME/.local/share/fonts ]; then
+    echo "  <dir>$REALHOME/.local/share/fonts</dir>"
+  fi
+  if [ -d $REALHOME/.fonts ]; then
+    echo "  <dir>$REALHOME/.fonts</dir>"
+  fi
+  for d in "${data_dirs_array[@]}"; do
+    if [ -d "$d/fonts" ]; then
+      echo "  <dir>$d/fonts</dir>"
+    fi
+  done
+  echo '  <include ignore_missing="yes">conf.d</include>'
+  # We need to include this default cachedir first so that caching
+  # works: without it, fontconfig will try to write to the real user home
+  # cachedir and be blocked by AppArmor.
+  echo '  <cachedir prefix="xdg">fontconfig</cachedir>'
+  if [ -d $REALHOME/.cache/fontconfig ]; then
+    echo "  <cachedir>$REALHOME/.cache/fontconfig</cachedir>"
+  fi
+  echo "</fontconfig>"
+}
+
+if [ $needs_update = true ]; then
+  rm -rf $XDG_DATA_HOME/{fontconfig,fonts,fonts-*,themes,.themes}
+  mkdir -p $XDG_CONFIG_HOME/fontconfig
+if [ -f $REALHOME/.config/fontconfig/fonts.conf ]; then
+  cp $REALHOME/.config/fontconfig/fonts.conf $FONTCONFIG_FILE
+else
+  make_user_fontconfig > $XDG_CONFIG_HOME/fontconfig/fonts.conf
+fi
 fi
 
 # Gdk-pixbuf loaders
@@ -449,6 +489,8 @@ else
   # Notification
   notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "${TITLE}" "${NOTICE}"
 fi
+
+[ $needs_update = true ] && echo "SNAP_DESKTOP_LAST_REVISION=$SNAP_REVISION" > $SNAP_USER_DATA/.last_revision
 
 # Launch wineboot/winecfg/winetricks if requested.
 # If the executable exists then launch it otherwise install it then lauch it.
