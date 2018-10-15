@@ -348,6 +348,7 @@ export XKB_CONFIG_ROOT=$WP/usr/share/X11/xkb
 # Give XOpenIM a chance to locate locale data.
 # This is required for text input to work in SDL2 games.
 export XLOCALEDIR=$WP/usr/share/X11/locale
+export LOCPATH=$WP/usr/lib/locale
 
 # Set XCursors path
 export XCURSOR_PATH=$WP/usr/share/icons
@@ -391,6 +392,7 @@ prepend_dir XDG_CONFIG_DIRS $WP/etc/xdg
 # Define snaps' own data dir
 prepend_dir XDG_DATA_DIRS $WP/usr/share
 prepend_dir XDG_DATA_DIRS $SNAP_USER_COMMON
+prepend_dir XDG_DATA_DIRS $SNAP_USER_DATA
 
 export HOME=$SNAP_USER_COMMON
 
@@ -422,7 +424,10 @@ if [ -n "$XDG_RUNTIME_DIR" ]; then
     fi
 fi
 
-# Font Config and themes
+# Keep an array of data dirs, for looping through them
+IFS=':' read -r -a data_dirs_array <<< "$XDG_DATA_DIRS"
+
+# Font Config
 export FONTCONFIG_PATH=$WP/etc/fonts/conf.d
 export FONTCONFIG_FILE=$XDG_CONFIG_HOME/fontconfig/fonts.conf
 
@@ -434,9 +439,9 @@ function make_user_fontconfig {
   if [ -d $REALHOME/.fonts ]; then
     echo "  <dir>$REALHOME/.fonts</dir>"
   fi
-  for d in "${data_dirs_array[@]}"; do
-    if [ -d "$d/fonts" ]; then
-      echo "  <dir>$d/fonts</dir>"
+  for ((i = 0; i < ${#data_dirs_array[@]}; i++)); do
+    if [ -d "${data_dirs_array[$i]}/fonts" ]; then
+      echo "  <dir>${data_dirs_array[$i]}/fonts</dir>"
     fi
   done
   echo '  <include ignore_missing="yes">conf.d</include>'
@@ -453,11 +458,7 @@ function make_user_fontconfig {
 if [ $needs_update = true ]; then
   rm -rf $XDG_DATA_HOME/{fontconfig,fonts,fonts-*,themes,.themes}
   mkdir -p $XDG_CONFIG_HOME/fontconfig
-if [ -f $REALHOME/.config/fontconfig/fonts.conf ]; then
-  cp $REALHOME/.config/fontconfig/fonts.conf $FONTCONFIG_FILE
-else
   make_user_fontconfig > $XDG_CONFIG_HOME/fontconfig/fonts.conf
-fi
 fi
 
 # Gdk-pixbuf loaders
