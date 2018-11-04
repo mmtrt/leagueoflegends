@@ -20,7 +20,7 @@ plugs:
     content: wine-base-staging
     interface: content
     target: $SNAP/wine-platform
-    default-provider: wine-platform-i386
+    default-provider: wine-platform
 
 apps:
   leagueoflegends:

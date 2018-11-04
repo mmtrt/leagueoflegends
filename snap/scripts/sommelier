@@ -7,10 +7,12 @@ REL=staging
 # wine base
 WINE_BASE=wine-$REL
 
-if [ ! -d $WP/usr ] ; then
-  echo "You need to connect this snap to the wine-platform-i386 snap."
+if [ ! -f $WP/$WINE_BASE/bin/wine64 ] ; then
+  echo "You need to connect this snap to the wine-platform snap."
   echo ""
-  echo "snap connect $SNAP_NAME:wine-platform-plug wine-platform-i386:wine-base-$REL"
+  echo "snap disconnect $SNAP_NAME:wine-platform-plug"
+  echo "snap install wine-platform"
+  echo "snap connect $SNAP_NAME:wine-platform-plug wine-platform:wine-base-$REL"
   exit 1
 fi
 
@@ -320,12 +322,16 @@ fi
 SNAP=`echo $SNAP | sed -e "s|/var/lib/snapd||g"`
 
 export GTK_MODULES=""
-export WINEARCH="win32"
 
-if [ "${WINEARCH}" == "win32" ]; then
-  ARCH="i386-linux-gnu"
+if [ "$SNAP_ARCH" = "amd64" ]; then
+  export WINEARCH=win64
+  export ARCH="x86_64-linux-gnu"
+elif [ "$SNAP_ARCH" = "i386" ]; then
+  export WINEARCH=win32
+  export ARCH="i386-linux-gnu"
 else
-  ARCH="x86_64-linux-gnu"
+  echo "Host architecture ($SNAP_ARCH) unsupported."
+  exit 1
 fi
 
 if [ -n "${DLLOVERRIDES}" ]; then
@@ -342,6 +348,12 @@ export WINEDEBUG=-all
 export LD_LIBRARY_PATH="$WP/lib:$WP/lib/$ARCH:$WP/usr/lib:$WP/usr/lib/$ARCH:$LD_LIBRARY_PATH"
 export PATH=$PATH:$WP/bin:$WP/usr/bin:$WP/$WINE_BASE/bin
 
+if [ "$SNAP_ARCH" = "amd64" ]; then
+  append_dir LD_LIBRARY_PATH $WP/lib64
+  append_dir LD_LIBRARY_PATH $WP/lib/i386-linux-gnu
+  append_dir LD_LIBRARY_PATH $WP/usr/lib/i386-linux-gnu
+fi
+
 # XKB config
 export XKB_CONFIG_ROOT=$WP/usr/share/X11/xkb
 
@@ -355,13 +367,17 @@ export XCURSOR_PATH=$WP/usr/share/icons
 
 # SAMBA Libs for ntlm_auth to function
 append_dir LD_LIBRARY_PATH $WP/usr/lib/$ARCH/samba
+[ "$SNAP_ARCH" = "amd64" ] && append_dir LD_LIBRARY_PATH $WP/usr/lib/i386-linux-gnu/samba
 
 # Mesa Libs for OpenGL support
 append_dir LD_LIBRARY_PATH $WP/usr/lib/$ARCH/mesa
 append_dir LD_LIBRARY_PATH $WP/usr/lib/$ARCH/mesa-egl
+[ "$SNAP_ARCH" = "amd64" ] && append_dir LD_LIBRARY_PATH $WP/usr/lib/i386-linux-gnu/mesa
+[ "$SNAP_ARCH" = "amd64" ] && append_dir LD_LIBRARY_PATH $WP/usr/lib/i386-linux-gnu/mesa-egl
 
 # Tell libGL where to find the drivers
 export LIBGL_DRIVERS_PATH=$WP/usr/lib/$ARCH/dri
+[ "$SNAP_ARCH" = "amd64" ] && append_dir LIBGL_DRIVERS_PATH $WP/usr/lib/i386-linux-gnu/dri
 append_dir LD_LIBRARY_PATH $LIBGL_DRIVERS_PATH
 
 # Workaround in snapd for proprietary nVidia drivers mounts the drivers in
@@ -372,6 +388,7 @@ append_dir LD_LIBRARY_PATH /var/lib/snapd/lib/gl
 
 # Pulseaudio export
 append_dir LD_LIBRARY_PATH $WP/usr/lib/$ARCH/pulseaudio
+[ "$SNAP_ARCH" = "amd64" ] && append_dir LD_LIBRARY_PATH $WP/usr/lib/i386-linux-gnu/pulseaudio
 
 # Alsa export
 export ALSA_CONFIG_PATH="$WP/usr/share/alsa/alsa.conf"
@@ -466,6 +483,12 @@ export GDK_PIXBUF_MODULE_FILE=$XDG_CACHE_HOME/gdk-pixbuf-loaders.cache
 export GDK_PIXBUF_MODULEDIR=$WP/usr/lib/$ARCH/gdk-pixbuf-2.0/2.10.0/loaders
 if [ -f $WP/usr/lib/$ARCH/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders ] && [ ! -f "${GDK_PIXBUF_MODULE_FILE}" ]; then
   $WP/usr/lib/$ARCH/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders > $GDK_PIXBUF_MODULE_FILE
+fi
+
+if [ ! -d $WINEPREFIX ]; then
+# link ttf & ttc fonts from root to wineprefix
+mkdir -p $WINEPREFIX/drive_c/windows/Fonts
+find /usr/share/fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" \) -exec ln -vs "{}" $WINEPREFIX/drive_c/windows/Fonts/ \; &>/dev/null
 fi
 
 # Stop wine from updating $WINEPREFIX automatically
