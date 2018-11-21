@@ -7,7 +7,7 @@ REL=staging
 # wine base
 WINE_BASE=wine-$REL
 
-if [ ! -f $WP/$WINE_BASE/bin/wine ] ; then
+if [ ! -f $WP/bin/wpfile ] ; then
   echo "You need to connect this snap to the wine-platform snap."
   echo ""
   echo "snap disconnect $SNAP_NAME:wine-platform-plug"
