@@ -13,6 +13,10 @@ if [ ! -f $WP/bin/wpfile ] ; then
   echo "snap disconnect $SNAP_NAME:wine-platform-plug"
   echo "snap install wine-platform"
   echo "snap connect $SNAP_NAME:wine-platform-plug wine-platform:wine-base-$REL"
+  echo ""
+  echo "Remove deprecated wine-platform-i386 snap."
+  echo ""
+  echo "snap remove wine-platform-i386"
   exit 1
 fi
 
