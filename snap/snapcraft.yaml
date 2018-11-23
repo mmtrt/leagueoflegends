@@ -28,7 +28,7 @@ apps:
       bin/sommelier "$WINEPREFIX/drive_c/Riot Games/League of Legends/LeagueClient.exe"
     environment:
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
-      DLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono & Gecko
+      DLLOVERRIDES: "mscoree,mshtml=,winemenubuilder.exe=d" # Prevent pop-ups about Wine Mono & Gecko
       INSTALL_URL_NA: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20NA.exe"
       INSTALL_URL_EUW: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20EUW.exe"
       INSTALL_URL_EUNE: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20EUNE.exe"
@@ -60,7 +60,7 @@ apps:
     command: bin/sommelier $SNAP/wine-platform/wine-staging/bin/wineboot
     environment:
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
-      DLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono & Gecko
+      DLLOVERRIDES: "mscoree,mshtml=,winemenubuilder.exe=d" # Prevent pop-ups about Wine Mono & Gecko
     plugs:
       - desktop
       - desktop-legacy
@@ -71,7 +71,7 @@ apps:
     command: bin/sommelier $SNAP/wine-platform/wine-staging/bin/winecfg
     environment:
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
-      DLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono & Gecko
+      DLLOVERRIDES: "mscoree,mshtml=,winemenubuilder.exe=d" # Prevent pop-ups about Wine Mono & Gecko
     plugs:
       - desktop
       - desktop-legacy
@@ -82,7 +82,7 @@ apps:
     command: bin/sommelier $SNAP/wine-platform/bin/winetricks prefix="$WINEPREFIX"
     environment:
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
-      DLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono & Gecko
+      DLLOVERRIDES: "mscoree,mshtml=,winemenubuilder.exe=d" # Prevent pop-ups about Wine Mono & Gecko
       LC_ALL: "C.UTF-8"
     plugs:
       - desktop
