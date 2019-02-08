@@ -448,9 +448,9 @@ fi
 # Keep an array of data dirs, for looping through them
 IFS=':' read -r -a data_dirs_array <<< "$XDG_DATA_DIRS"
 
-# Font Config
-export FONTCONFIG_PATH=$WP/etc/fonts/conf.d
-export FONTCONFIG_FILE=$XDG_CONFIG_HOME/fontconfig/fonts.conf
+# Font Config and themes
+export FONTCONFIG_PATH=$WP/etc/fonts
+export FONTCONFIG_FILE=$WP/etc/fonts/fonts.conf
 
 function make_user_fontconfig {
   echo "<fontconfig>"
@@ -478,6 +478,10 @@ function make_user_fontconfig {
 
 if [ $needs_update = true ]; then
   rm -rf $XDG_DATA_HOME/{fontconfig,fonts,fonts-*,themes,.themes}
+
+  # This fontconfig fragment is installed in a location that is
+  # included by the system fontconfig configuration: namely the
+  # etc/fonts/conf.d/50-user.conf file.
   mkdir -p $XDG_CONFIG_HOME/fontconfig
   make_user_fontconfig > $XDG_CONFIG_HOME/fontconfig/fonts.conf
 fi

@@ -95,7 +95,7 @@ apps:
 parts:
   leagueoflegends:
     plugin: dump
-    source: snap/scripts
+    source: scripts
     override-build: |
       snapcraftctl build
       set -ex
