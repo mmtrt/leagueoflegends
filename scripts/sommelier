@@ -368,6 +368,7 @@ export LOCPATH=$WP/usr/lib/locale
 
 # Set XCursors path
 export XCURSOR_PATH=$WP/usr/share/icons
+prepend_dir XCURSOR_PATH $SNAP/data-dir/icons
 
 # SAMBA Libs for ntlm_auth to function
 append_dir LD_LIBRARY_PATH $WP/usr/lib/$ARCH/samba
@@ -411,6 +412,7 @@ export GST_PLUGIN_SCANNER=$WP/usr/lib/$ARCH/gstreamer1.0/gstreamer-1.0/gst-plugi
 prepend_dir XDG_CONFIG_DIRS $WP/etc/xdg
 
 # Define snaps' own data dir
+prepend_dir XDG_DATA_DIRS $SNAP/share
 prepend_dir XDG_DATA_DIRS $WP/usr/share
 prepend_dir XDG_DATA_DIRS $SNAP_USER_COMMON
 prepend_dir XDG_DATA_DIRS $SNAP_USER_DATA

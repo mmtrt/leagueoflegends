@@ -21,6 +21,10 @@ plugs:
     interface: content
     target: $SNAP/wine-platform
     default-provider: wine-platform
+  icon-themes:
+    interface: content
+    target: $SNAP/data-dir/icons
+    default-provider: gtk-common-themes
 
 apps:
   leagueoflegends:
