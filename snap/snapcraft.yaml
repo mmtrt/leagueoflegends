@@ -13,6 +13,7 @@ confinement: devmode
 architectures:
   - build-on: amd64
     run-on: [amd64, i386]
+base: core18
 icon: snap/gui/leagueoflegends.png
 
 plugs:
