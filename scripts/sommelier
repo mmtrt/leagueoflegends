@@ -214,13 +214,49 @@ function install_tr() {
   fi
 }
 
+function install_dgdxvk() {
+env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINETRICKS}" --unattended dxvk100 d3dcompiler_47
+wget http://www.dege.freeweb.hu/temp/dgVoodooWIP58.zip -P "${XDG_CACHE_HOME}/downloads"
+mkdir -p "${WINEPREFIX}/drive_c/users/$USER/Application Data/dgVoodoo"
+unzip "${XDG_CACHE_HOME}/downloads/dgVoodooWIP58.zip" "dgVoodoo.conf" -d "${WINEPREFIX}/drive_c/users/$USER/Application Data/dgVoodoo"
+sed -i 's|dgVoodooWatermark                   = true|dgVoodooWatermark                   = false|g' "${WINEPREFIX}/drive_c/users/$USER/Application Data/dgVoodoo/dgVoodoo.conf"
+
+for dll in D3D9.dll D3DImm.dll DDraw.dll
+do
+unzip -j "${XDG_CACHE_HOME}/downloads/dgVoodooWIP58.zip" "MS/x86/$dll" -d "${XDG_CACHE_HOME}/downloads"
+done
+
+for dlls in d3d9.dll ddraw.dll
+do
+cp ${WINEPREFIX}/drive_c/windows/syswow64/$dlls ${WINEPREFIX}/drive_c/windows/syswow64/$dlls.bak
+done
+
+cp ${XDG_CACHE_HOME}/downloads/D3D9.dll ${WINEPREFIX}/drive_c/windows/syswow64/d3d9.dll
+cp ${XDG_CACHE_HOME}/downloads/D3DImm.dll ${WINEPREFIX}/drive_c/windows/syswow64/d3dimm.dll
+cp ${XDG_CACHE_HOME}/downloads/DDraw.dll ${WINEPREFIX}/drive_c/windows/syswow64/ddraw.dll
+
+cat > ${XDG_CACHE_HOME}/downloads/dgdx.reg <<'EOF'
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Software\Wine\DllOverrides]
+"d3d9"="native"
+"ddraw"="native"
+EOF
+# Apply dlloverride reg
+env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" start regedit ${XDG_CACHE_HOME}/downloads/dgdx.reg
+
+rm -r "${XDG_CACHE_HOME}/downloads" ; rm -r "${XDG_CACHE_HOME}/winetricks"
+
+notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "Installation of dgVoodoo + DXVK is done now snap again to install game or Copy over your old game from somewhere to $WINEPREFIX/drive_c" 
+}
+
   action=$(yad --width 400 --entry --title "League Of Legends" \
       --center \
       --width=400 \
       --button="Install:0" --button="Exit:1" \
       --text "Select Game Installer Region:" \
       --entry-text \
-      "NA" "EUW" "EUNE" "BR" "JP" "LAN" "LAS" "OCE" "RU" "TR")
+      "NA" "EUW" "EUNE" "BR" "JP" "LAN" "LAS" "OCE" "RU" "TR" "DGDXVK - [testing] Install dgVoodoo + dxvk [USE IT OWN UR RISK]")
   ret=$?
 
   [[ $ret -eq 1 ]] && exit 0
@@ -236,6 +272,7 @@ function install_tr() {
       OCE*) cmd=$(install_oce) ;;
       RU*) cmd=$(install_ru) ;;
       TR*) cmd=$(install_tr) ;;
+      DGDXVK*) cmd=$(install_dgdxvk) ;;
       *) exit 1 ;;
   esac
 
