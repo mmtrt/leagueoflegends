@@ -247,7 +247,7 @@ env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" start rege
 sleep 1
 rm -r "${XDG_CACHE_HOME}/downloads" ; rm -r "${XDG_CACHE_HOME}/winetricks"
 
-notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "Installation of dgVoodoo + DXVK is done now snap again to install game or Copy over your old game from somewhere to $WINEPREFIX/drive_c" 
+notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "League of legends" "Installation of dgVoodoo + DXVK is done now run snap again to install game or Your can copy over your game from somewhere else to $WINEPREFIX/drive_c" 
 }
 
   action=$(yad --width 400 --entry --title "League Of Legends" \
