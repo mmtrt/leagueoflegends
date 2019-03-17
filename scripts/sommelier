@@ -244,7 +244,7 @@ Windows Registry Editor Version 5.00
 EOF
 # Apply dlloverride reg
 env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" start regedit ${XDG_CACHE_HOME}/downloads/dgdx.reg
-
+sleep 1
 rm -r "${XDG_CACHE_HOME}/downloads" ; rm -r "${XDG_CACHE_HOME}/winetricks"
 
 notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "Installation of dgVoodoo + DXVK is done now snap again to install game or Copy over your old game from somewhere to $WINEPREFIX/drive_c" 
