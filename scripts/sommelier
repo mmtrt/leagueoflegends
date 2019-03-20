@@ -54,7 +54,7 @@ function install_na() {
     # Installs the wine application
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_NA}" --mode unattended
     # Remove the cached installers & files
-    rm -v "${TMPDIR}/${INSTALL_EXE_NA}"
+    rm -v "${TMPDIR}/${INSTALL_EXE_NA}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     # Launch after install.
     launch_app
@@ -71,7 +71,7 @@ function install_euw() {
     # Installs the wine application
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_EUW}" --mode unattended
     # Remove the cached installers & files
-    rm -v "${TMPDIR}/${INSTALL_EXE_EUW}"
+    rm -v "${TMPDIR}/${INSTALL_EXE_EUW}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     # Launch after install.
     launch_app
@@ -88,7 +88,7 @@ function install_eune() {
     # Installs the wine application
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_EUNE}" --mode unattended
     # Remove the cached installers & files
-    rm -v "${TMPDIR}/${INSTALL_EXE_EUNE}"
+    rm -v "${TMPDIR}/${INSTALL_EXE_EUNE}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     # Launch after install.
     launch_app
@@ -105,7 +105,7 @@ function install_br() {
     # Installs the wine application
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_BR}" --mode unattended
     # Remove the cached installers & files
-    rm -v "${TMPDIR}/${INSTALL_EXE_BR}"
+    rm -v "${TMPDIR}/${INSTALL_EXE_BR}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     # Launch after install.
     launch_app
@@ -122,7 +122,7 @@ function install_jp() {
     # Installs the wine application
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_JP}" --mode unattended
     # Remove the cached installers & files
-    rm -v "${TMPDIR}/${INSTALL_EXE_JP}"
+    rm -v "${TMPDIR}/${INSTALL_EXE_JP}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     # Launch after install.
     launch_app
@@ -139,7 +139,7 @@ function install_lan() {
     # Installs the wine application
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_LAN}" --mode unattended
     # Remove the cached installers & files
-    rm -v "${TMPDIR}/${INSTALL_EXE_LAN}"
+    rm -v "${TMPDIR}/${INSTALL_EXE_LAN}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     # Launch after install.
     launch_app
@@ -156,7 +156,7 @@ function install_las() {
     # Installs the wine application
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_LAS}" --mode unattended
     # Remove the cached installers & files
-    rm -v "${TMPDIR}/${INSTALL_EXE_LAS}"
+    rm -v "${TMPDIR}/${INSTALL_EXE_LAS}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     # Launch after install.
     launch_app
@@ -173,7 +173,7 @@ function install_oce() {
     # Installs the wine application
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_OCE}" --mode unattended
     # Remove the cached installers & files
-    rm -v "${TMPDIR}/${INSTALL_EXE_OCE}"
+    rm -v "${TMPDIR}/${INSTALL_EXE_OCE}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     # Launch after install.
     launch_app
@@ -190,7 +190,7 @@ function install_ru() {
     # Installs the wine application
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_RU}" --mode unattended
     # Remove the cached installers & files
-    rm -v "${TMPDIR}/${INSTALL_EXE_RU}"
+    rm -v "${TMPDIR}/${INSTALL_EXE_RU}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     # Launch after install.
     launch_app
@@ -207,7 +207,7 @@ function install_tr() {
     # Installs the wine application
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_TR}" --mode unattended
     # Remove the cached installers & files
-    rm -v "${TMPDIR}/${INSTALL_EXE_TR}"
+    rm -v "${TMPDIR}/${INSTALL_EXE_TR}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     # Launch after install.
     launch_app
