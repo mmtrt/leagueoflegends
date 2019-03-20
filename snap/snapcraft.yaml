@@ -44,7 +44,7 @@ apps:
       INSTALL_URL_OCE: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20OC1.exe"
       INSTALL_URL_RU: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20RU.exe"
       INSTALL_URL_TR: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20TR.exe"
-      TRICKS: "winxp"
+      TRICKS:
       VIRTDESKTOP: 0
       LC_ALL: "C.UTF-8"
     plugs:
