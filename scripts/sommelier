@@ -56,6 +56,7 @@ function install_na() {
     # Remove the cached installers & files
     rm -v "${TMPDIR}/${INSTALL_EXE_NA}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
+    rm "${progReg}" 2>/dev/null
     # Launch after install.
     launch_app
   fi
@@ -73,6 +74,7 @@ function install_euw() {
     # Remove the cached installers & files
     rm -v "${TMPDIR}/${INSTALL_EXE_EUW}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
+    rm "${progReg}" 2>/dev/null
     # Launch after install.
     launch_app
   fi
@@ -90,6 +92,7 @@ function install_eune() {
     # Remove the cached installers & files
     rm -v "${TMPDIR}/${INSTALL_EXE_EUNE}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
+    rm "${progReg}" 2>/dev/null
     # Launch after install.
     launch_app
   fi
@@ -107,6 +110,7 @@ function install_br() {
     # Remove the cached installers & files
     rm -v "${TMPDIR}/${INSTALL_EXE_BR}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
+    rm "${progReg}" 2>/dev/null
     # Launch after install.
     launch_app
   fi
@@ -124,6 +128,7 @@ function install_jp() {
     # Remove the cached installers & files
     rm -v "${TMPDIR}/${INSTALL_EXE_JP}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
+    rm "${progReg}" 2>/dev/null
     # Launch after install.
     launch_app
   fi
@@ -141,6 +146,7 @@ function install_lan() {
     # Remove the cached installers & files
     rm -v "${TMPDIR}/${INSTALL_EXE_LAN}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
+    rm "${progReg}" 2>/dev/null
     # Launch after install.
     launch_app
   fi
@@ -158,6 +164,7 @@ function install_las() {
     # Remove the cached installers & files
     rm -v "${TMPDIR}/${INSTALL_EXE_LAS}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
+    rm "${progReg}" 2>/dev/null
     # Launch after install.
     launch_app
   fi
@@ -175,6 +182,7 @@ function install_oce() {
     # Remove the cached installers & files
     rm -v "${TMPDIR}/${INSTALL_EXE_OCE}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
+    rm "${progReg}" 2>/dev/null
     # Launch after install.
     launch_app
   fi
@@ -192,6 +200,7 @@ function install_ru() {
     # Remove the cached installers & files
     rm -v "${TMPDIR}/${INSTALL_EXE_RU}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
+    rm "${progReg}" 2>/dev/null
     # Launch after install.
     launch_app
   fi
@@ -209,6 +218,7 @@ function install_tr() {
     # Remove the cached installers & files
     rm -v "${TMPDIR}/${INSTALL_EXE_TR}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
+    rm "${progReg}" 2>/dev/null
     # Launch after install.
     launch_app
   fi
@@ -548,9 +558,20 @@ fi
 
 # Initialise wine
 if [ ! -f "${WINEPREFIX}/drive_c/windows/win.ini" ]; then
+  # create dlloverride reg
+  progReg=${TMPDIR}/dlloverrides.reg
+cat > $progReg <<'EOF'
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Software\Wine\DllOverrides]
+"msvcp140"="native"
+EOF
   # Create the WINE environment
   env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" wineboot --init 2>&1 | \
   yad --progress --title="Preparing Windows environment" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --pulsate
+  # Apply dlloverride reg
+  env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" start regedit ${progReg}
+  sleep 1
   # Opt out of winetricks metrics - we ninja this to avoid dialogs
   if [ ! -f "${XDG_CACHE_HOME}/winetricks/track_usage" ]; then
     mkdir -p "${XDG_CACHE_HOME}/winetricks"
