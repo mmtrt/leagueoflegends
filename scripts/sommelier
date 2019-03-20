@@ -565,15 +565,6 @@ Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\Wine\DllOverrides]
 "msvcp140"="native"
-
-[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion]
-"CSDVersion"="Service Pack 3"
-"CurrentBuildNumber"="2600"
-"CurrentVersion"="5.1"
-"ProductName"="Microsoft Windows XP"
-
-[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Windows]
-"CSDVersion"=dword:00000300
 EOF
   # Create the WINE environment
   env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" wineboot --init 2>&1 | \
