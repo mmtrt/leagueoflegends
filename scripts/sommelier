@@ -302,6 +302,8 @@ function launch_app() {
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" explorer /desktop="virtual","${NATIVE_RES}" "${WINE_EXE}"
   else
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${WINE_EXE}"
+    # Changing CPU affinity of LeagueClient
+    taskset -acp 0 $(pidof LeagueClient.exe)
   fi
 }
 
