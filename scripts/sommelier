@@ -429,10 +429,12 @@ append_dir LD_LIBRARY_PATH $WP/usr/lib/$ARCH/mesa-egl
 [ "$SNAP_ARCH" = "amd64" ] && append_dir LD_LIBRARY_PATH $WP/usr/lib/i386-linux-gnu/mesa
 [ "$SNAP_ARCH" = "amd64" ] && append_dir LD_LIBRARY_PATH $WP/usr/lib/i386-linux-gnu/mesa-egl
 
-# Tell libGL where to find the drivers
+# Tell libGL and libva where to find the drivers
 export LIBGL_DRIVERS_PATH=$WP/usr/lib/$ARCH/dri
 [ "$SNAP_ARCH" = "amd64" ] && append_dir LIBGL_DRIVERS_PATH $WP/usr/lib/i386-linux-gnu/dri
 append_dir LD_LIBRARY_PATH $LIBGL_DRIVERS_PATH
+export LIBVA_DRIVERS_PATH=$WP/usr/lib/$ARCH/dri
+[ "$SNAP_ARCH" = "amd64" ] && append_dir LIBVA_DRIVERS_PATH $WP/usr/lib/i386-linux-gnu/dri
 
 # Workaround in snapd for proprietary nVidia drivers mounts the drivers in
 # /var/lib/snapd/lib/gl that needs to be in LD_LIBRARY_PATH
