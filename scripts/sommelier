@@ -260,13 +260,41 @@ rm -r "${XDG_CACHE_HOME}/downloads" ; rm -r "${XDG_CACHE_HOME}/winetricks"
 notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "League of legends" "Installation of dgVoodoo + DXVK is done now run snap again to install game or Your can copy over your game from somewhere else to $WINEPREFIX/drive_c" 
 }
 
+function install_d9vk() {
+wget --content-disposition -nv -c https://git.froggi.es/joshua/d9vk/-/jobs/309/artifacts/download -P "${XDG_CACHE_HOME}/downloads"
+for dll in d3d10_1.dll d3d10core.dll d3d10.dll d3d11.dll d3d9.dll dxgi.dll
+do
+unzip -jo "${XDG_CACHE_HOME}/downloads/*.zip" "build/dxvk-release/x32/$dll" -d "${WINEPREFIX}/drive_c/windows/syswow64/"
+unzip -jo "${XDG_CACHE_HOME}/downloads/*.zip" "build/dxvk-release/x64/$dll" -d "${WINEPREFIX}/drive_c/windows/system32/"
+done
+
+cat > ${XDG_CACHE_HOME}/downloads/d9vk.reg <<'EOF'
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Software\Wine\DllOverrides]
+"d3d10_1"="native"
+"d3d10core"="native"
+"d3d10"="native"
+"d3d11"="native"
+"d3d9"="native"
+"dxgi"="native"
+EOF
+
+# Apply dlloverride reg
+env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" start regedit ${XDG_CACHE_HOME}/downloads/d9vk.reg
+sleep 1
+rm -r "${XDG_CACHE_HOME}/downloads"
+
+notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "League of legends" "Installation of D9VK is done now run snap again to install game or Your can copy over your game from somewhere else to $WINEPREFIX/drive_c" 
+}
+
   action=$(yad --width 400 --entry --title "League Of Legends" \
       --center \
       --width=400 \
       --button="Install:0" --button="Exit:1" \
       --text "Select Game Installer Region:" \
       --entry-text \
-      "NA" "EUW" "EUNE" "BR" "JP" "LAN" "LAS" "OCE" "RU" "TR" "DGDXVK - [testing] Install dgVoodoo + dxvk [USE IT OWN UR RISK]")
+      "NA" "EUW" "EUNE" "BR" "JP" "LAN" "LAS" "OCE" "RU" "TR" "DGDXVK - Installs dgVoodoo [USE IT OWN UR RISK]" "D9VK - Installs d9vk [USE IT OWN UR RISK]")
   ret=$?
 
   [[ $ret -eq 1 ]] && exit 0
@@ -283,6 +311,7 @@ notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "L
       RU*) cmd=$(install_ru) ;;
       TR*) cmd=$(install_tr) ;;
       DGDXVK*) cmd=$(install_dgdxvk) ;;
+      D9VK*) cmd=$(install_d9vk) ;;
       *) exit 1 ;;
   esac
 
