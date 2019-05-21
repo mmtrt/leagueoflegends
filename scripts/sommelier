@@ -262,7 +262,7 @@ notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "L
 
 function install_d9vk() {
 wget --content-disposition -nv -c https://git.froggi.es/joshua/d9vk/-/jobs/417/artifacts/download -P "${XDG_CACHE_HOME}/downloads"
-for dll in d3d10_1.dll d3d10core.dll d3d10.dll d3d11.dll d3d9.dll dxgi.dll
+for dll in d3d9.dll
 do
 unzip -jo "${XDG_CACHE_HOME}/downloads/*.zip" "build/dxvk-release/x32/$dll" -d "${WINEPREFIX}/drive_c/windows/syswow64/"
 unzip -jo "${XDG_CACHE_HOME}/downloads/*.zip" "build/dxvk-release/x64/$dll" -d "${WINEPREFIX}/drive_c/windows/system32/"
@@ -273,12 +273,7 @@ Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\Wine\DllOverrides]
 "d3dcompiler_43"="native"
-"d3d10_1"="native"
-"d3d10core"="native"
-"d3d10"="native"
-"d3d11"="native"
 "d3d9"="native"
-"dxgi"="native"
 EOF
 
 # Apply dlloverride reg
