@@ -420,7 +420,7 @@ export WINELOADER=$WP/$WINE_BASE/bin/wine
 export WINEDLLPATH=$WP/$WINE_BASE/lib/wine/fakedlls
 export WINETRICKS=$WP/bin/winetricks
 export WINEPREFIX="$SNAP_USER_COMMON/.wine"
-#export WINEDEBUG=-all
+export WINEDEBUG=fixme-all
 export LD_LIBRARY_PATH="$WP/lib:$WP/lib/$ARCH:$WP/usr/lib:$WP/usr/lib/$ARCH:$LD_LIBRARY_PATH"
 export PATH=$PATH:$WP/bin:$WP/usr/bin:$WP/$WINE_BASE/bin
 
