@@ -82,6 +82,17 @@ apps:
       - pulseaudio
       - wayland
       - x11
+  wineserver:
+    command: bin/sommelier $SNAP/wine-platform/wine-staging/bin/wineserver
+    environment:
+      WINEPREFIX: "$SNAP_USER_COMMON/.wine"
+      DLLOVERRIDES: "mscoree,mshtml=;winemenubuilder.exe=d" # Prevent pop-ups about Wine Mono & Gecko
+    plugs:
+      - desktop
+      - desktop-legacy
+      - pulseaudio
+      - wayland
+      - x11
   winetricks:
     command: bin/sommelier $SNAP/wine-platform/bin/winetricks prefix="$WINEPREFIX"
     environment:

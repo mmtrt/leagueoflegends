@@ -615,6 +615,8 @@ fi
 # If the executable exists then launch it otherwise install it then lauch it.
 if [[ ${WINE_EXE} = *"winecfg"* ]] || [[ ${WINE_EXE} = *"wineboot"* ]] || [[ ${WINE_EXE} = *"winetricks"* ]]; then
   env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "$@"
+elif [[ ${WINE_EXE} = *"wineserver"* ]]; then
+env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINE_EXE}" "-k"
 elif [ -e "${WINE_EXE}" ]; then
   launch_app
 else
