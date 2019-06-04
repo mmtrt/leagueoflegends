@@ -562,6 +562,18 @@ if [ $needs_update = true ]; then
   make_user_fontconfig > $XDG_CONFIG_HOME/fontconfig/fonts.conf
 fi
 
+# Build mime.cache
+# needed for gtk and qt icon
+if [ $needs_update = true ]; then
+  rm -rf $XDG_DATA_HOME/mime
+  if [ ! -f $WP/usr/share/mime/mime.cache ]; then
+    if command -v update-mime-database >/dev/null; then
+      cp --preserve=timestamps -dR $WP/usr/share/mime $XDG_DATA_HOME
+      update-mime-database $XDG_DATA_HOME/mime
+    fi
+  fi
+fi
+
 # Gdk-pixbuf loaders
 export GDK_PIXBUF_MODULE_FILE=$XDG_CACHE_HOME/gdk-pixbuf-loaders.cache
 export GDK_PIXBUF_MODULEDIR=$WP/usr/lib/$ARCH/gdk-pixbuf-2.0/2.10.0/loaders
