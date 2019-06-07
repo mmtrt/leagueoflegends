@@ -14,14 +14,20 @@ architectures:
   - build-on: amd64
     run-on: [amd64, i386]
 base: core18
-icon: snap/gui/leagueoflegends.png
 
 plugs:
-  wine-platform-plug:
-    content: wine-base-staging
+  wine-runtime:
+    interface: content
+    target: $SNAP/wine-runtime
+    default-provider: wine-platform-runtime
+  wine-4-staging:
     interface: content
     target: $SNAP/wine-platform
-    default-provider: wine-platform
+    default-provider: wine-platform-4-staging
+  gtk-3-themes:
+    default-provider: gtk-common-themes
+    interface: content
+    target: $SNAP/data-dir/themes
   icon-themes:
     interface: content
     target: $SNAP/data-dir/icons
@@ -47,7 +53,6 @@ apps:
       VIRTDESKTOP: 0
       LC_ALL: "C.UTF-8"
     plugs:
-      - wine-platform-plug
       - desktop
       - desktop-legacy
       - hardware-observe
@@ -60,6 +65,10 @@ apps:
       - pulseaudio
       - wayland
       - x11
+      - gtk-3-themes
+      - icon-themes
+      - wine-runtime
+      - wine-4-staging
   wineboot:
     command: bin/sommelier $SNAP/wine-platform/wine-staging/bin/wineboot
     environment:
@@ -94,7 +103,7 @@ apps:
       - wayland
       - x11
   winetricks:
-    command: bin/sommelier $SNAP/wine-platform/bin/winetricks prefix="$WINEPREFIX"
+    command: bin/sommelier $SNAP/wine-runtime/bin/winetricks prefix="$WINEPREFIX"
     environment:
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
       DLLOVERRIDES: "mscoree,mshtml=;winemenubuilder.exe=d" # Prevent pop-ups about Wine Mono & Gecko
@@ -110,10 +119,11 @@ apps:
 parts:
   leagueoflegends:
     plugin: dump
-    source: scripts
+    source: ./snap/local/scripts
     override-build: |
       snapcraftctl build
       set -ex
+      mkdir -p $SNAPCRAFT_PART_INSTALL/wine-runtime
       mkdir -p $SNAPCRAFT_PART_INSTALL/wine-platform
     organize:
       'sommelier': bin/

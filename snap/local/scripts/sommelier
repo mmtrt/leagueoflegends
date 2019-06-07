@@ -1,24 +1,75 @@
 #!/bin/bash
 
-# wine-platform dir
-WP=$SNAP/wine-platform
-# wine release
-REL=staging
-# wine base
-WINE_BASE=wine-$REL
+###########################
+# wine runtime selection #
+###########################
 
-if [ ! -f $WP/bin/wpfile ] ; then
-  echo "You need to connect this snap to the wine-platform snap."
-  echo ""
-  echo "snap disconnect $SNAP_NAME:wine-platform-plug"
-  echo "snap install wine-platform"
-  echo "snap connect $SNAP_NAME:wine-platform-plug wine-platform:wine-base-$REL"
-  echo ""
-  echo "Remove deprecated wine-platform-i386 snap."
-  echo ""
-  echo "snap remove wine-platform-i386"
-  exit 1
+if [ -d $SNAP/wine-runtime ]; then
+  WPR=$SNAP/wine-runtime
+  if [ ! -f $WPR/bin/wprfile ]; then
+    runtime_snap_name="$(
+        grep \
+            --extended-regexp \
+            'default-provider: *wine-platform-runtime' \
+            $SNAP/meta/snap.yaml \
+            | cut --delimiter=: --fields=2 \
+            | sed 's/^ *//' \
+            || true
+    )"
+
+    if test -n "${runtime_snap_name}"; then
+        echo "You need to connect this snap to the wine runtime snap."
+        echo ""
+        echo "You can do this with those commands:"
+        echo "snap install ${runtime_snap_name}"
+        echo "snap connect $SNAP_NAME:$(echo $runtime_snap_name | sed 's|-platform||g') ${runtime_snap_name}"
+        echo ""
+        exit 1
+    fi
+  fi
 fi
+
+###########################
+# WINE platform selection #
+###########################
+
+if [ -d $SNAP/wine-platform ]; then
+  WP=$SNAP/wine-platform
+  REL="$(
+      grep \
+            --extended-regexp \
+            'default-provider: *wine-platform-[[:digit:]]' \
+            $SNAP/meta/snap.yaml \
+            | cut --delimiter=: --fields=2 \
+            | sed 's/^ *//;s|-| |g' \
+            | awk '{print $4}'
+  )"
+
+  if [ ! -d $WP/wine-$REL ]; then
+    platform_snap_name="$(
+        grep \
+            --extended-regexp \
+            'default-provider: *wine-platform-[[:digit:]]' \
+            $SNAP/meta/snap.yaml \
+            | cut --delimiter=: --fields=2 \
+            | sed 's/^ *//' \
+            || true
+    )"
+
+    if test -n "${platform_snap_name}"; then
+        echo "You need to connect this snap to the wine platform snap."
+        echo ""
+        echo "You can do this with those commands:"
+        echo "snap install ${platform_snap_name}"
+        echo "snap connect $SNAP_NAME:$(echo $platform_snap_name | sed 's|-platform||g') ${platform_snap_name}"
+        echo ""
+        exit 1
+    fi
+  fi
+fi
+
+# wine base
+WINE_BASE=$WP/wine-$REL
 
 TITLE="League Of Legends"
 NOTICE="The ${TITLE} snap is experimental, built
@@ -414,50 +465,50 @@ if [ -n "${DLLOVERRIDES}" ]; then
   export WINEDLLOVERRIDES="${DLLOVERRIDES}"
 fi
 
-export WINEVERPATH=$WP/$WINE_BASE
-export WINESERVER=$WP/$WINE_BASE/bin/wineserver
-export WINELOADER=$WP/$WINE_BASE/bin/wine
-export WINEDLLPATH=$WP/$WINE_BASE/lib/wine/fakedlls
-export WINETRICKS=$WP/bin/winetricks
+export WINEVERPATH=$WINE_BASE
+export WINESERVER=$WINE_BASE/bin/wineserver
+export WINELOADER=$WINE_BASE/bin/wine
+export WINEDLLPATH=$WINE_BASE/lib/wine/fakedlls
+export WINETRICKS=$WPR/bin/winetricks
 export WINEPREFIX="$SNAP_USER_COMMON/.wine"
 export WINEDEBUG=fixme-all
-export LD_LIBRARY_PATH="$WP/lib:$WP/lib/$ARCH:$WP/usr/lib:$WP/usr/lib/$ARCH:$LD_LIBRARY_PATH"
-export PATH=$PATH:$WP/bin:$WP/usr/bin:$WP/$WINE_BASE/bin
+export LD_LIBRARY_PATH="$WPR/lib:$WPR/lib/$ARCH:$WPR/usr/lib:$WPR/usr/lib/$ARCH:$LD_LIBRARY_PATH"
+export PATH=$PATH:$WPR/bin:$WPR/usr/bin:$WINE_BASE/bin
 
 if [ "$SNAP_ARCH" = "amd64" ]; then
-  append_dir LD_LIBRARY_PATH $WP/lib64
-  append_dir LD_LIBRARY_PATH $WP/lib/i386-linux-gnu
-  append_dir LD_LIBRARY_PATH $WP/usr/lib/i386-linux-gnu
+  append_dir LD_LIBRARY_PATH $WPR/lib64
+  append_dir LD_LIBRARY_PATH $WPR/lib/i386-linux-gnu
+  append_dir LD_LIBRARY_PATH $WPR/usr/lib/i386-linux-gnu
 fi
 
 # XKB config
-export XKB_CONFIG_ROOT=$WP/usr/share/X11/xkb
+export XKB_CONFIG_ROOT=$WPR/usr/share/X11/xkb
 
 # Give XOpenIM a chance to locate locale data.
 # This is required for text input to work in SDL2 games.
-export XLOCALEDIR=$WP/usr/share/X11/locale
-export LOCPATH=$WP/usr/lib/locale
+export XLOCALEDIR=$WPR/usr/share/X11/locale
+export LOCPATH=$WPR/usr/lib/locale
 
 # Set XCursors path
-export XCURSOR_PATH=$WP/usr/share/icons
+export XCURSOR_PATH=$WPR/usr/share/icons
 prepend_dir XCURSOR_PATH $SNAP/data-dir/icons
 
 # SAMBA Libs for ntlm_auth to function
-append_dir LD_LIBRARY_PATH $WP/usr/lib/$ARCH/samba
-[ "$SNAP_ARCH" = "amd64" ] && append_dir LD_LIBRARY_PATH $WP/usr/lib/i386-linux-gnu/samba
+append_dir LD_LIBRARY_PATH $WPR/usr/lib/$ARCH/samba
+[ "$SNAP_ARCH" = "amd64" ] && append_dir LD_LIBRARY_PATH $WPR/usr/lib/i386-linux-gnu/samba
 
 # Mesa Libs for OpenGL support
-append_dir LD_LIBRARY_PATH $WP/usr/lib/$ARCH/mesa
-append_dir LD_LIBRARY_PATH $WP/usr/lib/$ARCH/mesa-egl
-[ "$SNAP_ARCH" = "amd64" ] && append_dir LD_LIBRARY_PATH $WP/usr/lib/i386-linux-gnu/mesa
-[ "$SNAP_ARCH" = "amd64" ] && append_dir LD_LIBRARY_PATH $WP/usr/lib/i386-linux-gnu/mesa-egl
+append_dir LD_LIBRARY_PATH $WPR/usr/lib/$ARCH/mesa
+append_dir LD_LIBRARY_PATH $WPR/usr/lib/$ARCH/mesa-egl
+[ "$SNAP_ARCH" = "amd64" ] && append_dir LD_LIBRARY_PATH $WPR/usr/lib/i386-linux-gnu/mesa
+[ "$SNAP_ARCH" = "amd64" ] && append_dir LD_LIBRARY_PATH $WPR/usr/lib/i386-linux-gnu/mesa-egl
 
 # Tell libGL and libva where to find the drivers
-export LIBGL_DRIVERS_PATH=$WP/usr/lib/$ARCH/dri
-[ "$SNAP_ARCH" = "amd64" ] && append_dir LIBGL_DRIVERS_PATH $WP/usr/lib/i386-linux-gnu/dri
+export LIBGL_DRIVERS_PATH=$WPR/usr/lib/$ARCH/dri
+[ "$SNAP_ARCH" = "amd64" ] && append_dir LIBGL_DRIVERS_PATH $WPR/usr/lib/i386-linux-gnu/dri
 append_dir LD_LIBRARY_PATH $LIBGL_DRIVERS_PATH
-export LIBVA_DRIVERS_PATH=$WP/usr/lib/$ARCH/dri
-[ "$SNAP_ARCH" = "amd64" ] && append_dir LIBVA_DRIVERS_PATH $WP/usr/lib/i386-linux-gnu/dri
+export LIBVA_DRIVERS_PATH=$WPR/usr/lib/$ARCH/dri
+[ "$SNAP_ARCH" = "amd64" ] && append_dir LIBVA_DRIVERS_PATH $WPR/usr/lib/i386-linux-gnu/dri
 
 # Workaround in snapd for proprietary nVidia drivers mounts the drivers in
 # /var/lib/snapd/lib/gl that needs to be in LD_LIBRARY_PATH
@@ -466,28 +517,28 @@ export LIBVA_DRIVERS_PATH=$WP/usr/lib/$ARCH/dri
 append_dir LD_LIBRARY_PATH /var/lib/snapd/lib/gl
 
 # Pulseaudio export
-append_dir LD_LIBRARY_PATH $WP/usr/lib/$ARCH/pulseaudio
-[ "$SNAP_ARCH" = "amd64" ] && append_dir LD_LIBRARY_PATH $WP/usr/lib/i386-linux-gnu/pulseaudio
+append_dir LD_LIBRARY_PATH $WPR/usr/lib/$ARCH/pulseaudio
+[ "$SNAP_ARCH" = "amd64" ] && append_dir LD_LIBRARY_PATH $WPR/usr/lib/i386-linux-gnu/pulseaudio
 
 # Alsa export
-export ALSA_CONFIG_PATH="$WP/usr/share/alsa/alsa.conf"
+export ALSA_CONFIG_PATH="$WPR/usr/share/alsa/alsa.conf"
 
 # EGL vendor files on glvnd enabled systems
 [ -d /var/lib/snapd/lib/glvnd/egl_vendor.d ] && \
 append_dir __EGL_VENDOR_LIBRARY_DIRS /var/lib/snapd/lib/glvnd/egl_vendor.d
 
 # Tell GStreamer where to find its plugins
-export GST_PLUGIN_PATH=$WP/usr/lib/$ARCH/gstreamer-1.0
-export GST_PLUGIN_SYSTEM_PATH=$WP/usr/lib/$ARCH/gstreamer-1.0
+export GST_PLUGIN_PATH=$WPR/usr/lib/$ARCH/gstreamer-1.0
+export GST_PLUGIN_SYSTEM_PATH=$WPR/usr/lib/$ARCH/gstreamer-1.0
 # gst plugin scanner doesn't install in the correct path: https://github.com/ubuntu/snapcraft-desktop-helpers/issues/43
-export GST_PLUGIN_SCANNER=$WP/usr/lib/$ARCH/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner
+export GST_PLUGIN_SCANNER=$WPR/usr/lib/$ARCH/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner
 
 # XDG Config
-prepend_dir XDG_CONFIG_DIRS $WP/etc/xdg
+prepend_dir XDG_CONFIG_DIRS $WPR/etc/xdg
 
 # Define snaps' own data dir
 prepend_dir XDG_DATA_DIRS $SNAP/share
-prepend_dir XDG_DATA_DIRS $WP/usr/share
+prepend_dir XDG_DATA_DIRS $WPR/usr/share
 prepend_dir XDG_DATA_DIRS $SNAP_USER_COMMON
 prepend_dir XDG_DATA_DIRS $SNAP_USER_DATA
 
@@ -525,8 +576,8 @@ fi
 IFS=':' read -r -a data_dirs_array <<< "$XDG_DATA_DIRS"
 
 # Font Config and themes
-export FONTCONFIG_PATH=$WP/etc/fonts
-export FONTCONFIG_FILE=$WP/etc/fonts/fonts.conf
+export FONTCONFIG_PATH=$WPR/etc/fonts
+export FONTCONFIG_FILE=$WPR/etc/fonts/fonts.conf
 
 function make_user_fontconfig {
   echo "<fontconfig>"
@@ -560,15 +611,25 @@ if [ $needs_update = true ]; then
   # etc/fonts/conf.d/50-user.conf file.
   mkdir -p $XDG_CONFIG_HOME/fontconfig
   make_user_fontconfig > $XDG_CONFIG_HOME/fontconfig/fonts.conf
+
+  # the themes symlink are needed for GTK 3.18 when the prefix isn't changed
+  # GTK 3.20 looks into XDG_DATA_DIR which has connected themes.
+  if [ -d $SNAP/data-dir/themes ]; then
+    ln -sf $SNAP/data-dir/themes $XDG_DATA_HOME
+    ln -sfn $SNAP/data-dir/themes $SNAP_USER_DATA/.themes
+  else
+    ln -sf $WPR/usr/share/themes $XDG_DATA_HOME
+    ln -sfn $WPR/usr/share/themes $SNAP_USER_DATA/.themes
+  fi
 fi
 
 # Build mime.cache
 # needed for gtk and qt icon
 if [ $needs_update = true ]; then
   rm -rf $XDG_DATA_HOME/mime
-  if [ ! -f $WP/usr/share/mime/mime.cache ]; then
+  if [ ! -f $WPR/usr/share/mime/mime.cache ]; then
     if command -v update-mime-database >/dev/null; then
-      cp --preserve=timestamps -dR $WP/usr/share/mime $XDG_DATA_HOME
+      cp --preserve=timestamps -dR $WPR/usr/share/mime $XDG_DATA_HOME
       update-mime-database $XDG_DATA_HOME/mime
     fi
   fi
@@ -576,10 +637,21 @@ fi
 
 # Gdk-pixbuf loaders
 export GDK_PIXBUF_MODULE_FILE=$XDG_CACHE_HOME/gdk-pixbuf-loaders.cache
-export GDK_PIXBUF_MODULEDIR=$WP/usr/lib/$ARCH/gdk-pixbuf-2.0/2.10.0/loaders
-if [ -f $WP/usr/lib/$ARCH/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders ] && [ ! -f "${GDK_PIXBUF_MODULE_FILE}" ]; then
-  $WP/usr/lib/$ARCH/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders > $GDK_PIXBUF_MODULE_FILE
+export GDK_PIXBUF_MODULEDIR=$WPR/usr/lib/$ARCH/gdk-pixbuf-2.0/2.10.0/loaders
+if [ -f $WPR/usr/lib/$ARCH/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders ] && [ ! -f "${GDK_PIXBUF_MODULE_FILE}" ]; then
+  $WPR/usr/lib/$ARCH/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders > $GDK_PIXBUF_MODULE_FILE
 fi
+
+# GTK theme and behavior modifier
+# Those can impact the theme engine used by Qt as well
+gtk_configs=(gtk-3.0/settings.ini gtk-3.0/bookmarks gtk-2.0/gtkfilechooser.ini)
+for f in ${gtk_configs[@]}; do
+  dest="$XDG_CONFIG_HOME/$f"
+  if [ ! -L "$dest" ]; then
+    mkdir -p `dirname $dest`
+    ln -s $REALHOME/.config/$f $dest
+  fi
+done
 
 if [ ! -d $WINEPREFIX ]; then
 # link ttf & ttc fonts from root to wineprefix
