@@ -366,6 +366,17 @@ notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "L
 }
 
 function launch_app() {
+  # Checking for d3d9 native dlloverride
+  chkd3d9=$(grep 'd3d9"=' ${WINEPREFIX}/user.reg | wc -l)
+
+  if [ $chkd3d9 -eq 1 ]; then
+    # Checking for d*vk hud env being used already if not then add it
+    chkdvkh=$(env | grep DXVK_HUD | wc -l)
+     if [ $chkdvkh -eq 0 ]; then
+        export DXVK_HUD=1
+     fi
+  fi
+
   # If we don't change into the program directory some assets may not be found
   cd "${WINE_DIR}"
 
