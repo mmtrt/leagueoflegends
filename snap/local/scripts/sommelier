@@ -275,44 +275,36 @@ function install_tr() {
   fi
 }
 
-function install_dgdxvk() {
-env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINETRICKS}" --unattended dxvk101 d3dcompiler_47
-wget http://www.dege.freeweb.hu/temp/dgVoodooWIP58.zip -P "${XDG_CACHE_HOME}/downloads"
-mkdir -p "${WINEPREFIX}/drive_c/users/$USER/Application Data/dgVoodoo"
-unzip "${XDG_CACHE_HOME}/downloads/dgVoodooWIP58.zip" "dgVoodoo.conf" -d "${WINEPREFIX}/drive_c/users/$USER/Application Data/dgVoodoo"
-sed -i 's|dgVoodooWatermark                   = true|dgVoodooWatermark                   = false|g' "${WINEPREFIX}/drive_c/users/$USER/Application Data/dgVoodoo/dgVoodoo.conf"
+function install_d9vk_stable() {
+build=$(wget -qO- https://github.com/Joshua-Ashton/d9vk/releases | grep Version | awk '{print $3}' | head -n1)
 
-for dll in D3D9.dll D3DImm.dll DDraw.dll
+for dll in 32 64
 do
-unzip -j "${XDG_CACHE_HOME}/downloads/dgVoodooWIP58.zip" "MS/x86/$dll" -d "${XDG_CACHE_HOME}/downloads"
+wget -qO- https://github.com/Joshua-Ashton/d9vk/releases/download/${build}/d9vk-${build}.tar.gz | tar xvz d9vk-${build}/x${dll}/d3d9.dll
 done
 
-for dlls in d3d9.dll ddraw.dll
-do
-cp ${WINEPREFIX}/drive_c/windows/syswow64/$dlls ${WINEPREFIX}/drive_c/windows/syswow64/$dlls.bak
-done
+cp d9vk-${build}/x32/d3d9.dll "${WINEPREFIX}/drive_c/windows/syswow64/"
+cp d9vk-${build}/x64/d3d9.dll "${WINEPREFIX}/drive_c/windows/system32/"
+rm -rf d9vk-${build}
 
-cp ${XDG_CACHE_HOME}/downloads/D3D9.dll ${WINEPREFIX}/drive_c/windows/syswow64/d3d9.dll
-cp ${XDG_CACHE_HOME}/downloads/D3DImm.dll ${WINEPREFIX}/drive_c/windows/syswow64/d3dimm.dll
-cp ${XDG_CACHE_HOME}/downloads/DDraw.dll ${WINEPREFIX}/drive_c/windows/syswow64/ddraw.dll
-
-cat > ${XDG_CACHE_HOME}/downloads/dgdx.reg <<'EOF'
+cat > ${XDG_CACHE_HOME}/d9vk.reg <<'EOF'
 Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\Wine\DllOverrides]
+"d3dcompiler_43"="native"
 "d3d9"="native"
-"ddraw"="native"
 EOF
 # Apply dlloverride reg
-env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" start regedit ${XDG_CACHE_HOME}/downloads/dgdx.reg
+env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" start regedit ${XDG_CACHE_HOME}/d9vk.reg
 sleep 1
-rm -r "${XDG_CACHE_HOME}/downloads" ; rm -r "${XDG_CACHE_HOME}/winetricks"
+rm "${XDG_CACHE_HOME}/d9vk.reg"
 
-notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "League of legends" "Installation of dgVoodoo + DXVK is done now run snap again to install game or Your can copy over your game from somewhere else to $WINEPREFIX/drive_c" 
+notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "League of legends" "Installation of D9VK stable is done now run snap again to install game or Your can copy over your game from somewhere else to $WINEPREFIX/drive_c" 
 }
 
-function install_d9vk() {
-wget --content-disposition -nv -c https://git.froggi.es/joshua/d9vk/-/jobs/464/artifacts/download -P "${XDG_CACHE_HOME}/downloads"
+function install_d9vk_master() {
+curbuild=$(wget -qO- https://git.froggi.es/joshua/d9vk/-/jobs | grep 'success' | sed 's|/| |g;s|"| |g' | awk '{print $15}' | head -n1)
+wget --content-disposition -nv -c https://git.froggi.es/joshua/d9vk/-/jobs/${curbuild}/artifacts/download -P "${XDG_CACHE_HOME}/downloads"
 for dll in d3d9.dll
 do
 unzip -jo "${XDG_CACHE_HOME}/downloads/*.zip" "build/dxvk-release/x32/$dll" -d "${WINEPREFIX}/drive_c/windows/syswow64/"
@@ -332,7 +324,7 @@ env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" start rege
 sleep 1
 rm -r "${XDG_CACHE_HOME}/downloads"
 
-notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "League of legends" "Installation of D9VK is done now run snap again to install game or Your can copy over your game from somewhere else to $WINEPREFIX/drive_c" 
+notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "League of legends" "Installation of D9VK master is done now run snap again to install game or Your can copy over your game from somewhere else to $WINEPREFIX/drive_c" 
 }
 
   action=$(yad --width 400 --entry --title "League Of Legends" \
@@ -341,7 +333,7 @@ notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "L
       --button="Install:0" --button="Exit:1" \
       --text "Select Game Installer Region:" \
       --entry-text \
-      "NA" "EUW" "EUNE" "BR" "JP" "LAN" "LAS" "OCE" "RU" "TR" "DGDXVK - Installs dgVoodoo [USE IT OWN UR RISK]" "D9VK - Installs d9vk [USE IT OWN UR RISK]")
+      "NA" "EUW" "EUNE" "BR" "JP" "LAN" "LAS" "OCE" "RU" "TR" "D9VK_S - Installs d9vk stable [USE IT OWN UR RISK]" "D9VK_M - Installs d9vk master [USE IT OWN UR RISK]")
   ret=$?
 
   [[ $ret -eq 1 ]] && exit 0
@@ -357,8 +349,8 @@ notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "L
       OCE*) cmd=$(install_oce) ;;
       RU*) cmd=$(install_ru) ;;
       TR*) cmd=$(install_tr) ;;
-      DGDXVK*) cmd=$(install_dgdxvk) ;;
-      D9VK*) cmd=$(install_d9vk) ;;
+      D9VK_S*) cmd=$(install_d9vk_stable) ;;
+      D9VK_M*) cmd=$(install_d9vk_master) ;;
       *) exit 1 ;;
   esac
 
