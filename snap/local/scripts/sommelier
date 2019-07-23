@@ -87,6 +87,21 @@ fi
 # Set $REALHOME to the users real home directory
 REALHOME=`getent passwd $UID | cut -d ':' -f 6`
 
+# async
+declare -A PIDS
+
+function async_exec() {
+  $@ &
+  PIDS[$!]=$@
+}
+
+function wait_for_async_execs() {
+  for i in ${!PIDS[@]}
+  do
+    wait $i && continue || echo "ERROR: ${PIDS[$i]} exited abnormally with status $?"
+  done
+}
+
 function install_app() {
   # Install additional requirements via winetricks here
   if [ -n "${TRICKS}" ]; then
@@ -604,7 +619,7 @@ if [ $needs_update = true ]; then
   # included by the system fontconfig configuration: namely the
   # etc/fonts/conf.d/50-user.conf file.
   mkdir -p $XDG_CONFIG_HOME/fontconfig
-  make_user_fontconfig > $XDG_CONFIG_HOME/fontconfig/fonts.conf
+  async_exec make_user_fontconfig > $XDG_CONFIG_HOME/fontconfig/fonts.conf
 
   # the themes symlink are needed for GTK 3.18 when the prefix isn't changed
   # GTK 3.20 looks into XDG_DATA_DIR which has connected themes.
@@ -624,7 +639,7 @@ if [ $needs_update = true ]; then
   if [ ! -f $WPR/usr/share/mime/mime.cache ]; then
     if command -v update-mime-database >/dev/null; then
       cp --preserve=timestamps -dR $WPR/usr/share/mime $XDG_DATA_HOME
-      update-mime-database $XDG_DATA_HOME/mime
+      async_exec update-mime-database $XDG_DATA_HOME/mime
     fi
   fi
 fi
@@ -632,8 +647,11 @@ fi
 # Gdk-pixbuf loaders
 export GDK_PIXBUF_MODULE_FILE=$XDG_CACHE_HOME/gdk-pixbuf-loaders.cache
 export GDK_PIXBUF_MODULEDIR=$WPR/usr/lib/$ARCH/gdk-pixbuf-2.0/2.10.0/loaders
-if [ -f $WPR/usr/lib/$ARCH/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders ] && [ ! -f "${GDK_PIXBUF_MODULE_FILE}" ]; then
-  $WPR/usr/lib/$ARCH/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders > $GDK_PIXBUF_MODULE_FILE
+if [ $needs_update = true ]; then
+  rm -f $GDK_PIXBUF_MODULE_FILE
+  if [ -f $WPR/usr/lib/$ARCH/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders ] && [ ! -f "${GDK_PIXBUF_MODULE_FILE}" ]; then
+    async_exec $WPR/usr/lib/$ARCH/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders > $GDK_PIXBUF_MODULE_FILE
+  fi
 fi
 
 # GTK theme and behavior modifier
@@ -688,6 +706,8 @@ else
 fi
 
 [ $needs_update = true ] && echo "SNAP_DESKTOP_LAST_REVISION=$SNAP_REVISION" > $SNAP_USER_DATA/.last_revision
+
+wait_for_async_execs
 
 # Launch wineboot/winecfg/winetricks if requested.
 # If the executable exists then launch it otherwise install it then lauch it.
