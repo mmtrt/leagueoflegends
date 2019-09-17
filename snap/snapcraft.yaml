@@ -36,7 +36,7 @@ plugs:
 apps:
   leagueoflegends:
     command: |
-      bin/sommelier "$WINEPREFIX/drive_c/Riot Games/League of Legends/LeagueClient.exe"
+      bin/sommelier "$(find $WINEPREFIX/ -type f -name 'LeagueClient.exe' 2>/dev/null)"
     environment:
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
       DLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono & Gecko
@@ -50,6 +50,7 @@ apps:
       INSTALL_URL_OCE: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20OC1.exe"
       INSTALL_URL_RU: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20RU.exe"
       INSTALL_URL_TR: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20TR.exe"
+      INSTALL_URL_PBE: "https://riotgamespatcher-a.akamaihd.net/releases/pbe/installer/deploy/League%20of%20Legends%20installer%20PBE.exe"
       TRICKS: "d3dx9"
       LC_ALL: "C.UTF-8"
     plugs:
