@@ -732,6 +732,88 @@ fi
 
 wait_for_async_execs
 
+
+if [ "$SNAP_ARCH" = "amd64" ]; then
+# check for lol patch
+if [ -f $WINE_BASE/bin/nlpfile ]; then
+        platform_snap_name="$(
+            grep \
+                --extended-regexp \
+                'default-provider: *wine-platform-[[:digit:]]' \
+                $SNAP/meta/snap.yaml \
+                | cut --delimiter=: --fields=2 \
+                | sed 's/^ *//' \
+                || true
+          )"
+
+        clear
+        echo ""
+        echo "You need to update ${platform_snap_name} snap."
+        echo ""
+        echo "Which has league patched wine-staging"
+        echo ""
+        echo "You can do this with command:"
+        echo "snap refresh --candidate ${platform_snap_name}"
+        echo ""
+
+action=$(yad --borders=6 --fixed --center --text-align=left --title "Warning!!!" --button="OK:1" \
+      --text "You need to update ${platform_snap_name} snap which has league patched wine-staging.
+And it is required since rito messed it with a update broke game in linux.
+
+Run this command in terminal, in order to play:
+
+snap refresh --candidate ${platform_snap_name}" --selectable-labels)
+  ret=$?
+
+  [[ $ret -eq 1 ]] && exit 0
+
+  case $action in
+      *) exit 1 ;;
+  esac
+
+  eval $cmd 2>/dev/null
+fi
+
+if [ -f $WPR/bin/nlpfile ]; then
+        runtime_snap_name="$(
+            grep \
+                --extended-regexp \
+                'default-provider: *wine-platform-runtime' \
+                $SNAP/meta/snap.yaml \
+                | cut --delimiter=: --fields=2 \
+                | sed 's/^ *//' \
+                || true
+        )"
+
+        clear
+        echo ""
+        echo "You need to update ${runtime_snap_name} snap."
+        echo ""
+        echo "Which has league patched glibc"
+        echo ""
+        echo "You can do this with command:"
+        echo "snap refresh --candidate ${runtime_snap_name}"
+        echo ""
+
+action=$(yad --borders=6 --fixed --center --text-align=left --title "Warning!!!" --button="OK:1" \
+      --text "You need to update ${runtime_snap_name} snap which has league patched glibc.
+And it is required since rito messed it with a update broke game in linux.
+
+Run this command in terminal, in order to play:
+
+snap refresh --candidate ${runtime_snap_name}" --selectable-labels)
+  ret=$?
+
+  [[ $ret -eq 1 ]] && exit 0
+
+  case $action in
+      *) exit 1 ;;
+  esac
+
+  eval $cmd 2>/dev/null
+fi
+fi
+
 # Launch wineboot/winecfg/winetricks if requested.
 # If the executable exists then launch it otherwise install it then lauch it.
 if [[ ${WINE_EXE} = *"winecfg"* ]] || [[ ${WINE_EXE} = *"wineboot"* ]] || [[ ${WINE_EXE} = *"winetricks"* ]]; then
