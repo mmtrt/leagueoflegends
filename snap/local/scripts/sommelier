@@ -746,7 +746,7 @@ if [ -f $WINE_BASE/bin/nlpfile ]; then
         echo "Which has league patched wine-staging"
         echo ""
         echo "You can do this with command:"
-        echo "snap refresh --candidate ${platform_snap_name}"
+        echo "snap refresh --beta ${platform_snap_name}"
         echo ""
 
 action=$(yad --borders=6 --fixed --center --text-align=left --title "Warning!!!" --button="OK:1" \
@@ -755,7 +755,7 @@ And it is required since rito messed it with a update broke game in linux.
 
 Run this command in terminal, in order to play:
 
-snap refresh --candidate ${platform_snap_name}" --selectable-labels)
+snap refresh --beta ${platform_snap_name}" --selectable-labels)
   ret=$?
 
   [[ $ret -eq 1 ]] && exit 0
