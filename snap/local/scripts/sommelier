@@ -503,6 +503,7 @@ export WINEDLLPATH=$WINE_BASE/lib/wine/fakedlls
 export WINETRICKS=$WPR/bin/winetricks
 export WINEPREFIX="$SNAP_USER_COMMON/.wine"
 export WINEDEBUG=${WINEDEBUG:-"fixme-all"}
+export WINEESYNC=${WINEESYNC:-"1"}
 export LD_LIBRARY_PATH="$WPR/lib:$WPR/lib/$ARCH:$WPR/usr/lib:$WPR/usr/lib/$ARCH:$LD_LIBRARY_PATH"
 export PATH=$PATH:$WPR/bin:$WPR/usr/bin:$WINE_BASE/bin
 
