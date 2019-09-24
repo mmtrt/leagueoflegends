@@ -496,6 +496,10 @@ export WINEESYNC=${WINEESYNC:-"1"}
 export LD_LIBRARY_PATH="$WPR/lib:$WPR/lib/$ARCH:$WPR/usr/lib:$WPR/usr/lib/$ARCH:$LD_LIBRARY_PATH"
 export PATH=$PATH:$WPR/bin:$WPR/usr/bin:$WINE_BASE/bin
 
+# DXVK env
+export DXVK_HUD=${DXVK_HUD:-"1"}
+export DXVK_LOG_LEVEL=${DXVK_LOG_LEVEL:-"none"}
+
 if [ "$SNAP_ARCH" = "amd64" ]; then
   append_dir LD_LIBRARY_PATH $WPR/lib64
   append_dir LD_LIBRARY_PATH $WPR/lib/i386-linux-gnu
