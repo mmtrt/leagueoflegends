@@ -52,7 +52,7 @@ apps:
       INSTALL_URL_RU: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20RU.exe"
       INSTALL_URL_TR: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20TR.exe"
       INSTALL_URL_PBE: "https://riotgamespatcher-a.akamaihd.net/releases/pbe/installer/deploy/League%20of%20Legends%20installer%20PBE.exe"
-      TRICKS: "d3dx9,winxp"
+      TRICKS: "d3dx9"
       LC_ALL: "C.UTF-8"
     plugs:
       - desktop
