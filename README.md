@@ -13,6 +13,11 @@ distributions.</p>
     snap refresh --candidate wine-platform-runtime
 	snap refresh --candidate wine-platform-4-staging
 
+## Optional
+Users can update `wine-platform-runtime` snap which has updated pkgs like `mesa`,` llvm`, `amd`,`intel`, drivers from `obif` ppa that can support newer `AMD` gpus and newer changes.
+
+	snap refresh --beta wine-platform-runtime
+
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
 
  ## Known Issues and fixes for them:
@@ -30,6 +35,11 @@ The emulated version of Windows is probably set to Win7 in wine (it will change 
 
     leagueoflegends.winecfg
 
+
+
+Support me by donating via [Pateron](https://www.patreon.com/mmtrt)
+
+Thanks for supporting me, **Ignacy , Tomasz** 
 
 ![leagueoflegends](https://res.cloudinary.com/canonical/image/fetch/q_auto,f_auto,w_860/https://dashboard.snapcraft.io/site_media/appmedia/2018/09/lol.png "leagueoflegends")
 
