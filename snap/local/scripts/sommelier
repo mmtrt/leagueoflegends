@@ -200,6 +200,24 @@ function install_jp() {
   fi
 }
 
+function install_kr() {
+    # Modify or remove this as required by your application.
+  if [ -n "${INSTALL_URL_KR}" ]; then
+    # Downloads a file with progress using wget and yad
+    wget "${INSTALL_URL_KR}" -O "${TMPDIR}/${INSTALL_EXE_KR}" 2>&1 | \
+    perl -p -e '$| = 1; s/^.* +([0-9]+%) +([0-9,.]+[GMKB]) +([0-9hms,.]+).*$/\1\n# Downloading... \2 (\3)/' | \
+    yad --progress --title="${INSTALL_EXE_KR}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
+    # Installs the wine application
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_KR}" --mode unattended
+    # Remove the cached installers & files
+    rm -v "${TMPDIR}/${INSTALL_EXE_KR}" 2>/dev/null
+    rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
+    rm "${progReg}" 2>/dev/null
+    # Launch after install.
+    launch_app
+  fi
+}
+
 function install_lan() {
     # Modify or remove this as required by your application.
   if [ -n "${INSTALL_URL_LAN}" ]; then
@@ -365,7 +383,7 @@ notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "L
       --button="Install:0" --button="Exit:1" \
       --text "Select Game Installer Region:" \
       --entry-text \
-      "NA" "EUW" "EUNE" "BR" "JP" "LAN" "LAS" "OCE" "RU" "TR" "PBE" "D9VK_S - Installs d9vk stable [USE IT OWN UR RISK]" "D9VK_M - Installs d9vk master [USE IT OWN UR RISK]")
+      "NA" "EUW" "EUNE" "BR" "JP" "KR" "LAN" "LAS" "OCE" "RU" "TR" "PBE" "D9VK_S - Installs d9vk stable [USE IT OWN UR RISK]" "D9VK_M - Installs d9vk master [USE IT OWN UR RISK]")
   ret=$?
 
   [[ $ret -eq 1 ]] && exit 0
@@ -376,6 +394,7 @@ notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "L
       EUNE*) cmd=$(install_eune) ;;
       BR*) cmd=$(install_br) ;;
       JP*) cmd=$(install_jp) ;;
+      KR*) cmd=$(install_kr) ;;
       LAN*) cmd=$(install_lan) ;;
       LAS*) cmd=$(install_las) ;;
       OCE*) cmd=$(install_oce) ;;
@@ -438,6 +457,10 @@ fi
 
 if [ -n "${INSTALL_URL_JP}" ]; then
   INSTALL_EXE_JP=$(basename "${INSTALL_URL_JP}")
+fi
+
+if [ -n "${INSTALL_URL_KR}" ]; then
+  INSTALL_EXE_KR=$(basename "${INSTALL_URL_KR}")
 fi
 
 if [ -n "${INSTALL_URL_LAN}" ]; then

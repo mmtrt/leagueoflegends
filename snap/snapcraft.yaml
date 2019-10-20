@@ -45,6 +45,7 @@ apps:
       INSTALL_URL_EUNE: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20EUNE.exe"
       INSTALL_URL_BR: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20BR.exe"
       INSTALL_URL_JP: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20JP.exe"
+      INSTALL_URL_KR: "https://riotgamespatcher-a.akamaihd.net/KR_CBT/installer/deploy/League%20of%20Legends%20installer%20KR.exe"
       INSTALL_URL_LAN: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20LA1.exe"
       INSTALL_URL_LAS: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20LA2.exe"
       INSTALL_URL_OCE: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20OC1.exe"
