@@ -21,6 +21,16 @@ Users can update `wine-platform-runtime` snap which has updated pkgs like `mesa`
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
 
  ## Known Issues and fixes for them:
+ 
+ ### Game not starting (Unhandled exception and MIDIMAP_drvOpen in lol ver 9.21):
+ Issues with the new launcher. You can temporarily disable it this way:
+1. Let the game fully install and update.
+2. Make sure client is not running.
+3. When you have fully updated game then run this command on terminal to block new launcher from executing.
+4. After this command launch game as usual. I'm not sure how longer this method will work.
+NOTE: Before executing this command make sure launcher has installed new launcher update.
+`for f in RiotClientServices.exe RiotClientCrashHandler.exe; do sudo chmod 0 "$HOME/snap/leagueoflegends/common/.wine/drive_c/Riot Games/Riot Client/$f"; sudo chown root:root "$HOME/snap/leagueoflegends/common/.wine/drive_c/Riot Games/Riot Client/$f"; done`
+
 ### Game crashing after character select (lol ver 9.20):
 Refresh the wine-platform-runtime with:
 
