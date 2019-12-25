@@ -494,7 +494,7 @@ SNAP=`echo $SNAP | sed -e "s|/var/lib/snapd||g"`
 export GTK_MODULES=""
 
 if [ "$SNAP_ARCH" = "amd64" ]; then
-  export WINEARCH=win64
+  export WINEARCH=${WINEARCH:-"win64"}
   export ARCH="x86_64-linux-gnu"
 elif [ "$SNAP_ARCH" = "i386" ]; then
   export WINEARCH=win32
