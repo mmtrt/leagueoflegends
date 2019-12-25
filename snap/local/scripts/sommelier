@@ -326,19 +326,19 @@ function install_pbe() {
   fi
 }
 
-function install_d9vk_stable() {
-build=$(wget -qO- https://github.com/Joshua-Ashton/d9vk/releases | grep Version | awk '{print $3}' | head -n1)
+function install_dxvk_stable() {
+build=$(wget -qO- https://github.com/doitsujin/dxvk/releases | sed 's|<| |g' | grep Version | awk '{print $3}' | head -n1)
 
 for dll in 32 64
 do
-wget -qO- https://github.com/Joshua-Ashton/d9vk/releases/download/${build}/d9vk-${build}.tar.gz | tar xvz d9vk-${build}/x${dll}/d3d9.dll
+wget -qO- https://github.com/doitsujin/dxvk/releases/download/${build}/dxvk-${build}.tar.gz | tar xvz dxvk-${build}/x${dll}/d3d9.dll
 done
 
-cp d9vk-${build}/x32/d3d9.dll "${WINEPREFIX}/drive_c/windows/syswow64/"
-cp d9vk-${build}/x64/d3d9.dll "${WINEPREFIX}/drive_c/windows/system32/"
-rm -rf d9vk-${build}
+cp dxvk-${build}/x32/d3d9.dll "${WINEPREFIX}/drive_c/windows/syswow64/"
+cp dxvk-${build}/x64/d3d9.dll "${WINEPREFIX}/drive_c/windows/system32/"
+rm -rf dxvk-${build}
 
-cat > ${XDG_CACHE_HOME}/d9vk.reg <<'EOF'
+cat > ${XDG_CACHE_HOME}/dxvk.reg <<'EOF'
 Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\Wine\DllOverrides]
@@ -346,23 +346,23 @@ Windows Registry Editor Version 5.00
 "d3d9"="native"
 EOF
 # Apply dlloverride reg
-env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" start regedit ${XDG_CACHE_HOME}/d9vk.reg
+env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" start regedit ${XDG_CACHE_HOME}/dxvk.reg
 sleep 1
-rm "${XDG_CACHE_HOME}/d9vk.reg"
+rm "${XDG_CACHE_HOME}/dxvk.reg"
 
-notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "League of legends" "Installation of D9VK stable is done now run snap again to install game or Your can copy over your game from somewhere else to $WINEPREFIX/drive_c" 
+notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "League of legends" "Installation of DXVK stable is done now run snap again to install game or Your can copy over your game from somewhere else to $WINEPREFIX/drive_c" 
 }
 
-function install_d9vk_master() {
-curbuild=$(wget -qO- https://git.froggi.es/joshua/d9vk/-/jobs | grep 'success' | sed 's|/| |g;s|"| |g' | awk '{print $15}' | head -n1)
-wget --content-disposition -nv -c https://git.froggi.es/joshua/d9vk/-/jobs/${curbuild}/artifacts/download -P "${XDG_CACHE_HOME}/downloads"
+function install_dxvk_master() {
+curbuild=$(wget -qO- https://git.froggi.es/doitsujin/dxvk/-/jobs | grep 'success' | sed 's|/| |g;s|"| |g' | awk '{print $15}' | head -n1)
+wget --content-disposition -nv -c https://git.froggi.es/doitsujin/dxvk/-/jobs/${curbuild}/artifacts/download -P "${XDG_CACHE_HOME}/downloads"
 for dll in d3d9.dll
 do
 unzip -jo "${XDG_CACHE_HOME}/downloads/*.zip" "build/dxvk-release/x32/$dll" -d "${WINEPREFIX}/drive_c/windows/syswow64/"
 unzip -jo "${XDG_CACHE_HOME}/downloads/*.zip" "build/dxvk-release/x64/$dll" -d "${WINEPREFIX}/drive_c/windows/system32/"
 done
 
-cat > ${XDG_CACHE_HOME}/downloads/d9vk.reg <<'EOF'
+cat > ${XDG_CACHE_HOME}/downloads/dxvk.reg <<'EOF'
 Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\Wine\DllOverrides]
@@ -371,11 +371,11 @@ Windows Registry Editor Version 5.00
 EOF
 
 # Apply dlloverride reg
-env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" start regedit ${XDG_CACHE_HOME}/downloads/d9vk.reg
+env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" start regedit ${XDG_CACHE_HOME}/downloads/dxvk.reg
 sleep 1
 rm -r "${XDG_CACHE_HOME}/downloads"
 
-notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "League of legends" "Installation of D9VK master is done now run snap again to install game or Your can copy over your game from somewhere else to $WINEPREFIX/drive_c" 
+notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "League of legends" "Installation of DXVK master is done now run snap again to install game or Your can copy over your game from somewhere else to $WINEPREFIX/drive_c" 
 }
 
   action=$(yad --width 400 --entry --title "League Of Legends" \
@@ -383,7 +383,7 @@ notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "L
       --button="Install:0" --button="Exit:1" \
       --text "Select Game Installer Region:" \
       --entry-text \
-      "NA" "EUW" "EUNE" "BR" "JP" "KR" "LAN" "LAS" "OCE" "RU" "TR" "PBE" "D9VK_S - Installs d9vk stable [USE IT OWN UR RISK]" "D9VK_M - Installs d9vk master [USE IT OWN UR RISK]")
+      "NA" "EUW" "EUNE" "BR" "JP" "KR" "LAN" "LAS" "OCE" "RU" "TR" "PBE" "DXVK_S - Installs dxvk stable [USE IT OWN UR RISK]" "DXVK_M - Installs dxvk master [USE IT OWN UR RISK]")
   ret=$?
 
   [[ $ret -eq 1 ]] && exit 0
@@ -401,8 +401,8 @@ notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "L
       RU*) cmd=$(install_ru) ;;
       TR*) cmd=$(install_tr) ;;
       PBE*) cmd=$(install_pbe) ;;
-      D9VK_S*) cmd=$(install_d9vk_stable) ;;
-      D9VK_M*) cmd=$(install_d9vk_master) ;;
+      DXVK_S*) cmd=$(install_dxvk_stable) ;;
+      DXVK_M*) cmd=$(install_dxvk_master) ;;
       *) exit 1 ;;
   esac
 
