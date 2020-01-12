@@ -331,7 +331,7 @@ build=$(wget -qO- https://github.com/doitsujin/dxvk/releases | sed 's|<| |g' | g
 
 for dll in 32 64
 do
-wget -qO- https://github.com/doitsujin/dxvk/releases/download/${build}/dxvk-${build}.tar.gz | tar xvz dxvk-${build}/x${dll}/d3d9.dll
+wget -qO- https://github.com/doitsujin/dxvk/releases/download/v${build}/dxvk-${build}.tar.gz | tar xvz dxvk-${build}/x${dll}/d3d9.dll
 done
 
 cp dxvk-${build}/x32/d3d9.dll "${WINEPREFIX}/drive_c/windows/syswow64/"
