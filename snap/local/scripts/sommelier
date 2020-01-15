@@ -388,7 +388,7 @@ bver=$(ls ${XDG_CACHE_HOME}/downloads | grep exe | sed 's|-| |g' | awk '{print $
 
 "${WINELOADER}" "${XDG_CACHE_HOME}/downloads/Blitz-Setup-${bver}-ia32.exe"
 
-notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "League of legends" "Installation of Blitz.gg is done now run snap again to install game or Your can copy over your game from somewhere else to $WINEPREFIX/drive_c"
+notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "League of legends" "Installation of Blitz.gg is done now to run this tool launch it via this command leagueoflegends.blitzgg"
 }
 
   action=$(yad --width 400 --entry --title "League Of Legends" \
