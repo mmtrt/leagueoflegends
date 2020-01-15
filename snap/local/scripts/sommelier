@@ -378,12 +378,25 @@ rm -r "${XDG_CACHE_HOME}/downloads"
 notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "League of legends" "Installation of DXVK master is done now run snap again to install game or Your can copy over your game from somewhere else to $WINEPREFIX/drive_c" 
 }
 
+function install_blitz_gg() {
+
+wget --content-disposition -nv -c https://dl.blitz.gg/download/windows -P "${XDG_CACHE_HOME}/downloads"
+
+bver=$(ls ${XDG_CACHE_HOME}/downloads | grep exe | sed 's|-| |g' | awk '{print $3}')
+
+"${WINETRICKS}" --unattended dotnet452 win7
+
+"${WINELOADER}" "${XDG_CACHE_HOME}/downloads/Blitz-Setup-${bver}-ia32.exe"
+
+notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "League of legends" "Installation of Blitz.gg is done now run snap again to install game or Your can copy over your game from somewhere else to $WINEPREFIX/drive_c"
+}
+
   action=$(yad --width 400 --entry --title "League Of Legends" \
       --center \
       --button="Install:0" --button="Exit:1" \
       --text "Select Game Installer Region:" \
       --entry-text \
-      "NA" "EUW" "EUNE" "BR" "JP" "KR" "LAN" "LAS" "OCE" "RU" "TR" "PBE" "DXVK_S - Installs dxvk stable [USE IT OWN UR RISK]" "DXVK_M - Installs dxvk master [USE IT OWN UR RISK]")
+      "NA" "EUW" "EUNE" "BR" "JP" "KR" "LAN" "LAS" "OCE" "RU" "TR" "PBE" "DXVK_S - Installs dxvk stable [USE IT OWN UR RISK]" "DXVK_M - Installs dxvk master [USE IT OWN UR RISK]" "BLITZ_GG - Installs blitz.gg [USE IT OWN UR RISK]")
   ret=$?
 
   [[ $ret -eq 1 ]] && exit 0
@@ -403,6 +416,7 @@ notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "L
       PBE*) cmd=$(install_pbe) ;;
       DXVK_S*) cmd=$(install_dxvk_stable) ;;
       DXVK_M*) cmd=$(install_dxvk_master) ;;
+      BLITZ_GG*) cmd=$(install_blitz_gg) ;;
       *) exit 1 ;;
   esac
 

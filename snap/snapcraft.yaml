@@ -104,7 +104,19 @@ apps:
     command: bin/sommelier $SNAP/wine-runtime/bin/winetricks prefix="$WINEPREFIX"
     environment:
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
-      DLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono & Gecko
+      LC_ALL: "C.UTF-8"
+    plugs:
+      - desktop
+      - desktop-legacy
+      - network
+      - pulseaudio
+      - wayland
+      - x11
+      
+  blitzgg:
+    command: bin/sommelier "$(find $WINEPREFIX/ -type f -name 'Blitz.exe' | head -n1 2>/dev/null)"
+    environment:
+      WINEPREFIX: "$SNAP_USER_COMMON/.wine"
       LC_ALL: "C.UTF-8"
     plugs:
       - desktop
