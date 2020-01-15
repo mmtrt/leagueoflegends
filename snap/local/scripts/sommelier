@@ -504,6 +504,15 @@ if [ -n "${INSTALL_URL_PBE}" ]; then
   INSTALL_EXE_PBE=$(basename "${INSTALL_URL_PBE}")
 fi
 
+# ensure_dir_exists calls `mkdir -p` if the given path is not a directory.
+# This speeds up execution time by avoiding unnecessary calls to mkdir.
+#
+# Usage: ensure_dir_exists <path> [<mkdir-options>]...
+#
+function ensure_dir_exists() {
+  [ -d "$1" ] ||  mkdir -p "$@"
+}
+
 # On Fedora $SNAP is under /var and there is some magic to map it to /snap.
 # # We need to handle that case and reset $SNAP
 SNAP=`echo $SNAP | sed -e "s|/var/lib/snapd||g"`
@@ -611,7 +620,7 @@ export HOME=$SNAP_USER_COMMON
 
 # Set XDG_DATA_HOME to local path
 export XDG_DATA_HOME=$SNAP_USER_COMMON/.local/share
-mkdir -p $XDG_DATA_HOME
+ensure_dir_exists $XDG_DATA_HOME
 
 # Workaround for GLib < 2.53.2 not searching for schemas in $XDG_DATA_HOME:
 #   https://bugzilla.gnome.org/show_bug.cgi?id=741335
@@ -619,14 +628,14 @@ prepend_dir XDG_DATA_DIRS $XDG_DATA_HOME
 
 # Set cache folder to local path
 export XDG_CACHE_HOME=$SNAP_USER_COMMON/.cache
-mkdir -p $XDG_CACHE_HOME
+ensure_dir_exists $XDG_CACHE_HOME
 
 # Set config folder to local path
 export XDG_CONFIG_HOME=$SNAP_USER_COMMON/.config
-mkdir -p $XDG_CONFIG_HOME
+ensure_dir_exists $XDG_CONFIG_HOME
 
 # Create $XDG_RUNTIME_DIR if not exists (to be removed when LP: #1656340 is fixed)
-[ -n "$XDG_RUNTIME_DIR" ] && mkdir -p $XDG_RUNTIME_DIR -m 700
+[ -n "$XDG_RUNTIME_DIR" ] && ensure_dir_exists $XDG_RUNTIME_DIR -m 700
 
 # Make PulseAudio socket available inside the snap-specific $XDG_RUNTIME_DIR
 if [ -n "$XDG_RUNTIME_DIR" ]; then
@@ -674,7 +683,7 @@ if [ $needs_update = true ]; then
   # This fontconfig fragment is installed in a location that is
   # included by the system fontconfig configuration: namely the
   # etc/fonts/conf.d/50-user.conf file.
-  mkdir -p $XDG_CONFIG_HOME/fontconfig
+  ensure_dir_exists $XDG_CONFIG_HOME/fontconfig
   async_exec make_user_fontconfig > $XDG_CONFIG_HOME/fontconfig/fonts.conf
 
   # the themes symlink are needed for GTK 3.18 when the prefix isn't changed
@@ -716,14 +725,14 @@ gtk_configs=(gtk-3.0/settings.ini gtk-3.0/bookmarks gtk-2.0/gtkfilechooser.ini)
 for f in ${gtk_configs[@]}; do
   dest="$XDG_CONFIG_HOME/$f"
   if [ ! -L "$dest" ]; then
-    mkdir -p `dirname $dest`
+    ensure_dir_exists `dirname $dest`
     ln -s $REALHOME/.config/$f $dest
   fi
 done
 
 if [ ! -d $WINEPREFIX ]; then
 # link ttf & ttc fonts from root to wineprefix
-mkdir -p $WINEPREFIX/drive_c/windows/Fonts
+ensure_dir_exists $WINEPREFIX/drive_c/windows/Fonts
 find /usr/share/fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" \) -exec ln -vs "{}" $WINEPREFIX/drive_c/windows/Fonts/ \; &>/dev/null
 fi
 
@@ -753,7 +762,7 @@ EOF
   sleep 1
   # Opt out of winetricks metrics - we ninja this to avoid dialogs
   if [ ! -f "${XDG_CACHE_HOME}/winetricks/track_usage" ]; then
-    mkdir -p "${XDG_CACHE_HOME}/winetricks"
+    ensure_dir_exists "${XDG_CACHE_HOME}/winetricks"
     echo 0 > "${XDG_CACHE_HOME}/winetricks/track_usage"
   fi
 else
