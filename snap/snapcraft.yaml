@@ -20,10 +20,10 @@ plugs:
     interface: content
     target: $SNAP/wine-runtime
     default-provider: wine-platform-runtime
-  wine-4-staging:
+  wine-5-staging:
     interface: content
     target: $SNAP/wine-platform
-    default-provider: wine-platform-4-staging
+    default-provider: wine-platform-5-staging
   gtk-3-themes:
     default-provider: gtk-common-themes
     interface: content
@@ -69,7 +69,7 @@ apps:
       - gtk-3-themes
       - icon-themes
       - wine-runtime
-      - wine-4-staging
+      - wine-5-staging
   wineboot:
     command: bin/sommelier $SNAP/wine-platform/wine-staging/bin/wineboot
     environment:
