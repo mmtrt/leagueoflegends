@@ -14,7 +14,7 @@ distributions.</p>
 * Needed steps to migrate league snap to use `wine 5.0` before upgrading league snap.
 
 ```
-    snap disconnect leagueoflegends:wine-platform-4-staging
+    snap disconnect leagueoflegends:wine-4-staging
     snap remove wine-platform-4-staging
     snap refresh --edge --devmode leagueoflegends
     snap install wine-platform-5-staging
