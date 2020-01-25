@@ -7,11 +7,27 @@
 <p align="center"><b>This is the snap for leagueoflegends</b>, <i>"leagueoflegends is a MOBA game developed by Riot Games"</i>. It works on Ubuntu, Fedora, Debian, and other major Linux
 distributions.</p>
 
+## Mandatory
+
+**Note:** This is for current users only before upgrading league snap as of `25 Jan 2020`
+
+* Needed steps to migrate league snap to use `wine 5.0` before upgrading league snap.
+
+
+    snap disconnect leagueoflegends:wine-platform-4-staging
+    snap remove wine-platform-4-staging
+    snap refresh --edge --devmode leagueoflegends
+    snap install wine-platform-5-staging
+    snap refresh --candidate wine-platform-5-staging
+    snap connect leagueoflegends:wine-5-staging wine-platform-5-staging
+
+* Also create fresh `WINEPREFIX` after doing all above steps and see pinned issue `Important Notice` for guide.
+
 ## Install
 
     snap install --edge leagueoflegends
     snap refresh --candidate wine-platform-runtime
-	snap refresh --candidate wine-platform-4-staging
+    snap refresh --candidate wine-platform-5-staging
 
 ## Optional
 Users can update `wine-platform-runtime` snap which has updated pkgs like `mesa`,` llvm`, `amd`,`intel`, drivers from `obif` ppa that can support newer `AMD` gpus and newer changes.
