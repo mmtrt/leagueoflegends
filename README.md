@@ -13,13 +13,14 @@ distributions.</p>
 
 * Needed steps to migrate league snap to use `wine 5.0` before upgrading league snap.
 
-
+```
     snap disconnect leagueoflegends:wine-platform-4-staging
     snap remove wine-platform-4-staging
     snap refresh --edge --devmode leagueoflegends
     snap install wine-platform-5-staging
     snap refresh --candidate wine-platform-5-staging
     snap connect leagueoflegends:wine-5-staging wine-platform-5-staging
+```
 
 * Also create fresh `WINEPREFIX` after doing all above steps and see pinned issue `Important Notice` for guide.
 
