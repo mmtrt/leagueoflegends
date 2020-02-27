@@ -745,7 +745,7 @@ if [ -f "${WINEPREFIX}/.update-timestamp" ]; then
 fi
 
 # Initialise wine
-if [ ! -f "${WINEPREFIX}/drive_c/windows/win.ini" ]; then
+if [ ! -f "${WINEPREFIX}/drive_c/windows/system.ini" ]; then
   # create dlloverride reg
   progReg=${TMPDIR}/dlloverrides.reg
 cat > $progReg <<'EOF'
