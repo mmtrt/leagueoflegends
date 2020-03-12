@@ -112,7 +112,16 @@ apps:
       - pulseaudio
       - wayland
       - x11
-      
+  regedit:
+    command: bin/sommelier $SNAP/wine-platform/wine-staging/bin/regedit
+    environment:
+      WINEPREFIX: "$SNAP_USER_COMMON/.wine"
+    plugs:
+      - desktop
+      - desktop-legacy
+      - pulseaudio
+      - wayland
+      - x11
   blitzgg:
     command: bin/sommelier "$(find $WINEPREFIX/ -type f -name 'Blitz.exe' | head -n1 2>/dev/null)"
     environment:
