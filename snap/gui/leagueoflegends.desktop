@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Encoding=UTF-8
-Name=League Of Legends
+Name=League of Legends
 Comment=
 Exec=leagueoflegends
 Icon=${SNAP}/meta/gui/leagueoflegends.png

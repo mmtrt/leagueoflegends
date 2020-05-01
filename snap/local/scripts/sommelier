@@ -71,7 +71,7 @@ fi
 # wine base
 WINE_BASE=$WP/wine-$REL
 
-TITLE="League Of Legends"
+TITLE="League of Legends"
 NOTICE="The ${TITLE} snap is experimental, built
 with development releases of upstream WINE and may not function as expected.\n\nIf you encounter issues please report them on the
 ${TITLE} snap issue tracker:
@@ -394,7 +394,7 @@ rm -r "${XDG_CACHE_HOME}/downloads" && rm -r "${XDG_CACHE_HOME}/winetricks"
 notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "League of legends" "Installation of Blitz.gg is done now to run this tool launch it via this command leagueoflegends.blitzgg"
 }
 
-  action=$(yad --width 400 --entry --title "League Of Legends" \
+  action=$(yad --width 400 --entry --title "League of Legends" \
       --center \
       --button="Install:0" --button="Exit:1" \
       --text "Select Game Installer Region | DXVK | BLITZ.GG" \
@@ -861,7 +861,7 @@ fi
 if [[ ${WINE_EXE} = *"winecfg"* ]] || [[ ${WINE_EXE} = *"wineboot"* ]] || [[ ${WINE_EXE} = *"winetricks"* ]] || [[ ${WINE_EXE} = *"regedit"* ]]; then
   env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "$@"
 elif [[ ${WINE_EXE} = *"wineserver"* ]]; then
-env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINE_EXE}" "-k"
+  env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINE_EXE}" "-k"
 elif [ -e "${WINE_EXE}" ]; then
   launch_app
 else
