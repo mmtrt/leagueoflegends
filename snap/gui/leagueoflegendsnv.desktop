@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=League of Legends (NVIDIA Optimus)
+Comment=
+Exec=leagueoflegendsnv
+Icon=${SNAP}/meta/gui/leagueoflegends.png
+Categories=Game;
+Terminal=false
+StartupNotify=true
+StartupWMClass=LeagueClient.exe
+Keywords=game

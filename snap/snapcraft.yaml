@@ -70,6 +70,25 @@ apps:
       - icon-themes
       - wine-runtime
       - wine-5-staging
+  leagueoflegendsnv:
+    command: bin/sommelier "$WINEPREFIX/drive_c/Riot Games/League of Legends/LeagueClient.exe"
+    environment:
+      WINEPREFIX: "$SNAP_USER_COMMON/.wine"
+      __NV_PRIME_RENDER_OFFLOAD: "1"
+      __GLX_VENDOR_LIBRARY_NAME: "nvidia"
+      __VK_LAYER_NV_optimus: "NVIDIA_only"
+    plugs:
+      - desktop
+      - desktop-legacy
+      - network
+      - opengl
+      - audio-playback
+      - wayland
+      - x11
+      - gtk-3-themes
+      - icon-themes
+      - wine-runtime
+      - wine-5-staging
   wineboot:
     command: bin/sommelier $SNAP/wine-platform/wine-staging/bin/wineboot
     environment:
