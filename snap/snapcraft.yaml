@@ -33,26 +33,27 @@ plugs:
     target: $SNAP/data-dir/icons
     default-provider: gtk-common-themes
 
+environment:
+    WINEPREFIX: "$SNAP_USER_COMMON/.wine"
+    INSTALL_URL_NA: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20NA.exe"
+    INSTALL_URL_EUW: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20EUW.exe"
+    INSTALL_URL_EUNE: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20EUNE.exe"
+    INSTALL_URL_BR: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20BR.exe"
+    INSTALL_URL_JP: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20JP.exe"
+    INSTALL_URL_KR: "https://riotgamespatcher-a.akamaihd.net/KR_CBT/installer/deploy/League%20of%20Legends%20installer%20KR.exe"
+    INSTALL_URL_LAN: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20LA1.exe"
+    INSTALL_URL_LAS: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20LA2.exe"
+    INSTALL_URL_OCE: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20OC1.exe"
+    INSTALL_URL_RU: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20RU.exe"
+    INSTALL_URL_TR: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20TR.exe"
+    INSTALL_URL_PBE: "https://riotgamespatcher-a.akamaihd.net/releases/pbe/installer/deploy/League%20of%20Legends%20installer%20PBE.exe"
+    TRICKS: "d3dx9"
+    LC_ALL: "C.UTF-8"
+
 apps:
   leagueoflegends:
     command: |
       bin/sommelier "$WINEPREFIX/drive_c/Riot Games/League of Legends/LeagueClient.exe"
-    environment:
-      WINEPREFIX: "$SNAP_USER_COMMON/.wine"
-      INSTALL_URL_NA: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20NA.exe"
-      INSTALL_URL_EUW: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20EUW.exe"
-      INSTALL_URL_EUNE: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20EUNE.exe"
-      INSTALL_URL_BR: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20BR.exe"
-      INSTALL_URL_JP: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20JP.exe"
-      INSTALL_URL_KR: "https://riotgamespatcher-a.akamaihd.net/KR_CBT/installer/deploy/League%20of%20Legends%20installer%20KR.exe"
-      INSTALL_URL_LAN: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20LA1.exe"
-      INSTALL_URL_LAS: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20LA2.exe"
-      INSTALL_URL_OCE: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20OC1.exe"
-      INSTALL_URL_RU: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20RU.exe"
-      INSTALL_URL_TR: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20TR.exe"
-      INSTALL_URL_PBE: "https://riotgamespatcher-a.akamaihd.net/releases/pbe/installer/deploy/League%20of%20Legends%20installer%20PBE.exe"
-      TRICKS: "d3dx9"
-      LC_ALL: "C.UTF-8"
     plugs:
       - desktop
       - desktop-legacy
@@ -73,24 +74,9 @@ apps:
   leagueoflegendsnv:
     command: bin/sommelier "$WINEPREFIX/drive_c/Riot Games/League of Legends/LeagueClient.exe"
     environment:
-      WINEPREFIX: "$SNAP_USER_COMMON/.wine"
       __NV_PRIME_RENDER_OFFLOAD: "1"
       __GLX_VENDOR_LIBRARY_NAME: "nvidia"
       __VK_LAYER_NV_optimus: "NVIDIA_only"
-      INSTALL_URL_NA: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20NA.exe"
-      INSTALL_URL_EUW: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20EUW.exe"
-      INSTALL_URL_EUNE: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20EUNE.exe"
-      INSTALL_URL_BR: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20BR.exe"
-      INSTALL_URL_JP: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20JP.exe"
-      INSTALL_URL_KR: "https://riotgamespatcher-a.akamaihd.net/KR_CBT/installer/deploy/League%20of%20Legends%20installer%20KR.exe"
-      INSTALL_URL_LAN: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20LA1.exe"
-      INSTALL_URL_LAS: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20LA2.exe"
-      INSTALL_URL_OCE: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20OC1.exe"
-      INSTALL_URL_RU: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20RU.exe"
-      INSTALL_URL_TR: "https://riotgamespatcher-a.akamaihd.net/releases/live/installer/deploy/League%20of%20Legends%20installer%20TR.exe"
-      INSTALL_URL_PBE: "https://riotgamespatcher-a.akamaihd.net/releases/pbe/installer/deploy/League%20of%20Legends%20installer%20PBE.exe"
-      TRICKS: "d3dx9"
-      LC_ALL: "C.UTF-8"
     plugs:
       - desktop
       - desktop-legacy
@@ -110,8 +96,6 @@ apps:
       - wine-5-staging
   wineboot:
     command: bin/sommelier $SNAP/wine-platform/wine-staging/bin/wineboot
-    environment:
-      WINEPREFIX: "$SNAP_USER_COMMON/.wine"
     plugs:
       - desktop
       - desktop-legacy
@@ -120,8 +104,6 @@ apps:
       - x11
   winecfg:
     command: bin/sommelier $SNAP/wine-platform/wine-staging/bin/winecfg
-    environment:
-      WINEPREFIX: "$SNAP_USER_COMMON/.wine"
     plugs:
       - desktop
       - desktop-legacy
@@ -130,8 +112,6 @@ apps:
       - x11
   wineserver:
     command: bin/sommelier $SNAP/wine-platform/wine-staging/bin/wineserver
-    environment:
-      WINEPREFIX: "$SNAP_USER_COMMON/.wine"
     plugs:
       - desktop
       - desktop-legacy
@@ -140,9 +120,6 @@ apps:
       - x11
   winetricks:
     command: bin/sommelier $SNAP/wine-runtime/bin/winetricks
-    environment:
-      WINEPREFIX: "$SNAP_USER_COMMON/.wine"
-      LC_ALL: "C.UTF-8"
     plugs:
       - desktop
       - desktop-legacy
@@ -152,8 +129,6 @@ apps:
       - x11
   regedit:
     command: bin/sommelier $SNAP/wine-platform/wine-staging/bin/regedit
-    environment:
-      WINEPREFIX: "$SNAP_USER_COMMON/.wine"
     plugs:
       - desktop
       - desktop-legacy
@@ -162,9 +137,6 @@ apps:
       - x11
   blitzgg:
     command: bin/sommelier "$(find $WINEPREFIX/ -type f -name 'Blitz.exe' | head -n1 2>/dev/null)"
-    environment:
-      WINEPREFIX: "$SNAP_USER_COMMON/.wine"
-      LC_ALL: "C.UTF-8"
     plugs:
       - desktop
       - desktop-legacy
