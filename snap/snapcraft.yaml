@@ -53,7 +53,7 @@ environment:
 apps:
   leagueoflegends:
     command: |
-      bin/sommelier "$WINEPREFIX/drive_c/Riot Games/League of Legends/LeagueClient.exe"
+      bin/sommelier "$(find $WINEPREFIX/ -type f -name 'LeagueClient.exe' 2>/dev/null)"
     plugs:
       - desktop
       - desktop-legacy
@@ -72,7 +72,7 @@ apps:
       - wine-runtime
       - wine-5-staging
   leagueoflegendsnv:
-    command: bin/sommelier "$WINEPREFIX/drive_c/Riot Games/League of Legends/LeagueClient.exe"
+    command: bin/sommelier "$(find $WINEPREFIX/ -type f -name 'LeagueClient.exe' 2>/dev/null)"
     environment:
       __NV_PRIME_RENDER_OFFLOAD: "1"
       __GLX_VENDOR_LIBRARY_NAME: "nvidia"
