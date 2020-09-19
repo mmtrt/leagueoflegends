@@ -384,7 +384,7 @@ wget --content-disposition -nv -c https://dl.blitz.gg/download/windows -P "${XDG
 
 bver=$(ls ${XDG_CACHE_HOME}/downloads | grep exe | sed 's|-| |g' | awk '{print $3}')
 
-"${WINETRICKS}" --unattended dotnet452 win7
+"${WINETRICKS}" --force --unattended dotnet452 win7
 
 "${WINELOADER}" "${XDG_CACHE_HOME}/downloads/Blitz-Setup-${bver}-ia32.exe"
 
