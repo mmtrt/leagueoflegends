@@ -53,7 +53,7 @@ environment:
 apps:
   leagueoflegends:
     command: |
-      bin/sommelier "$WINEPREFIX/drive_c/Riot Games/League of Legends/LeagueClient.exe"
+      bin/sommelier "$(find $WINEPREFIX/ -type f -name 'LeagueClient.exe' 2>/dev/null)"
     plugs:
       - desktop
       - desktop-legacy
@@ -72,8 +72,7 @@ apps:
       - wine-runtime
       - wine-5-staging
   leagueoflegendsnv:
-    command: |
-      bin/sommelier "$WINEPREFIX/drive_c/Riot Games/League of Legends/LeagueClient.exe"
+    command: bin/sommelier "$(find $WINEPREFIX/ -type f -name 'LeagueClient.exe' 2>/dev/null)"
     environment:
       __NV_PRIME_RENDER_OFFLOAD: "1"
       __GLX_VENDOR_LIBRARY_NAME: "nvidia"
@@ -96,8 +95,7 @@ apps:
       - wine-runtime
       - wine-5-staging
   wineboot:
-    command: |
-       bin/sommelier $SNAP/wine-platform/wine-staging/bin/wineboot
+    command: bin/sommelier $SNAP/wine-platform/wine-staging/bin/wineboot
     plugs:
       - desktop
       - desktop-legacy
@@ -105,8 +103,7 @@ apps:
       - wayland
       - x11
   winecfg:
-    command: |
-      bin/sommelier $SNAP/wine-platform/wine-staging/bin/winecfg
+    command: bin/sommelier $SNAP/wine-platform/wine-staging/bin/winecfg
     plugs:
       - desktop
       - desktop-legacy
@@ -114,8 +111,7 @@ apps:
       - wayland
       - x11
   wineserver:
-    command: |
-      bin/sommelier $SNAP/wine-platform/wine-staging/bin/wineserver
+    command: bin/sommelier $SNAP/wine-platform/wine-staging/bin/wineserver
     plugs:
       - desktop
       - desktop-legacy
@@ -123,8 +119,7 @@ apps:
       - wayland
       - x11
   winetricks:
-    command: |
-      bin/sommelier $SNAP/wine-runtime/bin/winetricks
+    command: bin/sommelier $SNAP/wine-runtime/bin/winetricks
     plugs:
       - desktop
       - desktop-legacy
@@ -133,8 +128,7 @@ apps:
       - wayland
       - x11
   regedit:
-    command: |
-      bin/sommelier $SNAP/wine-platform/wine-staging/bin/regedit
+    command: bin/sommelier $SNAP/wine-platform/wine-staging/bin/regedit
     plugs:
       - desktop
       - desktop-legacy
@@ -142,8 +136,7 @@ apps:
       - wayland
       - x11
   blitzgg:
-    command: |
-      bin/sommelier "$(find $WINEPREFIX/ -type f -name 'Blitz.exe' | head -n1 2>/dev/null)"
+    command: bin/sommelier "$(find $WINEPREFIX/ -type f -name 'Blitz.exe' | head -n1 2>/dev/null)"
     plugs:
       - desktop
       - desktop-legacy
