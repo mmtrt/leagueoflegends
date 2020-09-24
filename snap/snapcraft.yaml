@@ -135,7 +135,7 @@ apps:
       - wayland
       - x11
   blitzgg:
-    command: bin/sommelier "$(find $WINEPREFIX/ -type f -name 'Blitz.exe' | head -n1 2>/dev/null)"
+    command: bin/wrapperb
     plugs:
       - desktop
       - desktop-legacy
@@ -156,3 +156,4 @@ parts:
     organize:
       'sommelier': bin/
       'wrapper': bin/
+      'wrapperb': bin/
