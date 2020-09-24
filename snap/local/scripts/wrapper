@@ -1,0 +1,3 @@
+#!/bin/bash
+
+bin/sommelier "$(find $WINEPREFIX/ -type f -name 'LeagueClient.exe' 2>/dev/null)"
