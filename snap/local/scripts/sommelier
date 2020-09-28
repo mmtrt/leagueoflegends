@@ -760,6 +760,7 @@ EOF
   # Apply dlloverride reg
   env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" start regedit ${progReg}
   sleep 1
+  sed -i '/native,builtin/d' $WINEPREFIX/user.reg
   # Opt out of winetricks metrics - we ninja this to avoid dialogs
   if [ ! -f "${XDG_CACHE_HOME}/winetricks/track_usage" ]; then
     ensure_dir_exists "${XDG_CACHE_HOME}/winetricks"
