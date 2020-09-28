@@ -739,7 +739,7 @@ fi
 # Stop wine from updating $WINEPREFIX automatically
 if [ -f "${WINEPREFIX}/.update-timestamp" ]; then
   chkstmp=$(grep disable "${WINEPREFIX}/.update-timestamp" | wc -l)
-  if [ $chkstmp -eq 0 ]; then
+  if [[ $chkstmp -eq 0 ]]; then
     echo "disable" > "${WINEPREFIX}/.update-timestamp"
   fi
 fi
