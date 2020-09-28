@@ -1,3 +1,3 @@
 #!/bin/bash
 
-bin/sommelier "$(find $WINEPREFIX/ -type f -name 'Blitz.exe' | head -n1 2>/dev/null)"
+$SNAP/bin/sommelier "$(find $WINEPREFIX/ -type f -name 'Blitz.exe' | head -n1 2>/dev/null)"
