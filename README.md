@@ -9,20 +9,11 @@ distributions.</p>
 
 ## Mandatory
 
-**Note:** This is for current users only before upgrading league snap as of `25 Jan 2020`
+**Note:** This is for current users that have upgraded league snap as of `29 Sep 2020`.
 
-* Needed steps to migrate league snap to use `wine 5.0` before upgrading league snap.
+* You have to use ([script](https://github.com/mmtrt/leagueoflegends/issues/148#issuecomment-699645169)) before login in new launcher. ([See Post](https://www.reddit.com/r/leagueoflinux/comments/j07yrg/starting_the_client_script/))
 
-```
-    snap disconnect leagueoflegends:wine-4-staging
-    snap remove wine-platform-4-staging
-    snap refresh --edge --devmode leagueoflegends
-    snap install wine-platform-5-staging
-    snap refresh --candidate wine-platform-5-staging
-    snap connect leagueoflegends:wine-5-staging wine-platform-5-staging
-```
-
-* Also create fresh `WINEPREFIX` after doing all above steps and see pinned issue `Important Notice` for guide.
+* Create fresh `WINEPREFIX` in case you have issues and see pinned issue `Important Notice` for guide.
 
 ## Install
 
