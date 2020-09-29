@@ -12,8 +12,8 @@ grade: stable
 confinement: devmode
 architectures:
   - build-on: amd64
-    run-on: [amd64, i386]
-base: core18
+    run-on: amd64
+base: core20
 
 plugs:
   wine-runtime:
@@ -52,8 +52,7 @@ environment:
 
 apps:
   leagueoflegends:
-    command: |
-      bin/sommelier "$(find $WINEPREFIX/ -type f -name 'LeagueClient.exe' 2>/dev/null)"
+    command: bin/wrapper
     plugs:
       - desktop
       - desktop-legacy
@@ -72,7 +71,7 @@ apps:
       - wine-runtime
       - wine-5-staging
   leagueoflegendsnv:
-    command: bin/sommelier "$(find $WINEPREFIX/ -type f -name 'LeagueClient.exe' 2>/dev/null)"
+    command: bin/wrapper
     environment:
       __NV_PRIME_RENDER_OFFLOAD: "1"
       __GLX_VENDOR_LIBRARY_NAME: "nvidia"
@@ -136,7 +135,7 @@ apps:
       - wayland
       - x11
   blitzgg:
-    command: bin/sommelier "$(find $WINEPREFIX/ -type f -name 'Blitz.exe' | head -n1 2>/dev/null)"
+    command: bin/wrapperb
     plugs:
       - desktop
       - desktop-legacy
@@ -156,3 +155,5 @@ parts:
       mkdir -p $SNAPCRAFT_PART_INSTALL/wine-platform
     organize:
       'sommelier': bin/
+      'wrapper': bin/
+      'wrapperb': bin/
