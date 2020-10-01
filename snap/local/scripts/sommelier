@@ -428,9 +428,13 @@ notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "L
 
 function launch_app() {
   # If we don't change into the program directory some assets may not be found
-  cd "${WINE_DIR}"
-
-  env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${WINE_EXE}"
+  if [ $(basename "$WINE_EXE") = "RiotClientServices.exe" ]; then
+    cd "${WINE_DIR}"
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${WINE_EXE}" --launch-product=league_of_legends --launch-patchline=live
+  else
+    cd "${WINE_DIR}"
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${WINE_EXE}"
+  fi
 }
 
 function prepend_dir() {
