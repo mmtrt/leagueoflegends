@@ -331,19 +331,23 @@ build=$(wget -qO- https://github.com/doitsujin/dxvk/releases | sed 's|<| |g' | g
 
 for dll in 32 64
 do
-wget -qO- https://github.com/doitsujin/dxvk/releases/download/v${build}/dxvk-${build}.tar.gz | tar xvz dxvk-${build}/x${dll}/d3d9.dll
+wget -qO- https://github.com/doitsujin/dxvk/releases/download/v${build}/dxvk-${build}.tar.gz | tar xvz dxvk-${build}/x${dll}/{d3d9.dll,d3d11.dll}
 done
 
-cp dxvk-${build}/x32/d3d9.dll "${WINEPREFIX}/drive_c/windows/syswow64/"
-cp dxvk-${build}/x64/d3d9.dll "${WINEPREFIX}/drive_c/windows/system32/"
+for dll in d3d9.dll d3d11.dll
+do
+cp dxvk-${build}/x32/$dll "${WINEPREFIX}/drive_c/windows/syswow64/"
+cp dxvk-${build}/x64/$dll "${WINEPREFIX}/drive_c/windows/system32/"
+done
+
 rm -rf dxvk-${build}
 
 cat > ${XDG_CACHE_HOME}/dxvk.reg <<'EOF'
 Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\Wine\DllOverrides]
-"d3dcompiler_43"="native"
-"d3d9"="native"
+"*d3d9"="native"
+"*d3d11"="native"
 EOF
 # Apply dlloverride reg
 env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" start regedit ${XDG_CACHE_HOME}/dxvk.reg
@@ -356,7 +360,7 @@ notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "L
 function install_dxvk_master() {
 curbuild=$(wget -qO- https://git.froggi.es/doitsujin/dxvk/-/jobs | grep 'success' | sed 's|/| |g;s|"| |g' | awk '{print $15}' | head -n1)
 wget --content-disposition -nv -c https://git.froggi.es/doitsujin/dxvk/-/jobs/${curbuild}/artifacts/download -P "${XDG_CACHE_HOME}/downloads"
-for dll in d3d9.dll
+for dll in d3d9.dll d3d11.dll
 do
 unzip -jo "${XDG_CACHE_HOME}/downloads/*.zip" "build/dxvk-release/x32/$dll" -d "${WINEPREFIX}/drive_c/windows/syswow64/"
 unzip -jo "${XDG_CACHE_HOME}/downloads/*.zip" "build/dxvk-release/x64/$dll" -d "${WINEPREFIX}/drive_c/windows/system32/"
@@ -366,8 +370,8 @@ cat > ${XDG_CACHE_HOME}/downloads/dxvk.reg <<'EOF'
 Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\Wine\DllOverrides]
-"d3dcompiler_43"="native"
-"d3d9"="native"
+"*d3d9"="native"
+"*d3d11"="native"
 EOF
 
 # Apply dlloverride reg
