@@ -50,6 +50,10 @@ environment:
     TRICKS: "d3dx9"
     LC_ALL: "C.UTF-8"
 
+layout:
+  /usr/share/libdrm:
+    bind: $SNAP/wine-runtime/usr/share/libdrm
+
 apps:
   leagueoflegends:
     command: bin/wrapper
