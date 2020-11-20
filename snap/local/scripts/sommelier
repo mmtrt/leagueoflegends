@@ -123,8 +123,6 @@ function install_na() {
     rm -v "${TMPDIR}/${INSTALL_EXE_NA}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     rm "${progReg}" 2>/dev/null
-    # Launch after install.
-    launch_app
   fi
 }
 
@@ -141,8 +139,6 @@ function install_euw() {
     rm -v "${TMPDIR}/${INSTALL_EXE_EUW}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     rm "${progReg}" 2>/dev/null
-    # Launch after install.
-    launch_app
   fi
 }
 
@@ -159,8 +155,6 @@ function install_eune() {
     rm -v "${TMPDIR}/${INSTALL_EXE_EUNE}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     rm "${progReg}" 2>/dev/null
-    # Launch after install.
-    launch_app
   fi
 }
 
@@ -177,8 +171,6 @@ function install_br() {
     rm -v "${TMPDIR}/${INSTALL_EXE_BR}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     rm "${progReg}" 2>/dev/null
-    # Launch after install.
-    launch_app
   fi
 }
 
@@ -195,8 +187,6 @@ function install_jp() {
     rm -v "${TMPDIR}/${INSTALL_EXE_JP}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     rm "${progReg}" 2>/dev/null
-    # Launch after install.
-    launch_app
   fi
 }
 
@@ -213,8 +203,6 @@ function install_kr() {
     rm -v "${TMPDIR}/${INSTALL_EXE_KR}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     rm "${progReg}" 2>/dev/null
-    # Launch after install.
-    launch_app
   fi
 }
 
@@ -231,8 +219,6 @@ function install_lan() {
     rm -v "${TMPDIR}/${INSTALL_EXE_LAN}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     rm "${progReg}" 2>/dev/null
-    # Launch after install.
-    launch_app
   fi
 }
 
@@ -249,8 +235,6 @@ function install_las() {
     rm -v "${TMPDIR}/${INSTALL_EXE_LAS}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     rm "${progReg}" 2>/dev/null
-    # Launch after install.
-    launch_app
   fi
 }
 
@@ -267,8 +251,6 @@ function install_oce() {
     rm -v "${TMPDIR}/${INSTALL_EXE_OCE}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     rm "${progReg}" 2>/dev/null
-    # Launch after install.
-    launch_app
   fi
 }
 
@@ -285,8 +267,6 @@ function install_ru() {
     rm -v "${TMPDIR}/${INSTALL_EXE_RU}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     rm "${progReg}" 2>/dev/null
-    # Launch after install.
-    launch_app
   fi
 }
 
@@ -303,8 +283,6 @@ function install_tr() {
     rm -v "${TMPDIR}/${INSTALL_EXE_TR}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     rm "${progReg}" 2>/dev/null
-    # Launch after install.
-    launch_app
   fi
 }
 
@@ -321,8 +299,6 @@ function install_pbe() {
     rm -v "${TMPDIR}/${INSTALL_EXE_PBE}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     rm "${progReg}" 2>/dev/null
-    # Launch after install.
-    launch_app
   fi
 }
 
