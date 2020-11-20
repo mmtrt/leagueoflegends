@@ -410,6 +410,9 @@ function launch_app() {
   # If we don't change into the program directory some assets may not be found
   cd "${WINE_DIR}"
 
+  # pre launching script for login fix
+  lolfix &
+
   env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${WINE_EXE}"
 }
 

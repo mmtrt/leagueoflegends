@@ -158,6 +158,7 @@ parts:
       mkdir -p $SNAPCRAFT_PART_INSTALL/wine-runtime
       mkdir -p $SNAPCRAFT_PART_INSTALL/wine-platform
     organize:
+      'lolfix': bin/
       'sommelier': bin/
       'wrapper': bin/
       'wrapperb': bin/
