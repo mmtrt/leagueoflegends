@@ -14,6 +14,7 @@ architectures:
   - build-on: amd64
     run-on: amd64
 base: core20
+compression: lzo
 
 plugs:
   wine-runtime:
