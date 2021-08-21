@@ -54,6 +54,8 @@ environment:
 layout:
   /usr/share/libdrm:
     bind: $SNAP/wine-runtime/usr/share/libdrm
+  /etc/alsa/conf.d:
+    bind: $SNAP/wine-runtime/etc/alsa/conf.d
 
 apps:
   leagueoflegends:
