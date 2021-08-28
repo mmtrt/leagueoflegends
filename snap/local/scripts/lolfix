@@ -1,7 +1,7 @@
 #!/bin/bash
 
 process=LeagueClientUx.exe
-uxpid=$(timeout 5m /bin/bash -c "until pidof ${process}; do sleep 1; done")
+uxpid=$(timeout 2m /bin/bash -c "until pidof ${process}; do sleep 1; done")
 if [[ ! -n $uxpid ]]; then
   echo "Could not find process ${process}"
   exit 1
@@ -16,7 +16,7 @@ fi
 echo "Waiting for port ${port}"
 
 kill -STOP ${uxpid}
-timeout 5m /bin/bash -c "
+timeout 2m /bin/bash -c "
 until openssl s_client -connect :${port} <<< Q > /dev/null 2>&1; do
   sleep 1
 done"
