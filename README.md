@@ -37,7 +37,7 @@ Users can update `wine-platform-runtime` snap which has updated pkgs like `mesa`
 
 ### Game crashing after character select (lol ver 11.17):
 1. Check for logs from terminal after `snap run leagueoflegends` command.
-2. If your gpu has low fps with `Vulkan` OR It doesn't support `Vulkan` then dlloverride `dxvk` on main game exe file see https://github.com/mmtrt/leagueoflegends/issues/182#issuecomment-907661970 to run game on `opengl`.
+2. If your gpu has low fps with `Vulkan` OR It doesn't support `Vulkan` then dlloverride `dxvk` on main game exe file see ([#182](https://github.com/mmtrt/leagueoflegends/issues/182#issuecomment-907661970)) to run game on `opengl`.
 
 ### Game won't install (and will crash instead):
 Fresh install snap make sure you have current version of  `snaps` and follow these instructions after installing region of choice.
