@@ -9,11 +9,11 @@ distributions.</p>
 
 ## Mandatory
 
-**Note:** This is for current users that have upgraded league snap as of `29 Sep 2020`.
+**Note:** Game update `11.17+` .
 
-* You have to use ([script](https://github.com/mmtrt/leagueoflegends/issues/148#issuecomment-699645169)) before login in new launcher. ([See Post](https://www.reddit.com/r/leagueoflinux/comments/j07yrg/starting_the_client_script/))
+* You have to install `Vulkan Drivers` and `Vulkan Loader` for both `amd64,i386|lib32` depending on your distro.
 
-* Create fresh `WINEPREFIX` in case you have issues and see pinned issue `Important Notice` for guide.
+* Create fresh `WINEPREFIX` in case you still have issues and see issue `Important Notice` for guide.
 
 ## Install
 
@@ -29,35 +29,24 @@ Users can update `wine-platform-runtime` snap which has updated pkgs like `mesa`
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
 
  ## Known Issues and fixes for them:
- 
- ### Game not starting (Unhandled exception and MIDIMAP_drvOpen in lol ver 9.21):
- Issues with the new launcher. You can temporarily disable it this way:
-1. Let the game fully install and update.
-2. Make sure client is not running.
-3. When you have fully updated game then run this command on terminal to block new launcher from executing.
-4. After this command launch game as usual. I'm not sure how longer this method will work.
-NOTE: Before executing this command make sure launcher has installed new launcher update.
-`for f in RiotClientServices.exe RiotClientCrashHandler.exe; do sudo chmod 0 "$HOME/snap/leagueoflegends/common/.wine/drive_c/Riot Games/Riot Client/$f"; sudo chown root:root "$HOME/snap/leagueoflegends/common/.wine/drive_c/Riot Games/Riot Client/$f"; done`
 
-### Game crashing after character select (lol ver 9.20):
-Refresh the wine-platform-runtime with:
+ ### Game client all black (lol ver 11.17):
+1. Install `dxvk` in wineprefix `leagueoflegends.winetricks dxvk`
+2. If it is still black doing above create fresh `wineprefix` if this was old snap install before `11.17` game update.
+3. Also check for logs from terminal after `snap run leagueoflegends` command.
 
-    snap refresh --candidate wine-platform-runtime
-    
-Eventually reinstall the game and the game-snap with:
+### Game crashing after character select (lol ver 11.17):
+1. Check for logs from terminal after `snap run leagueoflegends` command.
+2. If your gpu has low fps with `Vulkan` OR It doesn't support `Vulkan` then dlloverride `dxvk` on main game exe file see https://github.com/mmtrt/leagueoflegends/issues/182#issuecomment-907661970 to run game on `opengl`.
 
-	snap remove leagueoflegends && snap install --devmode --edge leagueoflegends
-    
 ### Game won't install (and will crash instead):
-The emulated version of Windows is probably set to Win7 in wine (it will change back to Win7 after reinstallation of the league snap). Change it to Win XP by running:
+Fresh install snap make sure you have current version of  `snaps` and follow these instructions after installing region of choice.
 
-    leagueoflegends.winecfg
+Wait for both downloads to finish. There are two downloads one after  the other: the client download (`~180MB`) and the game download (`~2.9GB`).
+
+`Do NOT` enter your login details and login or click play, instead just quit the launcher when the two downloads have finished. Then usually start game in login your account.
 
 
-
-Support me by donating via [Pateron](https://www.patreon.com/mmtrt)
-
-Thanks for supporting me, **Ignacy , Tomasz** 
 
 ![leagueoflegends](https://res.cloudinary.com/canonical/image/fetch/q_auto,f_auto,w_860/https://dashboard.snapcraft.io/site_media/appmedia/2018/09/lol.png "leagueoflegends")
 
