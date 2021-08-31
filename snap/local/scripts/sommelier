@@ -729,21 +729,9 @@ fi
 
 # Initialise wine
 if [ ! -f "${WINEPREFIX}/drive_c/windows/system.ini" ]; then
-  # create dlloverride reg
-  progReg=${TMPDIR}/dlloverrides.reg
-cat > $progReg <<'EOF'
-Windows Registry Editor Version 5.00
-
-[HKEY_CURRENT_USER\Software\Wine\DllOverrides]
-"msvcp140"="native"
-EOF
   # Create the WINE environment
   env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" wineboot --init 2>&1 | \
   yad --progress --title="Preparing Windows environment" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --pulsate
-  # Apply dlloverride reg
-  env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" start regedit ${progReg}
-  sleep 1
-  sed -i '/native,builtin/d' $WINEPREFIX/user.reg
   # Opt out of winetricks metrics - we ninja this to avoid dialogs
   if [ ! -f "${XDG_CACHE_HOME}/winetricks/track_usage" ]; then
     ensure_dir_exists "${XDG_CACHE_HOME}/winetricks"
