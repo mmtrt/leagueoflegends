@@ -51,6 +51,7 @@ environment:
     TRICKS: "d3dx9"
     LC_ALL: "C.UTF-8"
     NO_AT_BRIDGE: "1"
+    SYSTEM_WGETRC: $SNAP/wine-runtime/etc/wgetrc
 
 layout:
   /usr/share/libdrm:
