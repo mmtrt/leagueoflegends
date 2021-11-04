@@ -713,6 +713,13 @@ for f in ${gtk_configs[@]}; do
   fi
 done
 
+# Export the Vulkan ICD filename paths
+if [ "$SNAP_ARCH" = "amd64" ]; then
+  export VK_ICD_FILENAMES="/var/lib/snapd/lib/vulkan/icd.d/nvidia_icd.json:$SNAP/wine-runtime/usr/share/vulkan/icd.d/radeon_icd.x86_64.json:$SNAP/wine-runtime/usr/share/vulkan/icd.d/intel_icd.x86_64.json"
+elif [ "$SNAP_ARCH" = "i386" ]; then
+  export VK_ICD_FILENAMES="/var/lib/snapd/lib/vulkan/icd.d/nvidia_icd.json:$SNAP/wine-runtime/usr/share/vulkan/icd.d/radeon_icd.i686.json:$SNAP/wine-runtime/usr/share/vulkan/icd.d/intel_icd.i686.json"
+fi
+
 if [ ! -d $WINEPREFIX ]; then
 # link ttf & ttc fonts from root to wineprefix
 ensure_dir_exists $WINEPREFIX/drive_c/windows/Fonts
