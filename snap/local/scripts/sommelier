@@ -719,13 +719,6 @@ elif [ -d "${SNAP}/usr/lib/${SNAP_LAUNCHER_ARCH_TRIPLET}/alsa-lib" ]; then
   export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${SNAP}/usr/lib/${SNAP_LAUNCHER_ARCH_TRIPLET}/alsa-lib"
 fi
 
-# Export the Vulkan ICD filename paths
-if [ "$SNAP_ARCH" = "amd64" ]; then
-  export VK_ICD_FILENAMES=${VK_ICD_FILENAMES:-"/var/lib/snapd/lib/vulkan/icd.d/nvidia_icd.json:$SNAP/wine-runtime/usr/share/vulkan/icd.d/radeon_icd.x86_64.json:$SNAP/wine-runtime/usr/share/vulkan/icd.d/intel_icd.x86_64.json"}
-elif [ "$SNAP_ARCH" = "i386" ]; then
-  export VK_ICD_FILENAMES=${VK_ICD_FILENAMES:-"/var/lib/snapd/lib/vulkan/icd.d/nvidia_icd.json:$SNAP/wine-runtime/usr/share/vulkan/icd.d/radeon_icd.i686.json:$SNAP/wine-runtime/usr/share/vulkan/icd.d/intel_icd.i686.json"}
-fi
-
 export LD_LIBRARY_PATH="${LD_LIBRARY_PATH#$SNAP_LIBRARY_PATH:}"
 export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${SNAP_LIBRARY_PATH}"
 
