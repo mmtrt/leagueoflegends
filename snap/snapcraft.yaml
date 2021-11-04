@@ -56,8 +56,10 @@ environment:
 layout:
   /usr/share/libdrm:
     bind: $SNAP/wine-runtime/usr/share/libdrm
-  /etc/alsa/conf.d:
-    bind: $SNAP/wine-runtime/etc/alsa/conf.d
+  /usr/share/alsa:
+    symlink: $SNAP/wine-runtime/usr/share/alsa
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib:
+    symlink: $SNAP/wine-runtime/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib
   /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_intel.so:
     symlink: $SNAP/wine-runtime/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_intel.so
   /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_radeon.so:
