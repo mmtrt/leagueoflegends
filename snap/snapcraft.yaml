@@ -58,6 +58,10 @@ layout:
     bind: $SNAP/wine-runtime/usr/share/libdrm
   /etc/alsa/conf.d:
     bind: $SNAP/wine-runtime/etc/alsa/conf.d
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_intel.so:
+    symlink: $SNAP/wine-runtime/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_intel.so
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_radeon.so:
+    symlink: $SNAP/wine-runtime/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_radeon.so
 
 apps:
   leagueoflegends:
