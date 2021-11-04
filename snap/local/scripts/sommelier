@@ -719,8 +719,8 @@ elif [ -d "${SNAP}/usr/lib/${SNAP_LAUNCHER_ARCH_TRIPLET}/alsa-lib" ]; then
   export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${SNAP}/usr/lib/${SNAP_LAUNCHER_ARCH_TRIPLET}/alsa-lib"
 fi
 
-export LD_LIBRARY_PATH="${LD_LIBRARY_PATH#$SNAP_LIBRARY_PATH:}"
-export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${SNAP_LIBRARY_PATH}"
+# https://forum.snapcraft.io/t/firefox-snap-wont-start-under-ubuntu-21-10/27219/16
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH/"${SNAP_LIBRARY_PATH}:"/}
 
 if [ ! -d $WINEPREFIX ]; then
 # link ttf & ttc fonts from root to wineprefix
