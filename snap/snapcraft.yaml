@@ -155,6 +155,38 @@ apps:
       - audio-playback
       - wayland
       - x11
+  glxinfo:
+    command: bin/sommelier $SNAP/wine-runtime/usr/bin/glxinfo
+    plugs:
+      - desktop
+      - desktop-legacy
+      - audio-playback
+      - wayland
+      - x11
+  glxheads:
+    command: bin/sommelier $SNAP/wine-runtime/usr/bin/glxheads
+    plugs:
+      - desktop
+      - desktop-legacy
+      - audio-playback
+      - wayland
+      - x11
+  vulkaninfo:
+    command: bin/sommelier $SNAP/wine-runtime/usr/bin/vulkaninfo
+    plugs:
+      - desktop
+      - desktop-legacy
+      - audio-playback
+      - wayland
+      - x11
+  vkcube:
+    command: bin/sommelier $SNAP/wine-runtime/usr/bin/vkcube
+    plugs:
+      - desktop
+      - desktop-legacy
+      - audio-playback
+      - wayland
+      - x11
 
 parts:
   leagueoflegends:
