@@ -182,7 +182,7 @@ apps:
   vkcube:
     command: bin/sommelier $SNAP/wine-runtime/usr/bin/vkcube
     environment:
-      DXVK_HUD: "1"
+      VK_INSTANCE_LAYERS: "VK_LAYER_MESA_overlay"
     plugs:
       - desktop
       - desktop-legacy
