@@ -189,6 +189,20 @@ apps:
       - audio-playback
       - wayland
       - x11
+  vkcube-nv:
+    command: bin/sommelier $SNAP/wine-runtime/usr/bin/vkcube
+    environment:
+      __NV_PRIME_RENDER_OFFLOAD: "1"
+      __GLX_VENDOR_LIBRARY_NAME: "nvidia"
+      __VK_LAYER_NV_optimus: "NVIDIA_only"
+      VK_ICD_FILENAMES: "/var/lib/snapd/lib/vulkan/icd.d/nvidia_icd.json"
+      VK_INSTANCE_LAYERS: "VK_LAYER_MESA_overlay"
+    plugs:
+      - desktop
+      - desktop-legacy
+      - audio-playback
+      - wayland
+      - x11
 
 parts:
   leagueoflegends:
