@@ -839,7 +839,9 @@ fi
 
 # Launch wineboot/winecfg/winetricks if requested.
 # If the executable exists then launch it otherwise install it then lauch it.
-if [[ ${WINE_EXE} = *"winecfg"* ]] || [[ ${WINE_EXE} = *"wineboot"* ]] || [[ ${WINE_EXE} = *"winetricks"* ]] || [[ ${WINE_EXE} = *"regedit"* ]]; then
+if [[ ${WINE_EXE} = *"glxinfo"* ]] || [[ ${WINE_EXE} = *"glxheads"* ]] || [[ ${WINE_EXE} = *"vulkaninfo"* ]] || [[ ${WINE_EXE} = *"vkcube"* ]]; then
+  "$@"
+elif [[ ${WINE_EXE} = *"winecfg"* ]] || [[ ${WINE_EXE} = *"wineboot"* ]] || [[ ${WINE_EXE} = *"winetricks"* ]] || [[ ${WINE_EXE} = *"regedit"* ]]; then
   env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "$@"
 elif [[ ${WINE_EXE} = *"wineserver"* ]]; then
   env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINE_EXE}" "-k"
