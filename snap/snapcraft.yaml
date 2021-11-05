@@ -181,6 +181,8 @@ apps:
       - x11
   vkcube:
     command: bin/sommelier $SNAP/wine-runtime/usr/bin/vkcube
+    environment:
+      DXVK_HUD: "1"
     plugs:
       - desktop
       - desktop-legacy
