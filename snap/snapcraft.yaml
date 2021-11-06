@@ -54,8 +54,8 @@ environment:
     SYSTEM_WGETRC: $SNAP/wine-runtime/etc/wgetrc
 
 layout:
-  /usr/share/libdrm/amdgpu.ids:
-    symlink: $SNAP/wine-runtime/usr/share/libdrm/amdgpu.ids
+  /usr/share/libdrm:
+    bind: $SNAP/wine-runtime/usr/share/libdrm
   /usr/share/alsa:
     symlink: $SNAP/wine-runtime/usr/share/alsa
   /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib:
