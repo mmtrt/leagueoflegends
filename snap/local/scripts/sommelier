@@ -713,15 +713,6 @@ for f in ${gtk_configs[@]}; do
   fi
 done
 
-if [ -d "${SNAP}/usr/lib/alsa-lib" ]; then
-  export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${SNAP}/usr/lib/alsa-lib"
-elif [ -d "${SNAP}/usr/lib/${SNAP_LAUNCHER_ARCH_TRIPLET}/alsa-lib" ]; then
-  export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${SNAP}/usr/lib/${SNAP_LAUNCHER_ARCH_TRIPLET}/alsa-lib"
-fi
-
-# https://forum.snapcraft.io/t/firefox-snap-wont-start-under-ubuntu-21-10/27219/16
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH/"${SNAP_LIBRARY_PATH}:"/}
-
 if [ ! -d $WINEPREFIX ]; then
 # link ttf & ttc fonts from root to wineprefix
 ensure_dir_exists $WINEPREFIX/drive_c/windows/Fonts
