@@ -51,6 +51,7 @@ environment:
     TRICKS: "d3dx9"
     LC_ALL: "C.UTF-8"
     NO_AT_BRIDGE: "1"
+    DISABLE_WAYLAND: "1"
     SYSTEM_WGETRC: $SNAP/wine-runtime/etc/wgetrc
 
 layout:
@@ -73,7 +74,6 @@ apps:
       - opengl
       - process-control
       - audio-playback
-      - wayland
       - x11
       - gtk-3-themes
       - icon-themes
@@ -97,7 +97,6 @@ apps:
       - opengl
       - process-control
       - audio-playback
-      - wayland
       - x11
       - gtk-3-themes
       - icon-themes
@@ -109,7 +108,6 @@ apps:
       - desktop
       - desktop-legacy
       - audio-playback
-      - wayland
       - x11
   winecfg:
     command: bin/sommelier $SNAP/wine-platform/wine-staging/bin/winecfg
@@ -117,7 +115,6 @@ apps:
       - desktop
       - desktop-legacy
       - audio-playback
-      - wayland
       - x11
   wineserver:
     command: bin/sommelier $SNAP/wine-platform/wine-staging/bin/wineserver
@@ -125,7 +122,6 @@ apps:
       - desktop
       - desktop-legacy
       - audio-playback
-      - wayland
       - x11
   winetricks:
     command: bin/sommelier $SNAP/wine-runtime/bin/winetricks
@@ -134,7 +130,6 @@ apps:
       - desktop-legacy
       - network
       - audio-playback
-      - wayland
       - x11
   regedit:
     command: bin/sommelier $SNAP/wine-platform/wine-staging/bin/regedit
@@ -142,7 +137,6 @@ apps:
       - desktop
       - desktop-legacy
       - audio-playback
-      - wayland
       - x11
   blitzgg:
     command: bin/wrapperb
@@ -151,7 +145,6 @@ apps:
       - desktop-legacy
       - network
       - audio-playback
-      - wayland
       - x11
   glxinfo:
     command: bin/sommelier $SNAP/wine-runtime/usr/bin/glxinfo
@@ -159,7 +152,6 @@ apps:
       - desktop
       - desktop-legacy
       - audio-playback
-      - wayland
       - x11
   glxheads:
     command: bin/sommelier $SNAP/wine-runtime/usr/bin/glxheads
@@ -167,7 +159,6 @@ apps:
       - desktop
       - desktop-legacy
       - audio-playback
-      - wayland
       - x11
   vulkaninfo:
     command: bin/sommelier $SNAP/wine-runtime/usr/bin/vulkaninfo
@@ -175,7 +166,6 @@ apps:
       - desktop
       - desktop-legacy
       - audio-playback
-      - wayland
       - x11
   vkcube:
     command: bin/sommelier $SNAP/wine-runtime/usr/bin/vkcube
@@ -185,7 +175,6 @@ apps:
       - desktop
       - desktop-legacy
       - audio-playback
-      - wayland
       - x11
   vkcube-nv:
     command: bin/sommelier $SNAP/wine-runtime/usr/bin/vkcube
@@ -199,7 +188,6 @@ apps:
       - desktop
       - desktop-legacy
       - audio-playback
-      - wayland
       - x11
 
 parts:
