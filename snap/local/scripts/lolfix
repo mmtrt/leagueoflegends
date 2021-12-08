@@ -17,7 +17,7 @@ echo "Waiting for port ${port}"
 
 kill -STOP ${uxpid}
 timeout 2m /bin/bash -c "
-until openssl s_client -connect :${port} <<< Q > /dev/null 2>&1; do
+until openssl s_client -tls1_3 -connect :${port} <<< Q > /dev/null 2>&1; do
   sleep 1
 done"
 kill -CONT ${uxpid}
