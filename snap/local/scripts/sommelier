@@ -377,7 +377,7 @@ notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "L
   action=$(yad --width 400 --entry --title "League of Legends" \
       --center \
       --button="Install:0" --button="Exit:1" \
-      --text "Select Game Installer Region | DXVK | BLITZ.GG" \
+      --text "Select Game Installer Region" \
       --entry-text \
       "NA" "EUW" "EUNE" "BR" "JP" "KR" "LAN" "LAS" "OCE" "RU" "TR")
   ret=$?
