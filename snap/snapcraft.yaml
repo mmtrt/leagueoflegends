@@ -102,13 +102,6 @@ apps:
       - icon-themes
       - wine-runtime
       - wine-5-staging
-  wine:
-    command: bin/sommelier $SNAP/wine-platform/wine-staging/bin/wine
-    plugs:
-      - desktop
-      - desktop-legacy
-      - audio-playback
-      - x11
   wineboot:
     command: bin/sommelier $SNAP/wine-platform/wine-staging/bin/wineboot
     plugs:
