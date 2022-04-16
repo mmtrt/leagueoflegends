@@ -379,7 +379,7 @@ notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "L
       --button="Install:0" --button="Exit:1" \
       --text "Select Game Installer Region | DXVK | BLITZ.GG" \
       --entry-text \
-      "NA" "EUW" "EUNE" "BR" "JP" "KR" "LAN" "LAS" "OCE" "RU" "TR" "PBE" "DXVK_S - Installs dxvk stable [USE IT OWN UR RISK]" "DXVK_M - Installs dxvk master [USE IT OWN UR RISK]" "BLITZ_GG - Installs blitz.gg [USE IT OWN UR RISK]")
+      "NA" "EUW" "EUNE" "BR" "JP" "KR" "LAN" "LAS" "OCE" "RU" "TR")
   ret=$?
 
   [[ $ret -eq 1 ]] && exit 0
@@ -396,10 +396,10 @@ notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "L
       OCE*) cmd=$(install_oce) ;;
       RU*) cmd=$(install_ru) ;;
       TR*) cmd=$(install_tr) ;;
-      PBE*) cmd=$(install_pbe) ;;
-      DXVK_S*) cmd=$(install_dxvk_stable) ;;
-      DXVK_M*) cmd=$(install_dxvk_master) ;;
-      BLITZ_GG*) cmd=$(install_blitz_gg) ;;
+#       PBE*) cmd=$(install_pbe) ;;
+#       DXVK_S*) cmd=$(install_dxvk_stable) ;;
+#       DXVK_M*) cmd=$(install_dxvk_master) ;;
+#       BLITZ_GG*) cmd=$(install_blitz_gg) ;;
       *) exit 1 ;;
   esac
 
