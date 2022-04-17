@@ -742,6 +742,12 @@ else
   notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "${TITLE}" "${NOTICE}"
 fi
 
+# Suppress winemenubuilder error
+if [ ! -f "${WINEPREFIX}/drive_c/windows/system32/winemenubuilder.exe" ]; then
+  # Create dummy winemenubuilder.exe
+  touch "${WINEPREFIX}/drive_c/windows/system32/winemenubuilder.exe"
+fi
+
 [ $needs_update = true ] && echo "SNAP_DESKTOP_LAST_REVISION=$SNAP_REVISION" > $SNAP_USER_DATA/.last_revision
 
 wait_for_async_execs
