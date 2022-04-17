@@ -138,14 +138,14 @@ apps:
       - desktop-legacy
       - audio-playback
       - x11
-  blitzgg:
-    command: bin/wrapperb
-    plugs:
-      - desktop
-      - desktop-legacy
-      - network
-      - audio-playback
-      - x11
+  #blitzgg:
+    #command: bin/wrapperb
+    #plugs:
+      #- desktop
+      #- desktop-legacy
+      #- network
+      #- audio-playback
+      #- x11
   glxinfo:
     command: bin/sommelier $SNAP/wine-runtime/usr/bin/glxinfo
     plugs:
