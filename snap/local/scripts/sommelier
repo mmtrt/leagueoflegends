@@ -838,6 +838,8 @@ elif [[ ${WINE_EXE} = *"wineserver"* ]]; then
   env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINE_EXE}" "-k"
 elif [ -e "${WINE_EXE}" ]; then
   launch_app
+elif [[ ${WINE_EXE} = *"install"* ]]; then
+  install_app
 else
   install_app
 fi
