@@ -15,8 +15,6 @@ architectures:
     run-on: amd64
 base: core20
 compression: lzo
-assumes:
-  - snapd2.55
 
 plugs:
   wine-runtime:
@@ -81,7 +79,6 @@ apps:
       - icon-themes
       - wine-runtime
       - wine-5-staging
-      - shared-memory
   leagueoflegendsnv:
     command: bin/wrapper
     environment:
@@ -105,7 +102,6 @@ apps:
       - icon-themes
       - wine-runtime
       - wine-5-staging
-      - shared-memory
   install:
     command: bin/sommelier install
     plugs:
@@ -200,10 +196,6 @@ apps:
       - desktop-legacy
       - audio-playback
       - x11
-
-plugs:
-  shared-memory:
-    private: true
 
 parts:
   leagueoflegends:
