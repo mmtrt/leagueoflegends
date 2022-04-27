@@ -36,10 +36,6 @@ plugs:
     target: $SNAP/data-dir/icons
     default-provider: gtk-common-themes
 
-plugs:
-  shared-memory:
-    private: true
-
 environment:
     WINEPREFIX: "$SNAP_USER_COMMON/.wine"
     INSTALL_URL_NA: "https://lol.secure.dyn.riotcdn.net/channels/public/x/installer/current/live.na.exe"
@@ -204,6 +200,10 @@ apps:
       - desktop-legacy
       - audio-playback
       - x11
+
+plugs:
+  shared-memory:
+    private: true
 
 parts:
   leagueoflegends:
