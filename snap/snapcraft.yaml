@@ -15,6 +15,8 @@ architectures:
     run-on: amd64
 base: core20
 compression: lzo
+assumes:
+  - snapd2.55
 
 plugs:
   wine-runtime:
@@ -33,6 +35,8 @@ plugs:
     interface: content
     target: $SNAP/data-dir/icons
     default-provider: gtk-common-themes
+  shared-memory:
+    private: true
 
 environment:
     WINEPREFIX: "$SNAP_USER_COMMON/.wine"
@@ -79,6 +83,7 @@ apps:
       - icon-themes
       - wine-runtime
       - wine-5-staging
+      - shared-memory
   leagueoflegendsnv:
     command: bin/wrapper
     environment:
@@ -102,6 +107,7 @@ apps:
       - icon-themes
       - wine-runtime
       - wine-5-staging
+      - shared-memory
   install:
     command: bin/sommelier install
     plugs:
