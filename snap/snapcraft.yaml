@@ -35,6 +35,8 @@ plugs:
     interface: content
     target: $SNAP/data-dir/icons
     default-provider: gtk-common-themes
+
+plugs:
   shared-memory:
     private: true
 
