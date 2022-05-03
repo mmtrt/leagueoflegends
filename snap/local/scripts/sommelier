@@ -411,7 +411,7 @@ function launch_app() {
   cd "${WINE_DIR}"
 
   # pre launching script for login fix
-  lolfix &
+#   lolfix &
 
   env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${WINE_EXE}"
 }
