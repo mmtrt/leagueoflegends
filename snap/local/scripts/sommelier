@@ -108,6 +108,10 @@ function install_app() {
     for TRICK in ${TRICKS}; do
       env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINETRICKS}" --unattended ${TRICK}
     done
+    # Remove dxgi dlloverride if it exists
+    if [[ $(grep -c dxgi "$WINEPREFIX/user.reg") -eq 1 ]]; then
+      sed -i '/dxgi/d' "$WINEPREFIX/user.reg"
+    fi
   fi
 
 function install_na() {
