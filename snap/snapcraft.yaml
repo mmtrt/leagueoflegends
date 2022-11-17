@@ -48,7 +48,7 @@ environment:
     INSTALL_URL_RU: "https://lol.secure.dyn.riotcdn.net/channels/public/x/installer/current/live.ru.exe"
     INSTALL_URL_TR: "https://lol.secure.dyn.riotcdn.net/channels/public/x/installer/current/live.tr.exe"
     INSTALL_URL_PBE: "https://lol.secure.dyn.riotcdn.net/channels/public/x/installer/current/pbe.pbe.exe"
-    TRICKS: "d3dx9 dxvk"
+    TRICKS: "d3dx9 dxvk194"
     LC_ALL: "C.UTF-8"
     NO_AT_BRIDGE: "1"
     DISABLE_WAYLAND: "1"
