@@ -254,6 +254,22 @@ function install_oce() {
   fi
 }
 
+function install_ph() {
+    # Modify or remove this as required by your application.
+  if [ -n "${INSTALL_URL_PH}" ]; then
+    # Downloads a file with progress using wget and yad
+    wget "${INSTALL_URL_PH}" -O "${TMPDIR}/${INSTALL_EXE_PH}" 2>&1 | \
+    perl -p -e '$| = 1; s/^.* +([0-9]+%) +([0-9,.]+[GMKB]) +([0-9hms,.]+).*$/\1\n# Downloading... \2 (\3)/' | \
+    yad --progress --title="${INSTALL_EXE_PH}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
+    # Installs the wine application
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_PH}" --mode unattended
+    # Remove the cached installers & files
+    rm -v "${TMPDIR}/${INSTALL_EXE_PH}" 2>/dev/null
+    rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
+    rm "${progReg}" 2>/dev/null
+  fi
+}
+
 function install_ru() {
     # Modify or remove this as required by your application.
   if [ -n "${INSTALL_URL_RU}" ]; then
@@ -270,6 +286,22 @@ function install_ru() {
   fi
 }
 
+function install_sg() {
+    # Modify or remove this as required by your application.
+  if [ -n "${INSTALL_URL_SG}" ]; then
+    # Downloads a file with progress using wget and yad
+    wget "${INSTALL_URL_SG}" -O "${TMPDIR}/${INSTALL_EXE_SG}" 2>&1 | \
+    perl -p -e '$| = 1; s/^.* +([0-9]+%) +([0-9,.]+[GMKB]) +([0-9hms,.]+).*$/\1\n# Downloading... \2 (\3)/' | \
+    yad --progress --title="${INSTALL_EXE_SG}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
+    # Installs the wine application
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_SG}" --mode unattended
+    # Remove the cached installers & files
+    rm -v "${TMPDIR}/${INSTALL_EXE_SG}" 2>/dev/null
+    rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
+    rm "${progReg}" 2>/dev/null
+  fi
+}
+
 function install_tr() {
     # Modify or remove this as required by your application.
   if [ -n "${INSTALL_URL_TR}" ]; then
@@ -281,6 +313,38 @@ function install_tr() {
     env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_TR}" --mode unattended
     # Remove the cached installers & files
     rm -v "${TMPDIR}/${INSTALL_EXE_TR}" 2>/dev/null
+    rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
+    rm "${progReg}" 2>/dev/null
+  fi
+}
+
+function install_tw() {
+    # Modify or remove this as required by your application.
+  if [ -n "${INSTALL_URL_TW}" ]; then
+    # Downloads a file with progress using wget and yad
+    wget "${INSTALL_URL_TW}" -O "${TMPDIR}/${INSTALL_EXE_TW}" 2>&1 | \
+    perl -p -e '$| = 1; s/^.* +([0-9]+%) +([0-9,.]+[GMKB]) +([0-9hms,.]+).*$/\1\n# Downloading... \2 (\3)/' | \
+    yad --progress --title="${INSTALL_EXE_TW}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
+    # Installs the wine application
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_TW}" --mode unattended
+    # Remove the cached installers & files
+    rm -v "${TMPDIR}/${INSTALL_EXE_TW}" 2>/dev/null
+    rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
+    rm "${progReg}" 2>/dev/null
+  fi
+}
+
+function install_vn() {
+    # Modify or remove this as required by your application.
+  if [ -n "${INSTALL_URL_VN}" ]; then
+    # Downloads a file with progress using wget and yad
+    wget "${INSTALL_URL_VN}" -O "${TMPDIR}/${INSTALL_EXE_VN}" 2>&1 | \
+    perl -p -e '$| = 1; s/^.* +([0-9]+%) +([0-9,.]+[GMKB]) +([0-9hms,.]+).*$/\1\n# Downloading... \2 (\3)/' | \
+    yad --progress --title="${INSTALL_EXE_VN}" --width=400 --center --no-buttons --auto-close --auto-kill --on-top --no-escape
+    # Installs the wine application
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${TMPDIR}/${INSTALL_EXE_VN}" --mode unattended
+    # Remove the cached installers & files
+    rm -v "${TMPDIR}/${INSTALL_EXE_VN}" 2>/dev/null
     rm -rf "${XDG_CACHE_HOME}/winetricks" 2>/dev/null
     rm "${progReg}" 2>/dev/null
   fi
@@ -379,7 +443,7 @@ notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "L
       --button="Install:0" --button="Exit:1" \
       --text "Select Game Installer Region" \
       --entry-text \
-      "NA" "EUW" "EUNE" "BR" "JP" "KR" "LAN" "LAS" "OCE" "RU" "TR")
+      "NA" "EUW" "EUNE" "BR" "JP" "KR" "LAN" "LAS" "OCE" "PH" "RU" "SG" "TR" "TW" "VN")
   ret=$?
 
   [[ $ret -eq 1 ]] && exit 0
@@ -394,8 +458,12 @@ notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "L
       LAN*) cmd=$(install_lan) ;;
       LAS*) cmd=$(install_las) ;;
       OCE*) cmd=$(install_oce) ;;
+      PH*) cmd=$(install_ph) ;;
       RU*) cmd=$(install_ru) ;;
+      SG*) cmd=$(install_sg) ;;
       TR*) cmd=$(install_tr) ;;
+      TW*) cmd=$(install_tw) ;;
+      VN*) cmd=$(install_vn) ;;
 #       PBE*) cmd=$(install_pbe) ;;
 #       DXVK_S*) cmd=$(install_dxvk_stable) ;;
 #       DXVK_M*) cmd=$(install_dxvk_master) ;;
@@ -481,12 +549,28 @@ if [ -n "${INSTALL_URL_OCE}" ]; then
   INSTALL_EXE_OCE=$(basename "${INSTALL_URL_OCE}")
 fi
 
+if [ -n "${INSTALL_URL_PH}" ]; then
+  INSTALL_EXE_PH=$(basename "${INSTALL_URL_PH}")
+fi
+
 if [ -n "${INSTALL_URL_RU}" ]; then
   INSTALL_EXE_RU=$(basename "${INSTALL_URL_RU}")
 fi
 
+if [ -n "${INSTALL_URL_SG}" ]; then
+  INSTALL_EXE_SG=$(basename "${INSTALL_URL_SG}")
+fi
+
 if [ -n "${INSTALL_URL_TR}" ]; then
   INSTALL_EXE_TR=$(basename "${INSTALL_URL_TR}")
+fi
+
+if [ -n "${INSTALL_URL_TW}" ]; then
+  INSTALL_EXE_TW=$(basename "${INSTALL_URL_TW}")
+fi
+
+if [ -n "${INSTALL_URL_VN}" ]; then
+  INSTALL_EXE_VN=$(basename "${INSTALL_URL_VN}")
 fi
 
 if [ -n "${INSTALL_URL_PBE}" ]; then
