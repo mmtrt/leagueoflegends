@@ -478,7 +478,7 @@ function launch_app() {
 
   # Remove dxvk dlloverrides if it exists
   if [[ $(grep -c d3d9 "$WINEPREFIX/user.reg") -eq 1 ]]; then
-    sed -i '*d3d9"="native"/d;/"*d3d10"="native"/d;/"*d3d10_1"="native"/d;/"*d3d10core"="native"/d;/"*d3d11"="native"/d;/"*dxgi"="native"/d' "$WINEPREFIX/user.reg"
+    sed -i '/"*d3d9"="native"/d;/"*d3d10"="native"/d;/"*d3d10_1"="native"/d;/"*d3d10core"="native"/d;/"*d3d11"="native"/d;/"*dxgi"="native"/d' "$WINEPREFIX/user.reg"
   fi
 
   # Add dxvk dlloverrides for client ux renderers
