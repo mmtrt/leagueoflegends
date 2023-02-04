@@ -481,6 +481,14 @@ function launch_app() {
     sed -i '*d3d9"="native"/d;/"*d3d10"="native"/d;/"*d3d10_1"="native"/d;/"*d3d10core"="native"/d;/"*d3d11"="native"/d;/"*dxgi"="native"/d' "$WINEPREFIX/user.reg"
   fi
 
+  # Add dxvk dlloverrides for client ux renderers
+  if [[ $(grep -c "LeagueClientUx.exe" "$WINEPREFIX/user.reg") -eq 0 ]]; then
+   "${WINELOADER}" reg add HKCU\\Software\\Wine\\AppDefaults\\LeagueClientUx.exe\\DllOverrides /t REG_SZ /v d3d9 /d native,builtin
+   "${WINELOADER}" reg add HKCU\\Software\\Wine\\AppDefaults\\LeagueClientUx.exe\\DllOverrides /t REG_SZ /v d3d11 /d native,builtin
+   "${WINELOADER}" reg add HKCU\\Software\\Wine\\AppDefaults\\LeagueClientUxRender.exe\\DllOverrides /t REG_SZ /v d3d9 /d native,builtin
+   "${WINELOADER}" reg add HKCU\\Software\\Wine\\AppDefaults\\LeagueClientUxRender.exe\\DllOverrides /t REG_SZ /v d3d11 /d native,builtin
+  fi
+
   # If we don't change into the program directory some assets may not be found
   cd "${WINE_DIR}"
 
