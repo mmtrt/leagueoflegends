@@ -476,9 +476,9 @@ notify-send --icon "${SNAP}/meta/gui/leagueoflegends.png" --expire-time=15000 "L
 
 function launch_app() {
 
-  # Remove dxgi dlloverride if it exists
-  if [[ $(grep -c dxgi "$WINEPREFIX/user.reg") -eq 1 ]]; then
-    sed -i '/dxgi/d' "$WINEPREFIX/user.reg"
+  # Remove dxvk dlloverrides if it exists
+  if [[ $(grep -c d3d9 "$WINEPREFIX/user.reg") -eq 1 ]]; then
+    sed -i '*d3d9"="native"/d;/"*d3d10"="native"/d;/"*d3d10_1"="native"/d;/"*d3d10core"="native"/d;/"*d3d11"="native"/d;/"*dxgi"="native"/d' "$WINEPREFIX/user.reg"
   fi
 
   # If we don't change into the program directory some assets may not be found
