@@ -483,12 +483,12 @@ function launch_app() {
 
   # Add dxvk dlloverrides for client ux renderers
   if [[ $(grep -c "LeagueClientUx.exe" "$WINEPREFIX/user.reg") -eq 0 ]]; then
-   "${WINELOADER}" reg add HKCU\\Software\\Wine\\AppDefaults\\LeagueClientUx.exe\\DllOverrides /t REG_SZ /v d3d9 /d native,builtin
-   "${WINELOADER}" reg add HKCU\\Software\\Wine\\AppDefaults\\LeagueClientUx.exe\\DllOverrides /t REG_SZ /v d3d11 /d native,builtin
-   "${WINELOADER}" reg add HKCU\\Software\\Wine\\AppDefaults\\LeagueClientUxRender.exe\\DllOverrides /t REG_SZ /v d3d9 /d native,builtin
-   "${WINELOADER}" reg add HKCU\\Software\\Wine\\AppDefaults\\LeagueClientUxRender.exe\\DllOverrides /t REG_SZ /v d3d11 /d native,builtin
-   "${WINELOADER}" reg add HKCU\\Software\\Wine\\AppDefaults\\League of Legends.exe\\DllOverrides /t REG_SZ /v d3d9 /d native,builtin
-   "${WINELOADER}" reg add HKCU\\Software\\Wine\\AppDefaults\\League of Legends.exe\\DllOverrides /t REG_SZ /v d3d11 /d native,builtin
+   "${WINELOADER}" reg add "HKCU\\Software\\Wine\\AppDefaults\\LeagueClientUx.exe\\DllOverrides" /t REG_SZ /v d3d9 /d native,builtin
+   "${WINELOADER}" reg add "HKCU\\Software\\Wine\\AppDefaults\\LeagueClientUx.exe\\DllOverrides" /t REG_SZ /v d3d11 /d native,builtin
+   "${WINELOADER}" reg add "HKCU\\Software\\Wine\\AppDefaults\\LeagueClientUxRender.exe\\DllOverrides" /t REG_SZ /v d3d9 /d native,builtin
+   "${WINELOADER}" reg add "HKCU\\Software\\Wine\\AppDefaults\\LeagueClientUxRender.exe\\DllOverrides" /t REG_SZ /v d3d11 /d native,builtin
+   "${WINELOADER}" reg add "HKCU\\Software\\Wine\\AppDefaults\\League of Legends.exe\\DllOverrides" /t REG_SZ /v d3d9 /d native,builtin
+   "${WINELOADER}" reg add "HKCU\\Software\\Wine\\AppDefaults\\League of Legends.exe\\DllOverrides" /t REG_SZ /v d3d11 /d native,builtin
   fi
 
   # If we don't change into the program directory some assets may not be found
