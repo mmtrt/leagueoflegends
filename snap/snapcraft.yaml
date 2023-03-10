@@ -57,6 +57,8 @@ environment:
     NO_AT_BRIDGE: "1"
     DISABLE_WAYLAND: "1"
     SYSTEM_WGETRC: $SNAP/wine-runtime/etc/wgetrc
+    WP: $SNAP/wine-platform
+    WPR: $SNAP/wine-runtime
 
 layout:
   /usr/share/libdrm:
