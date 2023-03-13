@@ -17,14 +17,14 @@ base: core20
 compression: lzo
 
 plugs:
-  wine-runtime:
+  wine-runtime-c20:
     interface: content
     target: $SNAP/wine-runtime
-    default-provider: wine-platform-runtime
-  wine-5-staging:
+    default-provider: wine-platform-runtime-core20
+  wine-7-staging:
     interface: content
     target: $SNAP/wine-platform
-    default-provider: wine-platform-5-staging
+    default-provider: wine-platform-7-staging-core20
   gtk-3-themes:
     default-provider: gtk-common-themes
     interface: content
@@ -81,8 +81,8 @@ apps:
       - x11
       - gtk-3-themes
       - icon-themes
-      - wine-runtime
-      - wine-5-staging
+      - wine-runtime-c20
+      - wine-7-staging
   leagueoflegendsnv:
     command: bin/wrapper
     environment:
@@ -104,8 +104,8 @@ apps:
       - x11
       - gtk-3-themes
       - icon-themes
-      - wine-runtime
-      - wine-5-staging
+      - wine-runtime-c20
+      - wine-7-staging
   install:
     command: bin/sommelier install
     plugs:
