@@ -52,6 +52,8 @@ environment:
     INSTALL_URL_TW: "https://lol.secure.dyn.riotcdn.net/channels/public/x/installer/current/live.tw2.exe"
     INSTALL_URL_VN: "https://lol.secure.dyn.riotcdn.net/channels/public/x/installer/current/live.vn2.exe"
     INSTALL_URL_PBE: "https://lol.secure.dyn.riotcdn.net/channels/public/x/installer/current/pbe.pbe.exe"
+    TRICKS: "d3dx9 dxvk194"
+    LC_ALL: "C.UTF-8"
     NO_AT_BRIDGE: "1"
     DISABLE_WAYLAND: "1"
     SYSTEM_WGETRC: $SNAP/wine-runtime/etc/wgetrc
