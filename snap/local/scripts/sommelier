@@ -497,7 +497,11 @@ function launch_app() {
   # pre launching script for login fix
 #   lolfix &
 
-  env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${WINE_EXE}"
+  if [[ $(basename "$WINE_EXE") = "RiotClientServices.exe" ]]; then
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${WINE_EXE}" --launch-product=league_of_legends --launch-patchline=live
+  else
+    env WINEARCH="${WINEARCH}" WINEPREFIX="${WINEPREFIX}" "${WINELOADER}" "${WINE_EXE}"
+  fi
 }
 
 function prepend_dir() {
