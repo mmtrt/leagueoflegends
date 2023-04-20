@@ -28,7 +28,7 @@ distributions.</p>
 ## Install
 
     snap install --edge leagueoflegends
-    snap refresh --candidate wine-platform-7-staging
+    snap refresh --candidate wine-platform-7-staging-core20
 
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
 
