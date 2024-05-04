@@ -7,6 +7,10 @@
 <p align="center"><b>This is the snap for leagueoflegends</b>, <i>"leagueoflegends is a MOBA game developed by Riot Games"</i>. It works on Ubuntu, Fedora, Debian, and other major Linux
 distributions.</p>
 
+##
+**Note:** Game is no longer supported in WINE due to Vanguard kernel-level anti-cheat see [#235](https://github.com/mmtrt/leagueoflegends/issues/235)
+##
+
 ## Mandatory
 
 **Note:** Game update `13.7+` needed only for old users & not needed for first time install of this snap users.
